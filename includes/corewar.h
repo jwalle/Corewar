@@ -17,4 +17,15 @@
 # include "libft.h"
 # include <curses.h>
 
+typedef struct	s_env
+{
+	int			tab[4][4];
+	int			empty;
+	int			size_board;
+	int			x;
+	int			col;
+	int			row;
+}				t_env;
+
+
 #endif
