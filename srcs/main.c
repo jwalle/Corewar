@@ -77,12 +77,14 @@ void			ft_draw(t_env *e)
 	draw_coll(e, 64, 0);
 	draw_coll(e, 64, 200);
 	draw_coll(e, 64, 254);
+	mvprintw(50, 50, "00");
+
 	//	line++;
 //	}
 	rang = 0;
 	while (rang < 5)
 	{
-		// draw_cell(e, rang);
+		//draw_cell(e, rang);
 		rang++;
 	}
 	attroff(COLOR_PAIR(1024));
