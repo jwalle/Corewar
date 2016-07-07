@@ -67,17 +67,20 @@ static void		draw_mem(t_env *e)
 	i = 2;
 	j = 2;
 	// attron(COLOR_PAIR(8));
-	char *str = (char *)e;
+	char *str = (char *)&e;
 	while (i <= 60)
 	{
 		j = 2;
 		while (j <= 190)
 		{
-			mvprintw(i, j, str);
+			mvprintw(i, j, "00");
 			j += 3;
 		}
 		i += 1;
 	}
+	while ()
+	mvprintw(0, 0, str);
+
 	// attroff(COLOR_PAIR(8));
 }
 
