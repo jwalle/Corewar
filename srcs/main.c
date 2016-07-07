@@ -58,6 +58,28 @@ static void		draw_coll(t_env *e, int y_max, int xa)
 	}
 }
 
+static void		draw_mem(t_env *e)
+{
+	int i;
+	int j;
+
+	(void)e;
+	i = 2;
+	j = 2;
+	// attron(COLOR_PAIR(8));
+	while (i <= 60)
+	{
+		j = 2;
+		while (j <= 190)
+		{
+			mvprintw(i, j, "00");
+			j += 3;
+		}
+		i += 1;
+	}
+	// attroff(COLOR_PAIR(8));
+}
+
 void			ft_draw(t_env *e)
 {
 	int line;
@@ -77,7 +99,9 @@ void			ft_draw(t_env *e)
 	draw_coll(e, 64, 0);
 	draw_coll(e, 64, 200);
 	draw_coll(e, 64, 254);
-	mvprintw(50, 50, "00");
+	attroff(COLOR_PAIR(1024));
+
+	draw_mem(e);
 
 	//	line++;
 //	}
@@ -87,7 +111,6 @@ void			ft_draw(t_env *e)
 		//draw_cell(e, rang);
 		rang++;
 	}
-	attroff(COLOR_PAIR(1024));
 }
 
 void			ft_game(t_env *e)
