@@ -113,7 +113,7 @@ static void		draw_mem(t_env *e)
 		j = 2;
 		while (j <= 190)
 		{
-			ft_atoi_hex(&draw_coll, i, j);
+			ft_atoi_hex(e->arene, i, j);
 			n++;
 			//mvprintw(i, j, "00");
 			j += 12;
@@ -176,8 +176,8 @@ int main(void)
 {
 	t_env	e;
 
-	//e = (t_env *)malloc(1000);
-	printf("PLOP\n");
+	e.arene = malloc(1000);
+	// printf("PLOP\n");
 	initscr();
 	start_color();
 	COLOR_PAIRS = 2049;

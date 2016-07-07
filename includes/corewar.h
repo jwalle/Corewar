@@ -25,6 +25,7 @@ typedef struct	s_env
 	int			x;
 	int			col;
 	int			row;
+	void		*arene;
 }				t_env;
 
 #endif
