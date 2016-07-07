@@ -103,7 +103,7 @@ static void		draw_mem(t_env *e)
 	int j;
 	int n;
 
-	// (void)e;
+	(void)e;
 	n = 0;
 	i = 2;
 	j = 2;
@@ -113,13 +113,14 @@ static void		draw_mem(t_env *e)
 		j = 2;
 		while (j <= 190)
 		{
-			ft_atoi_hex(&e + n++, i, j);
+			ft_atoi_hex(&draw_coll, i, j);
+			n++;
 			//mvprintw(i, j, "00");
 			j += 12;
 		}
 		i += 1;
 	}
-		// ft_atoi_hex(e);
+	// ft_atoi_hex(e);
 	// attroff(COLOR_PAIR(8));
 }
 
