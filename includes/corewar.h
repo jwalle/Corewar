@@ -27,5 +27,4 @@ typedef struct	s_env
 	int			row;
 }				t_env;
 
-
 #endif

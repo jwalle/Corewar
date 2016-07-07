@@ -12,6 +12,45 @@
 
 #include "corewar.h"
 
+void	print_hex(char hex[10], int x, int y)
+{
+	int		i;
+	int		j;
+	char	prt[2];
+
+	j = 0;
+	i = 0;
+	while (i < 4)
+	{
+		prt[0] = hex[0 + i];
+		prt[1] = hex[1 + i];
+		mvprintw(x , y + j, prt);
+		mvprintw(x , y + 2 + j, " ");
+		i++;
+		j += 3;
+	}
+}
+
+void	ft_atoi_hex(void *ptr, int x, int y)
+{
+	char				*base;
+	unsigned long long	address;
+	char				hex[10];
+	int					i;
+
+	base = "0123456789abcdef";
+	address = (unsigned long long)ptr;
+	ft_bzero(hex, 10);
+	i = 8;
+	while (address)
+	{
+		hex[i] = base[address % 16];
+		address = address / 16;
+		i--;
+	}
+	print_hex(hex, x, y);
+}
+
 static void		ft_init_color(void)
 {
 	init_color(COLOR_RED, 500, 300, 200);
@@ -62,25 +101,25 @@ static void		draw_mem(t_env *e)
 {
 	int i;
 	int j;
+	int n;
 
 	// (void)e;
+	n = 0;
 	i = 2;
 	j = 2;
 	// attron(COLOR_PAIR(8));
-	char *str = (char *)&e;
 	while (i <= 60)
 	{
 		j = 2;
 		while (j <= 190)
 		{
-			mvprintw(i, j, "00");
-			j += 3;
+			ft_atoi_hex(&e + n++, i, j);
+			//mvprintw(i, j, "00");
+			j += 12;
 		}
 		i += 1;
 	}
-	while ()
-	mvprintw(0, 0, str);
-
+		// ft_atoi_hex(e);
 	// attroff(COLOR_PAIR(8));
 }
 
