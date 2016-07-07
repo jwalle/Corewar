@@ -15,5 +15,6 @@
 
 # include <stdio.h> // REMOVE THAT
 # include "libft.h"
+# include <curses.h>
 
 #endif

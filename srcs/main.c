@@ -11,10 +11,11 @@
 /* ************************************************************************** */
 
 #include "corewar.h"
-#include <stdio.h> // A RETIRER
 
 int main(void)
 {
 	printf("PLOP\n");
+	initscr();
+	
 	return (0);
 }
