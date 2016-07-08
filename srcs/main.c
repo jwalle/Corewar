@@ -99,23 +99,26 @@ static void		draw_coll(t_env *e, int y_max, int xa)
 
 static void		draw_mem(t_env *e)
 {
-	int i;
-	int j;
-	int n;
+	int 	i;
+	int 	j;
+	size_t	n;
+	void	*ptr;
 
-	(void)e;
 	n = 0;
 	i = 2;
 	j = 2;
 	// attron(COLOR_PAIR(8));
+	ptr = e->arene;
+
 	while (i <= 60)
 	{
 		j = 2;
-		while (j <= 190)
+		while (j <= 190	)
 		{
-			ft_atoi_hex(e->arene, i, j);
-			n++;
-			//mvprintw(i, j, "00");
+			mvprintw(0,j, ptr);
+			ft_atoi_hex(ptr++ + n, i, j);
+			n += 8;
+			// mvprintw(i, j, "00");
 			j += 12;
 		}
 		i += 1;
