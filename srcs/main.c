@@ -34,21 +34,26 @@ void	print_hex(char hex[10], int x, int y)
 void	ft_atoi_hex(void *ptr, int x, int y)
 {
 	char				*base;
-	unsigned long long	address;
-	char				hex[10];
+	unsigned char		address;
+	char				hex[3];
 	int					i;
 
 	base = "0123456789abcdef";
-	address = (unsigned long long)ptr;
-	ft_bzero(hex, 10);
-	i = 8;
-	while (address)
-	{
-		hex[i] = base[address % 16];
-		address = address / 16;
-		i--;
-	}
-	print_hex(hex, x, y);
+	ft_bzero(hex, 3);
+	i = 2;
+	x = 2;
+//	while(x++ < 100)
+	//{
+		address = (unsigned char)(ptr);
+		while (address)
+		{
+			hex[i] = base[address % 16];
+			address = address / 16;
+			i--;
+		}
+		print_hex(hex, x, y);
+	//	x++;
+	//}
 }
 
 static void		ft_init_color(void)
@@ -110,19 +115,19 @@ static void		draw_mem(t_env *e)
 	// attron(COLOR_PAIR(8));
 	ptr = e->arene;
 
-	while (i <= 60)
-	{
-		j = 2;
-		while (j <= 190	)
-		{
-			mvprintw(0,j, ptr);
-			ft_atoi_hex(ptr++ + n, i, j);
-			n += 8;
+	///while (i <= 60)
+	//{
+	//	j = 2;
+	//	while (j <= 190	)
+	//	{
+			//mvprintw(0,j, ptr);
+	ft_atoi_hex(ptr + n, i, j);
+		//	n += 8;
 			// mvprintw(i, j, "00");
-			j += 12;
-		}
-		i += 1;
-	}
+	//		j += 12;
+//		}
+	//	i += 1;
+//	}
 	// ft_atoi_hex(e);
 	// attroff(COLOR_PAIR(8));
 }
