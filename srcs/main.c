@@ -41,6 +41,8 @@ char *make_hex(int temp)
 	base = "0123456789abcdef";
 	j = 1;
 	ft_bzero(hex, 3);
+	if (!temp)
+		return ("00");
 	while (temp)
 	{
 		hex[j] = base[temp % 16];
@@ -60,13 +62,14 @@ void	ft_atoi_hex(void *ptr, int x, int y)
 	(void)x;
 	i = 0;
 	x = 2;
-	j = 2;
+	j = 3;
 
-	while(i < 1000)
+	while(i < 4030)
 	{
-		if ((j % 100) == 0)
+		if (j > 196)
 		{
 			x++;
+			j = 3;
 		}
 		mvprintw(x, j, make_hex(address[i++]));
 		j += 3;
