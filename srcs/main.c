@@ -31,29 +31,45 @@ void	print_hex(char hex[10], int x, int y)
 	}
 }
 
+char *make_hex(int temp)
+{
+	int		j;
+	char	*hex;
+	char	*base;
+
+	hex = ft_strnew(3);
+	base = "0123456789abcdef";
+	j = 1;
+	ft_bzero(hex, 3);
+	while (temp)
+	{
+		hex[j] = base[temp % 16];
+		temp = temp / 16;
+		j--;
+	}
+	return (hex);
+}
+
 void	ft_atoi_hex(void *ptr, int x, int y)
 {
-	char				*base;
-	unsigned char		address;
-	char				hex[3];
-	int					i;
+	unsigned char		*address = (unsigned char *)ptr;
+	int 				i;
+	int					j;
 
-	base = "0123456789abcdef";
-	ft_bzero(hex, 3);
-	i = 2;
+	(void)y;
+	(void)x;
+	i = 0;
 	x = 2;
-//	while(x++ < 100)
-	//{
-		address = (unsigned char)(ptr);
-		while (address)
+	while(i < 1000)
+	{
+		j = 2;
+		while (j < 100)
 		{
-			hex[i] = base[address % 16];
-			address = address / 16;
-			i--;
+			mvprintw(x, j, make_hex(address[i++]));
+			j += 3;
 		}
-		print_hex(hex, x, y);
-	//	x++;
-	//}
+		x++;
+	}
 }
 
 static void		ft_init_color(void)
@@ -107,28 +123,15 @@ static void		draw_mem(t_env *e)
 	int 	i;
 	int 	j;
 	size_t	n;
-	void	*ptr;
 
 	n = 0;
 	i = 2;
 	j = 2;
 	// attron(COLOR_PAIR(8));
-	ptr = e->arene;
+	strcpy(e->arene, "a char string greater than 16 chars\0");
 
-	///while (i <= 60)
-	//{
-	//	j = 2;
-	//	while (j <= 190	)
-	//	{
-			//mvprintw(0,j, ptr);
-	ft_atoi_hex(ptr + n, i, j);
-		//	n += 8;
-			// mvprintw(i, j, "00");
-	//		j += 12;
-//		}
-	//	i += 1;
-//	}
-	// ft_atoi_hex(e);
+	ft_atoi_hex(e->arene, i, j);
+
 	// attroff(COLOR_PAIR(8));
 }
 
