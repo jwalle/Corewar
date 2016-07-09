@@ -60,15 +60,16 @@ void	ft_atoi_hex(void *ptr, int x, int y)
 	(void)x;
 	i = 0;
 	x = 2;
+	j = 2;
+
 	while(i < 1000)
 	{
-		j = 2;
-		while (j < 100)
+		if ((j % 100) == 0)
 		{
-			mvprintw(x, j, make_hex(address[i++]));
-			j += 3;
+			x++;
 		}
-		x++;
+		mvprintw(x, j, make_hex(address[i++]));
+		j += 3;
 	}
 }
 
