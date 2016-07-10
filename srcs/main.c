@@ -31,6 +31,26 @@ void	print_hex(char hex[10], int x, int y)
 	}
 }
 
+void set_color(int temp)
+{
+	if (temp == 1)
+		attron(COLOR_PAIR(1));
+	else if (temp > 1 && temp <= 50)
+		attron(COLOR_PAIR(64));
+	else if (temp > 50 && temp <= 100)
+		attron(COLOR_PAIR(1024));
+}
+
+void unset_color(int temp)
+{
+	if (temp == 1)
+		attroff(COLOR_PAIR(1));
+	else if (temp > 1 && temp <= 50)
+		attroff(COLOR_PAIR(16));
+	else if (temp > 50 && temp <= 100)
+		attroff(COLOR_PAIR(1024));
+}
+
 char *make_hex(int temp)
 {
 	int		j;
@@ -49,6 +69,7 @@ char *make_hex(int temp)
 		temp = temp / 16;
 		j--;
 	}
+	set_color(temp);
 	return (hex);
 }
 
@@ -57,6 +78,7 @@ void	ft_atoi_hex(void *ptr, int x, int y)
 	unsigned char		*address = (unsigned char *)ptr;
 	int 				i;
 	int					j;
+	int					temp;
 
 	(void)y;
 	(void)x;
@@ -64,14 +86,17 @@ void	ft_atoi_hex(void *ptr, int x, int y)
 	x = 2;
 	j = 3;
 
-	while(i < 4030)
+	while(i < (1024 * 4))
 	{
-		if (j > 196)
+		if (j > 194)
 		{
 			x++;
 			j = 3;
 		}
-		mvprintw(x, j, make_hex(address[i++]));
+		temp = address[i++];
+		set_color(temp);
+		mvprintw(x, j, make_hex(temp));
+		unset_color(temp);
 		j += 3;
 	}
 }
@@ -102,7 +127,7 @@ static void		draw_line(t_env *e, int x_max, int ya)
 
 	i = 0;
 	(void)e;
-	while (i < x_max)
+	while (i <= x_max)
 	{
 		mvprintw(ya, i, " ");
 		i++;
@@ -154,10 +179,10 @@ void			ft_draw(t_env *e)
 	//while (line < 5)
 	//{
 	draw_line(e, 254, 0);
-	draw_line(e, 254, 64);
-	draw_coll(e, 64, 0);
-	draw_coll(e, 64, 200);
-	draw_coll(e, 64, 254);
+	draw_line(e, 254, 67);
+	draw_coll(e, 67, 0);
+	draw_coll(e, 67, 196);
+	draw_coll(e, 67, 254);
 	attroff(COLOR_PAIR(1024));
 
 	draw_mem(e);
