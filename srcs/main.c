@@ -62,14 +62,24 @@ char *make_hex(int temp)
 	j = 1;
 	ft_bzero(hex, 3);
 	if (!temp)
-		return ("00");
+		return ("💀 ");
+	else if (temp < 10)
+		return ("😜 ");
+	else if (temp < 50)
+		return ("💩 ");
+	else if (temp < 100)
+		return ("👙 ");
+	else if (temp < 150)
+		return ("🍒 ");
+	else if (temp < 200)
+		return ("🚘 ");
 	while (temp)
 	{
 		hex[j] = base[temp % 16];
 		temp = temp / 16;
 		j--;
 	}
-	set_color(temp);
+//	set_color(temp);
 	return (hex);
 }
 
@@ -94,9 +104,9 @@ void	ft_atoi_hex(void *ptr, int x, int y)
 			j = 3;
 		}
 		temp = address[i++];
-		set_color(temp);
+		//set_color(temp);
 		mvprintw(x, j, make_hex(temp));
-		unset_color(temp);
+	//	unset_color(temp);
 		j += 3;
 	}
 }
@@ -212,10 +222,13 @@ void			ft_game(t_env *e)
 	}
 }
 
+#include <locale.h>
+
 int main(void)
 {
 	t_env	e;
 
+	setlocale(LC_ALL, "");
 	e.arene = malloc(1000);
 	// printf("PLOP\n");
 	initscr();
