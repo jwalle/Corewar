@@ -6,11 +6,12 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/07 12:54:50 by jwalle            #+#    #+#             */
-/*   Updated: 2016/07/07 12:55:49 by jwalle           ###   ########.fr       */
+/*   Updated: 2016/07/14 15:46:09 by jwalle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+#include <locale.h> //STUPID BONUS
 
 void	print_hex(char hex[10], int x, int y)
 {
@@ -21,8 +22,7 @@ void	print_hex(char hex[10], int x, int y)
 	j = 0;
 	i = 0;
 	while (i < 4)
-	{
-		prt[0] = hex[0 + i];
+	{		prt[0] = hex[0 + i];
 		prt[1] = hex[1 + i];
 		mvprintw(x , y + j, prt);
 		mvprintw(x , y + 2 + j, " ");
@@ -61,7 +61,7 @@ char *make_hex(int temp)
 	base = "0123456789abcdef";
 	j = 1;
 	ft_bzero(hex, 3);
-	if (!temp)
+	/*if (!temp)
 		return ("💀 ");
 	else if (temp < 10)
 		return ("😜 ");
@@ -72,14 +72,15 @@ char *make_hex(int temp)
 	else if (temp < 150)
 		return ("🍒 ");
 	else if (temp < 200)
-		return ("🚘 ");
+		return ("🚘 ");*/
+	if (!temp)
+		return ("00");
 	while (temp)
 	{
 		hex[j] = base[temp % 16];
 		temp = temp / 16;
 		j--;
 	}
-//	set_color(temp);
 	return (hex);
 }
 
@@ -104,9 +105,9 @@ void	ft_atoi_hex(void *ptr, int x, int y)
 			j = 3;
 		}
 		temp = address[i++];
-		//set_color(temp);
+		set_color(temp);
 		mvprintw(x, j, make_hex(temp));
-	//	unset_color(temp);
+		unset_color(temp);
 		j += 3;
 	}
 }
@@ -157,54 +158,17 @@ static void		draw_coll(t_env *e, int y_max, int xa)
 	}
 }
 
-static void		draw_mem(t_env *e)
-{
-	int 	i;
-	int 	j;
-	size_t	n;
-
-	n = 0;
-	i = 2;
-	j = 2;
-	// attron(COLOR_PAIR(8));
-	strcpy(e->arene, "a char string greater than 16 chars\0");
-
-	ft_atoi_hex(e->arene, i, j);
-
-	// attroff(COLOR_PAIR(8));
-}
-
 void			ft_draw(t_env *e)
 {
-	int line;
-	int rang;
-	int xa;
-	int	ya;
-
 	clear();
-	line = 0;
-	xa = e->x * 2;
-	ya = 0;
 	attron(COLOR_PAIR(1024));
-	//while (line < 5)
-	//{
 	draw_line(e, 254, 0);
 	draw_line(e, 254, 67);
 	draw_coll(e, 67, 0);
 	draw_coll(e, 67, 196);
 	draw_coll(e, 67, 254);
 	attroff(COLOR_PAIR(1024));
-
-	draw_mem(e);
-
-	//	line++;
-//	}
-	rang = 0;
-	while (rang < 5)
-	{
-		//draw_cell(e, rang);
-		rang++;
-	}
+	ft_atoi_hex(e->arene, 2, 2);
 }
 
 void			ft_game(t_env *e)
@@ -216,32 +180,32 @@ void			ft_game(t_env *e)
 		if (c == 27)
 			return ;
 		ft_draw(e);
-		//getmaxyx(stdscr, e->row, e->col);
-		//e->x = ft_cell_size(e->size_board);
 		refresh();
 	}
 }
 
-#include <locale.h>
-
-int main(void)
+void	curse_disp(t_env *e)
 {
-	t_env	e;
-
-	setlocale(LC_ALL, "");
-	e.arene = malloc(1000);
-	// printf("PLOP\n");
+	setlocale(LC_ALL, ""); // STUPID BONUS
 	initscr();
 	start_color();
 	COLOR_PAIRS = 2049;
 	ft_init_color();
 	curs_set(0);
-	e.x = 5;
-	ft_draw(&e);
-
-	ft_game(&e);
-	
+	ft_draw(e);
+	ft_game(e);
 	endwin();
-		curs_set(1);
+	curs_set(1);
+}
+
+int main(void)
+{
+	t_env	e;
+
+
+	e.arene = malloc(1000);
+	e.x = 5;
+	curse_disp(&e);
 	return (0);
 }
+
