@@ -24,6 +24,8 @@ SDIR = sources
 ODIR = objects
 
 SRCS = $(SDIR)/corewar.c \
+		$(SDIR)/display.c \
+
 
 OBJ = $(SRCS:$(SDIR)/%.c=$(ODIR)/%.o)
 
