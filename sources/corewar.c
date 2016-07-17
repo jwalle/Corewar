@@ -219,6 +219,7 @@ void	cw_process_args(int argc, char **argv, t_cwar *cwar)
 void	cw_setup_arena(t_cwar *cwar)
 {
 	t_player		*tmp;
+	t_proc			*proc;
 	int				i;
 	unsigned int	j;
 	int				begin;
@@ -237,6 +238,7 @@ void	cw_setup_arena(t_cwar *cwar)
 			while (j < tmp->header.prog_size)
 			{
 				cwar->arena[begin + j] = tmp->pg[j];
+				proc = add_proc(NULL, cwar->arena, j);
 				j++;
 			}
 			++i;

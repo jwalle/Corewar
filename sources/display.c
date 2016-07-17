@@ -235,7 +235,7 @@ void			ft_game(t_cwar *cwar)
 
 	c = 0;
 
-	while (1 ||(c = getch()) != 27)
+	while ((c = getch()) != 27)
 	{
 	//	if (c == 27)
 	//		return ;
@@ -243,8 +243,8 @@ void			ft_game(t_cwar *cwar)
 		cwar->cycle++;
 		if ((cwar->cycle % 50) == 0)
 			sync_cycle(cwar);
-		// refresh();
-		doupdate();
+		refresh();
+		//doupdate();
 	}
 }
 

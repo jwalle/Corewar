@@ -31,6 +31,14 @@
 
 #define RED_ON_GREEN 1
 
+typedef struct		s_proc
+{
+	int				*reg;
+	unsigned char	*pc;
+	int				carry;
+	struct s_proc	*next;
+}					t_proc;
+
 
 typedef struct		s_opt
 {
@@ -56,5 +64,6 @@ typedef struct		s_cwar
 
 
 void	curse_disp(t_cwar *cwar);
+void	*add_proc(t_proc *head, unsigned char *program_counter, int id);
 
 #endif
