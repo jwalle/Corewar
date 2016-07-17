@@ -3,54 +3,63 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalle <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/07/07 12:52:37 by jwalle            #+#    #+#              #
-#    Updated: 2016/07/07 12:59:15 by jwalle           ###   ########.fr        #
+#    Created: 2016/01/05 11:15:04 by rmicolon          #+#    #+#              #
+#    Updated: 2016/07/15 14:32:33 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= Corewar
+CC = gcc
 
-ALL_CFLAGS	= -Wall -Wextra -Werror 
-CC			= clang
-RM			= rm -rf
+FLAGS = -Wall \
+		-Wextra \
+		-Werror \
+		-g
 
-LIBFT_DIR	= ./libft
-INC			=	-I./includes -I./libft/includes
-LINK		=	-L./libft -lft -lncurses 
-OBJS_DIR	= objs
-SRCS_DIR	= srcs
-INCS_DIR	= includes
+NAME = corewar
 
-SRCS		= main.c			\
-			  
-OBJS		= $(addprefix $(OBJS_DIR)/, $(notdir $(SRCS:.c=.o)))
+SDIR = sources
 
+ODIR = objects
 
-all: $(NAME)
+SRCS = $(SDIR)/corewar.c \
 
-$(NAME): $(OBJS)
-	make -C $(LIBFT_DIR)
-	$(CC) -o $(NAME) $(OBJS) $(LINK)
+OBJ = $(SRCS:$(SDIR)/%.c=$(ODIR)/%.o)
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-	$(CC) $(ALL_CFLAGS) $(INC) -c $< -o $@
-	@echo "\033[A\033[K\033[A"
+HDRS = -I./includes \
+	   -I./libft/includes
+
+LIBFT = ./libft/libft.a
+
+LIBS = -L./libft/ -lft -lncurses
+
+all : $(NAME)
+
+$(NAME): $(ODIR) $(LIBFT) $(OBJ)
+	@$(CC) $(FLAGS) $(LIBS) $(OBJ) -o $@
+	@echo "corewar created."
+
+$(ODIR):
+	@mkdir objects
+
+$(ODIR)/%.o: $(SDIR)/%.c
+	@$(CC) $(FLAGS) -c $< $(HDRS) -o $@
+	@echo "Object created."
+
+$(LIBFT):
+	@make -C libft/
 
 clean:
-	make -C $(LIBFT_DIR) clean
-	@$(RM) $(OBJS)
+	@rm -rf $(ODIR)
+	@make clean -C libft
+	@echo "Objects deleted."
 
 fclean: clean
-	make -C $(LIBFT_DIR) fclean
-	@$(RM) $(NAME)
+	@rm -f $(NAME)
+	@make fclean -C libft
+	@echo "Executable deleted."
 
 re: fclean all
-
-$(OBJS): | $(OBJS_DIR)
-
-$(OBJS_DIR):
-	mkdir $(OBJS_DIR)
 
 .PHONY: all clean fclean re

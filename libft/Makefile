@@ -3,154 +3,145 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalle <jwalle@student.42.fr>              +#+  +:+       +#+         #
+#    By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2014/11/04 16:39:59 by jwalle            #+#    #+#              #
-#    Updated: 2015/07/09 16:18:39 by jwalle           ###   ########.fr        #
+#    Created: 2016/01/05 11:15:04 by rmicolon          #+#    #+#              #
+#    Updated: 2016/05/31 18:22:58 by rmicolon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+CC = clang
+
+FLAGS = -Wall \
+		-Wextra \
+		-Werror \
+
 NAME = libft.a
 
-SRC1 =	ft_putchar.c\
-		ft_bzero.c\
-		ft_isalpha.c\
-		ft_memset.c\
-		ft_strlen.c\
-		ft_putchar.c\
-		ft_strcpy.c\
-		ft_strncpy.c\
-		ft_strcat.c\
-		ft_strncat.c\
-		ft_strlcat.c\
-		ft_strchr.c\
-		ft_strcmp.c\
-		ft_strstr.c\
-		ft_strnstr.c\
-		ft_strncmp.c\
-		ft_strrchr.c\
-		ft_memcpy.c\
-		ft_memccpy.c\
-		ft_memmove.c\
-		ft_strdup.c\
-		ft_isdigit.c\
-		ft_isalnum.c\
-		ft_isascii.c\
-		ft_isprint.c\
-		ft_toupper.c\
-		ft_tolower.c\
-		ft_atoi.c\
-		ft_memchr.c\
-		ft_memcmp.c\
-		ft_memalloc.c\
-		ft_memdel.c\
-		ft_strnew.c\
-		ft_strdel.c\
-		ft_strclr.c\
-		ft_striter.c\
-		ft_striteri.c\
-		ft_strmap.c\
-		ft_strmapi.c\
-		ft_strequ.c\
-		ft_strnequ.c\
-		ft_strsub.c\
-		ft_strjoin.c\
-		ft_strtrim.c\
-		ft_strsplit.c\
-		ft_putnbr.c\
-		ft_itoa.c\
-		ft_putendl.c\
-		ft_putstr.c\
-		ft_putstr_fd.c\
-		ft_putchar_fd.c\
-		ft_putnbr_fd.c\
-		ft_putendl_fd.c\
-		ft_lstnew.c\
-		ft_lstdelone.c\
-		ft_lstadd.c\
-		ft_lstmap.c\
-		ft_lstiter.c\
-		ft_lstdel.c\
-		ft_lst_foreach.c\
-		ft_lst_rec_free.c\
-		ft_lst_push.c\
+SDIR = sources
 
-SRC2 =	ft_putchar.o\
-		ft_bzero.o\
-		ft_isalpha.o\
-		ft_memset.o\
-		ft_strlen.o\
-		ft_putchar.o\
-		ft_strcpy.o\
-		ft_strncpy.o\
-		ft_strcmp.o\
-		ft_strncmp.o\
-		ft_strcat.o\
-		ft_strncat.o\
-		ft_strstr.o\
-		ft_strnstr.o\
-		ft_strlcat.o\
-		ft_strchr.o\
-		ft_strrchr.o\
-		ft_memcpy.o\
-		ft_memccpy.o\
-		ft_memmove.o\
-		ft_strdup.o\
-		ft_isdigit.o\
-		ft_isalnum.o\
-		ft_isascii.o\
-		ft_isprint.o\
-		ft_toupper.o\
-		ft_tolower.o\
-		ft_atoi.o\
-		ft_memchr.o\
-		ft_memcmp.o\
-		ft_memalloc.o\
-		ft_memdel.o\
-		ft_strnew.o\
-		ft_strdel.o\
-		ft_strclr.o\
-		ft_striter.o\
-		ft_striteri.o\
-		ft_strmap.o\
-		ft_strmapi.o\
-		ft_strequ.o\
-		ft_strnequ.o\
-		ft_strsub.o\
-		ft_strjoin.o\
-		ft_strtrim.o\
-		ft_strsplit.o\
-		ft_putstr.o\
-		ft_putendl.o\
-		ft_putnbr.o\
-		ft_itoa.o\
-		ft_putstr_fd.o\
-		ft_putchar_fd.o\
-		ft_putnbr_fd.o\
-		ft_putendl_fd.o\
-		ft_lstnew.o\
-		ft_lstdelone.o\
-		ft_lstadd.o\
-		ft_lstmap.o\
-		ft_lstiter.o\
-		ft_lstdel.o\
-		ft_lst_foreach.o\
-		ft_lst_rec_free.o\
-		ft_lst_push.o\
+SDIRPF = sources/ft_printf
+
+ODIR = objects
+
+SRCS = $(SDIR)/ft_memset.c \
+	   $(SDIR)/ft_bzero.c \
+	   $(SDIR)/ft_memcpy.c \
+	   $(SDIR)/ft_memccpy.c \
+	   $(SDIR)/ft_memmove.c \
+	   $(SDIR)/ft_memchr.c \
+	   $(SDIR)/ft_memcmp.c \
+	   $(SDIR)/ft_strlen.c \
+	   $(SDIR)/ft_strdup.c \
+	   $(SDIR)/ft_strcpy.c \
+	   $(SDIR)/ft_strncpy.c \
+	   $(SDIR)/ft_strcat.c \
+	   $(SDIR)/ft_strncat.c \
+	   $(SDIR)/ft_strlcat.c \
+	   $(SDIR)/ft_strchr.c \
+	   $(SDIR)/ft_strrchr.c \
+	   $(SDIR)/ft_strstr.c \
+	   $(SDIR)/ft_strnstr.c \
+	   $(SDIR)/ft_strcmp.c \
+	   $(SDIR)/ft_strncmp.c \
+	   $(SDIR)/ft_atoi.c \
+	   $(SDIR)/ft_isalpha.c \
+	   $(SDIR)/ft_isdigit.c \
+	   $(SDIR)/ft_isalnum.c \
+	   $(SDIR)/ft_isascii.c \
+	   $(SDIR)/ft_isprint.c \
+	   $(SDIR)/ft_toupper.c \
+	   $(SDIR)/ft_tolower.c \
+	   $(SDIR)/ft_memalloc.c \
+	   $(SDIR)/ft_memdel.c \
+	   $(SDIR)/ft_strnew.c \
+	   $(SDIR)/ft_strdel.c \
+	   $(SDIR)/ft_strclr.c \
+	   $(SDIR)/ft_striter.c \
+	   $(SDIR)/ft_striteri.c \
+	   $(SDIR)/ft_strmap.c \
+	   $(SDIR)/ft_strmapi.c \
+	   $(SDIR)/ft_strequ.c \
+	   $(SDIR)/ft_strnequ.c \
+	   $(SDIR)/ft_strsub.c \
+	   $(SDIR)/ft_strjoin.c \
+	   $(SDIR)/ft_strtrim.c \
+	   $(SDIR)/ft_strsplit.c \
+	   $(SDIR)/ft_itoa.c \
+	   $(SDIR)/ft_putchar.c \
+	   $(SDIR)/ft_putstr.c \
+	   $(SDIR)/ft_putendl.c \
+	   $(SDIR)/ft_putnbr.c \
+	   $(SDIR)/ft_putchar_fd.c \
+	   $(SDIR)/ft_putstr_fd.c \
+	   $(SDIR)/ft_putendl_fd.c \
+	   $(SDIR)/ft_putnbr_fd.c \
+	   $(SDIR)/ft_lstnew.c \
+	   $(SDIR)/ft_lstdelone.c \
+	   $(SDIR)/ft_lstdel.c \
+	   $(SDIR)/ft_lstadd.c \
+	   $(SDIR)/ft_lstiter.c \
+	   $(SDIR)/ft_lstmap.c \
+	   $(SDIR)/ft_strndup.c \
+	   $(SDIR)/ft_strtrimc.c \
+	   $(SDIR)/ft_isblank.c \
+	   $(SDIR)/ft_isupper.c \
+	   $(SDIR)/ft_islower.c \
+	   $(SDIR)/ft_abs.c \
+	   $(SDIR)/ft_strrev.c \
+	   $(SDIR)/get_next_nbr.c \
+	   $(SDIR)/get_next_line.c \
+	   $(SDIR)/ft_itoa_base.c \
+	   $(SDIR)/print_memory.c \
+
+PFSRCS = $(SDIRPF)/ft_printf.c \
+		 $(SDIRPF)/ftprf_init.c \
+		 $(SDIRPF)/ftprf_parse_flags.c \
+		 $(SDIRPF)/ftprf_bonus_conv.c \
+		 $(SDIRPF)/ftprf_alpha_conv.c \
+		 $(SDIRPF)/ftprf_xof_conv.c \
+		 $(SDIRPF)/ftprf_diu_conv.c \
+		 $(SDIRPF)/ftprf_xtox.c \
+		 $(SDIRPF)/ftprf_pre_digitflags.c \
+		 $(SDIRPF)/ftprf_pre_alphaflags.c \
+		 $(SDIRPF)/ftprf_postflags.c \
+		 $(SDIRPF)/ftprf_print_width.c \
+		 $(SDIRPF)/ftprf_print_digit.c \
+		 $(SDIRPF)/ftprf_print_alpha.c \
+		 $(SDIRPF)/ftprf_print_lc.c \
+		 $(SDIRPF)/ftprf_tools.c \
 
 
-all : $(NAME)
+OBJ = $(SRCS:$(SDIR)/%.c=$(ODIR)/%.o)
 
-$(NAME) :
-	@clang -c -Wall -Wextra -Werror $(SRC1) -I ./
-	@ar rc $(NAME) $(SRC2)
-	@ranlib $(NAME)
+PFOBJ = $(PFSRCS:$(SDIRPF)/%.c=$(ODIR)/%.o)
+
+HDRS =  -I./includes/
+
+all: $(NAME)
+
+$(NAME): $(ODIR) $(OBJ) $(PFOBJ)
+	@ar rc $@ $(OBJ) $(PFOBJ)
+	@echo "Lib created."
+
+$(ODIR):
+	@echo "Wait... \c"
+	@mkdir $@
+
+$(ODIR)/%.o: $(SDIR)/%.c
+	@$(CC) $(FLAGS) -c $< $(HDRS) -o $@
+
+$(ODIR)/%.o: $(SDIRPF)/%.c
+	@$(CC) $(FLAGS) -c $< $(HDRS) -o $@
 
 clean:
-	@/bin/rm -f $(SRC2)
+	@rm -rf $(ODIR)
+	@echo "Lib-objects deleted."
 
-fclean:
-	@/bin/rm -f $(SRC2)
-	@/bin/rm -f $(NAME)
+fclean: clean
+	@rm -rf $(NAME)
+	@echo "Lib deleted."
 
 re: fclean all
+
+.PHONY: all clean fclean re

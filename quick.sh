@@ -1,1 +1,1 @@
-git add -A ; git commit -m "Corewar curse display" ; git push origin master
+git add -A ; git commit -m "merge git" ; git push origin master
