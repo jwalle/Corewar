@@ -204,6 +204,8 @@ static void		print_right_tab(t_cwar *cwar)
 	mvprintw(7, 210, ft_itoa(current - cwar->time_zero));
 }
 
+
+
 void			ft_draw(t_cwar *cwar)
 {
 	clear();
@@ -232,6 +234,7 @@ void			ft_game(t_cwar *cwar)
 	int c;
 
 	c = 0;
+
 	while (1 ||(c = getch()) != 27)
 	{
 	//	if (c == 27)
@@ -240,7 +243,8 @@ void			ft_game(t_cwar *cwar)
 		cwar->cycle++;
 		if ((cwar->cycle % 50) == 0)
 			sync_cycle(cwar);
-		refresh();
+		// refresh();
+		doupdate();
 	}
 }
 
