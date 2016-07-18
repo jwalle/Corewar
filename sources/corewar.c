@@ -12,62 +12,6 @@
 
 #include "corewar.h"
 
-void	cw_perror(char *str, t_cwar *cwar)
-{
-	t_player *tmp;
-	
-	if (cwar)
-	{
-		if (cwar->opt)
-			free(cwar->opt);
-		if (cwar->players)
-		{
-			while (cwar->players && cwar->players->next)
-			{
-				tmp = cwar->players;
-				while (tmp->next->next)
-					tmp = tmp->next;
-				if (tmp->next->pg)
-					free(tmp->next->pg);
-				free(tmp->next);
-				tmp->next = NULL;
-			}
-			free(cwar->players);
-		}
-		free(cwar);
-	}
-	perror(str);
-	exit (1);
-}
-
-void	cw_error(char *str, t_cwar *cwar)
-{
-	t_player *tmp;
-	
-	if (cwar)
-	{
-		if (cwar->opt)
-			free(cwar->opt);
-		if (cwar->players)
-		{
-			while (cwar->players && cwar->players->next)
-			{
-				tmp = cwar->players;
-				while (tmp->next->next)
-					tmp = tmp->next;
-				if (tmp->next->pg)
-					free(tmp->next->pg);
-				free(tmp->next);
-				tmp->next = NULL;
-			}
-			free(cwar->players);
-		}
-		free(cwar);
-	}
-	ft_printf("%s", str);
-	exit (1);
-}
-
 t_cwar	*cw_init(void)
 {
 	t_cwar	*cwar;
@@ -282,15 +226,15 @@ char	*cw_color(int n)
 		return (ANSI_COLOR_CYAN);
 }
 
-void	cw_ncurses(t_cwar *cwar)
+/*void	cw_ncurses(t_cwar *cwar)
 {
-//	int	i;
-	curse_disp(cwar);
-//	i = 0;
-	//e->x = 5;
-	//e->arena = cwar->arena;
+	int	i;
 
-	/*if (cwar->arena)
+	i = 0;
+	e->x = 5;
+	e->arena = cwar->arena;
+	if (cwar->arena)
+	{
 		while (i < MEM_SIZE)
 		{
 			ft_printf("%.2x", cwar->arena[i]);
@@ -299,8 +243,9 @@ void	cw_ncurses(t_cwar *cwar)
 			else
 				ft_putchar('\n');
 			++i;
-		}*/
-}
+		}
+	}
+}*/
 
 int		main(int argc, char **argv)
 {
@@ -314,6 +259,7 @@ int		main(int argc, char **argv)
 	if (!cwar->opt->ncurses)
 		cw_introduce(cwar);
 	else
-		cw_ncurses(cwar);
+		curse_disp(cwar);
+		// cw_ncurses(cwar);
 	return (0);
 }

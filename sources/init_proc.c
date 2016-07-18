@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_proc.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/18 16:30:01 by jwalle            #+#    #+#             */
+/*   Updated: 2016/07/18 16:30:04 by jwalle           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "corewar.h"
 
 void	*get_next_proc(void)
@@ -5,7 +17,7 @@ void	*get_next_proc(void)
 	return (NULL);
 }
 
-void	*add_proc(t_proc *head, unsigned char *program_counter, int id)
+t_proc	*add_proc(t_proc *head, unsigned char *program_counter, int id)
 {
 	t_proc	*new;
 	int		i;
