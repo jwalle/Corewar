@@ -12,31 +12,54 @@
 
 #include "corewar.h"
 
-void	*get_next_proc(void)
+void	*destroy_process(void)
 {
 	return (NULL);
 }
 
-t_proc	*add_proc(t_proc *head, unsigned char *program_counter, int id)
+void	cw_add_proc(t_proc *new, t_player *player)
 {
-	t_proc	*new;
-	int		i;
+	t_proc *tmp;
 
-	(void)head;
+	if (player->proc)
+	{
+		if (player->proc->next)
+		{
+			tmp = player->proc;
+			while (tmp->next)
+				tmp = tmp->next;
+			tmp->next = new;
+		}
+		else
+			player->proc->next = new;
+	}
+	else
+		player->proc = new;
+	player->proc_number++;
+}
+
+char	cw_first_proc(t_cwar *cwar, unsigned char *program_counter, t_player *player)
+{
+	t_proc		*new;
+	int			i;
+
 	i = 0;
-	new = (t_proc *)malloc(sizeof(t_proc));
-	if (!new)
-		return(0); // TODO : HANDLE ERROR
-	new->reg = (void *)malloc(sizeof(void *));
+	if (!(new = (t_proc *)malloc(sizeof(t_proc))))
+		cw_perror("Malloc failed.", cwar);
+	if (!(new->reg = (void *)malloc(sizeof(void *))))
+		cw_perror("Malloc failed.", cwar);\
 	while (i < REG_NUMBER)
 	{
 		new->reg[i] = (int)malloc(REG_SIZE + 1);		//(void* !?? uns_char*)
 		// ft_bzero((char *)new->reg[i], REG_SIZE + 1);
 		i++;
 	}
-	new->reg[0] = id;
 	new->pc = program_counter;
+	new->reg[0] = player->id;
 	new->carry = 1;
-	new->next = get_next_proc();
-	return (new);
+	new->next = NULL;
+	player->proc = new;
+	player->proc_number++;
+	//cw_add_proc(new, player);	// MAX PROCESS ?
+	return (1);
 }

@@ -49,7 +49,9 @@ typedef struct		s_player
 {
 	header_t		header;
 	unsigned char	*pg;
-	t_proc			*head;
+	int				proc_number;
+	int				id;
+	t_proc			*proc;
 	struct s_player	*next;
 }					t_player;
 
@@ -65,8 +67,8 @@ typedef struct		s_cwar
 
 
 void	curse_disp(t_cwar *cwar);
-t_proc	*add_proc(t_proc *head, unsigned char *program_counter, int id);
 void	cw_perror(char *str, t_cwar *cwar);
+char	cw_first_proc(t_cwar *cwar, unsigned char *program_counter, t_player *player);
 void	cw_error(char *str, t_cwar *cwar);
 
 #endif
