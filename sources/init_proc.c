@@ -51,7 +51,7 @@ char	cw_first_proc(t_cwar *cwar, unsigned char *program_counter, t_player *playe
 	while (i < REG_NUMBER)
 	{
 		new->reg[i] = (int)malloc(REG_SIZE + 1);		//(void* !?? uns_char*)
-		// ft_bzero((char *)new->reg[i], REG_SIZE + 1);
+		//ft_bzero((char *)new->reg[i], REG_SIZE + 1);
 		i++;
 	}
 	new->pc = program_counter;

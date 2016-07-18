@@ -33,7 +33,7 @@
 
 typedef struct		s_proc
 {
-	int				*reg;
+	unsigned char	*reg;
 	unsigned char	*pc;
 	int				carry;
 	struct s_proc	*next;
