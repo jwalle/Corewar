@@ -38,6 +38,6 @@ t_op    op_tab[17] =
 	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0},
 	{0, 0, {0}, 0, 0, 0, 0, 0}
 };
-	
+
 {"name", number_of_param , {PARAM_TYPE}, id_number , number_of_cycle_for_execution? , "description", ????, ????}
 

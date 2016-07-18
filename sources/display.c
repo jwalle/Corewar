@@ -198,7 +198,6 @@ static void		print_right_tab(t_cwar *cwar)
 	time_t current = time(NULL);
 	unsigned char		*address;
 
-
 	mvprintw(3, 200, "Cycles/second limit : 50");
 	mvprintw(5, 200, "Cycle : ");
 	mvprintw(5, 210, ft_itoa(cwar->cycle));
