@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/18 16:30:01 by jwalle            #+#    #+#             */
-/*   Updated: 2016/07/18 16:30:04 by jwalle           ###   ########.fr       */
+/*   Updated: 2016/07/21 18:57:11 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ char	cw_first_proc(t_cwar *cwar, unsigned char *program_counter, int id)
 	i = 0;
 	if (!(new = (t_proc *)malloc(sizeof(t_proc))))
 		cw_perror("Malloc failed.", cwar);
-	if (!(new->reg = (void *)malloc(sizeof(void *))))
+	if (!(new->reg = (unsigned char **)malloc(sizeof(unsigned char *) * REG_NUMBER)))
 		cw_perror("Malloc failed.", cwar);	
 	while (i < REG_NUMBER)
 	{
-		new->reg[i] = (int)malloc(REG_SIZE + 1);		//(void* !?? uns_char*) // REG_SIZE ?
-		//ft_bzero((char *)new->reg[i], REG_SIZE + 1);
+		new->reg[i] = (unsigned char *)malloc(sizeof(unsigned char) * (REG_SIZE + 1));
+		ft_bzero(new->reg[i], REG_SIZE + 1);
 		i++;
 	}
 	new->pc = program_counter;
-	new->reg[0] = id;	
+	new->reg[0] = (unsigned char *)ft_itoa_base(id, 16);
 	new->carry = 1;
 	new->wait = 0;
 	new->next = NULL;
@@ -78,9 +78,8 @@ char	cw_fork_proc(t_cwar *cwar, unsigned char *program_counter, t_proc *old, int
 		cw_perror("Malloc failed.", cwar);
 	while (i < REG_NUMBER)
 	{
-		new->reg[i] = (int)malloc(REG_SIZE + 1);		//(void* !?? uns_char*) // REG_SIZE ?
-		new->reg[i] = old->reg[i];
-		//ft_bzero((char *)new->reg[i], REG_SIZE + 1);
+		new->reg[i] = (unsigned char *)malloc(sizeof(unsigned char) * (REG_SIZE + 1));		//(void* !?? uns_char*) // REG_SIZE ?
+		new->reg[i] = ft_memcpy(new->reg[i], old->reg[i], REG_SIZE + 1);
 		i++;
 	}
 	new->pc = program_counter;

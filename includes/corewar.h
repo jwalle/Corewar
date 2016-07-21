@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:27:20 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/07/09 02:55:54 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/21 18:50:36 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 
 typedef struct		s_proc
 {
-	unsigned char	*reg;
+	unsigned char	**reg;
 	unsigned char	*pc;
 	int				carry;
 	int				wait;
