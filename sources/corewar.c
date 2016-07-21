@@ -22,6 +22,9 @@ t_cwar	*cw_init(void)
 	cwar->opt = NULL;
 	cwar->players = NULL;
 	cwar->arena = NULL;
+	cwar->proc = NULL;
+	cwar->cycle = 0;
+	cwar->proc_number = 1;
 	return (cwar);
 }
 
@@ -177,7 +180,7 @@ void	cw_setup_arena(t_cwar *cwar)
 		while (tmp)
 		{
 			begin = (MEM_SIZE * i) / cwar->players_nbr;
-			cw_first_proc(cwar, &cwar->arena[begin], cwar->players);
+			cw_first_proc(cwar, &cwar->arena[begin], i); // i = player id ?		
 			j = 0;
 			while (j < tmp->header.prog_size)
 			{
@@ -253,8 +256,8 @@ int		main(int argc, char **argv)
 	cwar = cw_init();
 	if (argc == 1)
 		cw_usage(cwar);
-	cw_process_args(argc, argv, cwar);
-	cw_setup_arena(cwar);
+	cw_process_args(argc, argv, cwar);	
+	cw_setup_arena(cwar);	
 	if (!cwar->opt->ncurses)
 		cw_introduce(cwar);
 	else

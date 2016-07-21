@@ -37,6 +37,8 @@ typedef struct		s_proc
 	unsigned char	*pc;
 	int				carry;
 	int				wait;
+	int				proc_id;
+	int				player_id;
 	struct s_proc	*next;
 }					t_proc;
 
@@ -50,9 +52,7 @@ typedef struct		s_player
 {
 	header_t		header;
 	unsigned char	*pg;
-	int				proc_number;
 	int				id;
-	t_proc			*proc;
 	struct s_player	*next;
 }					t_player;
 
@@ -61,15 +61,17 @@ typedef struct		s_cwar
 	time_t			time_zero;
 	int				players_nbr;
 	int				cycle;
+	int				proc_number;
 	t_opt			*opt;
 	t_player		*players;
+	t_proc			*proc;
 	unsigned char	*arena;
 }					t_cwar;
 
 
 void	curse_disp(t_cwar *cwar);
 void	cw_perror(char *str, t_cwar *cwar);
-char	cw_first_proc(t_cwar *cwar, unsigned char *program_counter, t_player *player);
+char	cw_first_proc(t_cwar *cwar, unsigned char *program_counter, int id);
 void	cw_error(char *str, t_cwar *cwar);
 
 #endif

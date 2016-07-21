@@ -17,29 +17,28 @@ void	*destroy_process(void)
 	return (NULL);
 }
 
-void	cw_add_proc(t_proc *new, t_player *player)
+void	cw_add_proc(t_proc *new, t_cwar *cwar)
 {
 	t_proc *tmp;
 
-	if (player->proc)
+	if (cwar->proc)
 	{
-		if (player->proc->next)
+		if (cwar->proc->next)
 		{
-			tmp = player->proc;
+			tmp = cwar->proc;
 			while (tmp->next)
 				tmp = tmp->next;
 			tmp->next = new;
 		}
 		else
-			player->proc->next = new;
+			cwar->proc->next = new;
 	}
 	else
-		player->proc = new;
-	player->proc_number++;
+		cwar->proc = new;	
+	cwar->proc_number++;
 }
 
-
-char	cw_first_proc(t_cwar *cwar, unsigned char *program_counter, t_player *player)
+char	cw_first_proc(t_cwar *cwar, unsigned char *program_counter, int id)
 {
 	t_proc		*new;
 	int			i;
@@ -48,7 +47,7 @@ char	cw_first_proc(t_cwar *cwar, unsigned char *program_counter, t_player *playe
 	if (!(new = (t_proc *)malloc(sizeof(t_proc))))
 		cw_perror("Malloc failed.", cwar);
 	if (!(new->reg = (void *)malloc(sizeof(void *))))
-		cw_perror("Malloc failed.", cwar);
+		cw_perror("Malloc failed.", cwar);	
 	while (i < REG_NUMBER)
 	{
 		new->reg[i] = (int)malloc(REG_SIZE + 1);		//(void* !?? uns_char*) // REG_SIZE ?
@@ -56,17 +55,18 @@ char	cw_first_proc(t_cwar *cwar, unsigned char *program_counter, t_player *playe
 		i++;
 	}
 	new->pc = program_counter;
-	new->reg[0] = player->id;
+	new->reg[0] = id;	
 	new->carry = 1;
 	new->wait = 0;
 	new->next = NULL;
-	player->proc = new;
-	player->proc_number++;
+	new->player_id = id;
+	new->proc_id = cwar->proc_number + 1;	
+	cw_add_proc(new, cwar);	// MAX PROCESS ?
 	//cw_add_proc(new, player);	// MAX PROCESS ?
 	return (1);
 }
 
-char	cw_fork_proc(t_cwar *cwar, unsigned char *program_counter, t_proc *old, t_player *player)
+char	cw_fork_proc(t_cwar *cwar, unsigned char *program_counter, t_proc *old, int id)
 {
 	t_proc	*new;
 	int		i;
@@ -87,7 +87,9 @@ char	cw_fork_proc(t_cwar *cwar, unsigned char *program_counter, t_proc *old, t_p
 	new->carry = 1;
 	new->wait = 0;
 	new->next = NULL;
-	cw_add_proc(new, player);	// MAX PROCESS ?
+	new->player_id = id;
+	new->proc_id = cwar->proc_number + 1;
+	cw_add_proc(new, cwar);	// MAX PROCESS ?
 	return (1);
 
 }

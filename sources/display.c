@@ -204,7 +204,7 @@ static void		print_right_tab(t_cwar *cwar)
 	mvprintw(7, 200, "Seconds : ");
 	mvprintw(7, 210, ft_itoa(current - cwar->time_zero));
 
-	address = cwar->players->proc->pc;
+	address = cwar->proc->pc;
 
 	mvprintw(10, 200, make_hex(address[cwar->cycle])); // MEM TEST !!
 }
@@ -213,8 +213,8 @@ static void		print_right_tab(t_cwar *cwar)
 
 void			ft_draw(t_cwar *cwar)
 {
-	clear();
 	attron(COLOR_PAIR(1024));
+
 	draw_line(254, 0);
 	draw_line(254, 67);
 	draw_coll(67, 0);
@@ -234,29 +234,25 @@ void			sync_cycle(t_cwar *cwar)
 		current_time = time(NULL);
 }
 
-void			find_instruction(t_cwar *cwar, t_fork *fork, t_player *player)
+void			find_instruction(t_cwar *cwar, t_proc *proc)
 {
 	unsigned char	*address;
 
-	address = fork->pc;
+	(void)cwar;
+	address = proc->pc;
+	// if ()
 }
 
-void			cycle_forks(t_cwar *cwar)
+void			cycle_procs(t_cwar *cwar)
 {
-	t_player	*current_p;
-	t_fork		*current_f;
+	t_proc		*current;
 
-	current_p = cwar->players;
-	while (current_p)
+	current = cwar->proc;
+	while (current)
 	{
-		current_f = current_p->fork;
-		while (current_f)
-		{
-			if (!current->wait)
-				find_instruction(cwar, current_f, current_p);
-			current_f = current_f->next;
-		}
-		current_p = current_p->next;
+		if (!current->wait)
+			find_instruction(cwar, current);
+		current = current->next;
 	}
 }
 
@@ -265,12 +261,11 @@ void			ft_game(t_cwar *cwar)
 	int c;
 
 	c = 0;
-
 	while ((c = getch()) != 27)
 	{
 	//	if (c == 27)
 	//		return ;
-		cycle_forks(cwar);
+		cycle_procs(cwar);
 		ft_draw(cwar);
 		cwar->cycle++;
 		if ((cwar->cycle % 50) == 0)
