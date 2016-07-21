@@ -36,6 +36,7 @@ typedef struct		s_proc
 	unsigned char	*reg;
 	unsigned char	*pc;
 	int				carry;
+	int				wait;
 	struct s_proc	*next;
 }					t_proc;
 

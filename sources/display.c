@@ -234,6 +234,32 @@ void			sync_cycle(t_cwar *cwar)
 		current_time = time(NULL);
 }
 
+void			find_instruction(t_cwar *cwar, t_fork *fork, t_player *player)
+{
+	unsigned char	*address;
+
+	address = fork->pc;
+}
+
+void			cycle_forks(t_cwar *cwar)
+{
+	t_player	*current_p;
+	t_fork		*current_f;
+
+	current_p = cwar->players;
+	while (current_p)
+	{
+		current_f = current_p->fork;
+		while (current_f)
+		{
+			if (!current->wait)
+				find_instruction(cwar, current_f, current_p);
+			current_f = current_f->next;
+		}
+		current_p = current_p->next;
+	}
+}
+
 void			ft_game(t_cwar *cwar)
 {
 	int c;
@@ -244,6 +270,7 @@ void			ft_game(t_cwar *cwar)
 	{
 	//	if (c == 27)
 	//		return ;
+		cycle_forks(cwar);
 		ft_draw(cwar);
 		cwar->cycle++;
 		if ((cwar->cycle % 50) == 0)
