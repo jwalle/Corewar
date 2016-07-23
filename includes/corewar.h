@@ -34,7 +34,8 @@
 typedef struct		s_proc
 {
 	unsigned char	**reg;
-	unsigned char	*pc;
+	// unsigned char	*pc;
+	int				pc;
 	int				carry;
 	int				wait;
 	int				proc_id;
@@ -68,10 +69,11 @@ typedef struct		s_cwar
 	unsigned char	*arena;
 }					t_cwar;
 
-
 void	curse_disp(t_cwar *cwar);
 void	cw_perror(char *str, t_cwar *cwar);
-char	cw_first_proc(t_cwar *cwar, unsigned char *program_counter, int id);
+char	cw_first_proc(t_cwar *cwar, int	program_counter, int id);
 void	cw_error(char *str, t_cwar *cwar);
+char	cw_fork(t_cwar *cwar, t_proc *proc);
+char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id);
 
 #endif

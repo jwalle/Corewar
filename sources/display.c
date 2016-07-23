@@ -204,12 +204,14 @@ static void		print_right_tab(t_cwar *cwar)
 	mvprintw(7, 200, "Seconds : ");
 	mvprintw(7, 210, ft_itoa(current - cwar->time_zero));
 
-	address = cwar->proc->pc;
+	address = cwar->arena;
 
 	mvprintw(10, 200, make_hex(address[cwar->cycle])); // MEM TEST !!
+
+	mvprintw(12, 200, "process : ");
+	mvprintw(12, 210, ft_itoa(cwar->proc_number));
+
 }
-
-
 
 void			ft_draw(t_cwar *cwar)
 {
@@ -234,13 +236,17 @@ void			sync_cycle(t_cwar *cwar)
 		current_time = time(NULL);
 }
 
+
+
 void			find_instruction(t_cwar *cwar, t_proc *proc)
 {
-	unsigned char	*address;
+	unsigned char	ins;
 
-	(void)cwar;
-	address = proc->pc;
-	// if ()
+	ins = cwar->arena[proc->pc];
+	if (ins == 0x0C)
+		cw_fork(cwar, proc);
+	mvprintw(15, 200, make_hex(ins)); // MEM TEST !!
+	proc->pc++;
 }
 
 void			cycle_procs(t_cwar *cwar)
@@ -252,6 +258,8 @@ void			cycle_procs(t_cwar *cwar)
 	{
 		if (!current->wait)
 			find_instruction(cwar, current);
+		else
+			(current->wait--);
 		current = current->next;
 	}
 }

@@ -24,7 +24,7 @@ t_cwar	*cw_init(void)
 	cwar->arena = NULL;
 	cwar->proc = NULL;
 	cwar->cycle = 0;
-	cwar->proc_number = 1;
+	cwar->proc_number = 0;
 	return (cwar);
 }
 
@@ -180,7 +180,7 @@ void	cw_setup_arena(t_cwar *cwar)
 		while (tmp)
 		{
 			begin = (MEM_SIZE * i) / cwar->players_nbr;
-			cw_first_proc(cwar, &cwar->arena[begin], i); // i = player id ?		
+			cw_first_proc(cwar, 0, i); // i = player id ?		
 			j = 0;
 			while (j < tmp->header.prog_size)
 			{
