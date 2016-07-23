@@ -37,7 +37,7 @@ void set_color(int temp)
 	else if (temp == 1)
 		attron(COLOR_PAIR(RED_ON_GREEN));
 	else if (temp > 1 && temp <= 50)
-		attron(COLOR_PAIR(64));
+		attron(BLACK_ON_GREEN);
 	else if (temp > 50 && temp <= 100)
 		attron(COLOR_PAIR(128));
 	else if (temp > 100 && temp <= 150)
@@ -55,7 +55,7 @@ void unset_color(int temp)
 	else if (temp == 1)
 		attroff(COLOR_PAIR(RED_ON_GREEN));
 	else if (temp > 1 && temp <= 50)
-		attroff(COLOR_PAIR(64));
+		attroff(BLACK_ON_GREEN);
 	else if (temp > 50 && temp <= 100)
 		attroff(COLOR_PAIR(128));
 	else if (temp > 100 && temp <= 150)
@@ -139,23 +139,19 @@ void	ft_atoi_hex(void *ptr, int x, int y)
 			j = 3;
 		}
 		temp = address[i++];
-		if ((i + 3) % 4 == 0)
-			set_color(temp);
+		//if ((i + 3) % 4 == 0)
+		set_color(temp);
 		mvprintw(x, j, make_hex(temp));
-		if ((i + 3) % 4 == 0)
-			unset_color(temp);
+	//	if ((i + 3) % 4 == 0)
+		unset_color(temp);
 		j += 3;
 	}
 }
 
 static void		ft_init_color(void)
 {
-	init_color(COLOR_RED, 500, 300, 200);
-	init_color(COLOR_MAGENTA, 304, 200, 209);
-	init_color(COLOR_CYAN, 304, 222, 100);
-	init_color(COLOR_WHITE, 155 * 4, 160 * 4, 160 * 4);
 	init_pair(RED_ON_GREEN, COLOR_RED, COLOR_GREEN);
-	init_pair(2, COLOR_BLACK, COLOR_WHITE);
+	init_pair(BLACK_ON_GREEN, COLOR_WHITE, COLOR_GREEN);
 	init_pair(3, COLOR_RED, COLOR_WHITE);
 	init_pair(4, COLOR_BLACK, COLOR_YELLOW);
 	init_pair(8, COLOR_BLACK, COLOR_RED);
@@ -243,6 +239,7 @@ void			find_instruction(t_cwar *cwar, t_proc *proc)
 	unsigned char	ins;
 
 	ins = cwar->arena[proc->pc];
+	// TODO : stuff
 	if (ins == 0x0C)
 		cw_fork(cwar, proc);
 	mvprintw(15, 200, make_hex(ins)); // MEM TEST !!

@@ -30,6 +30,7 @@
 # define ANSI_COLOR_RESET   "\x1b[0m"
 
 #define RED_ON_GREEN 1
+#define BLACK_ON_GREEN 2
 
 typedef struct		s_proc
 {
