@@ -90,5 +90,4 @@ char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id)
 	new->proc_id = cwar->proc_number + 1;
 	cw_add_proc(new, cwar);	// MAX PROCESS ?
 	return (1);
-
 }

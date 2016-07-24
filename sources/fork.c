@@ -34,7 +34,7 @@ char	cw_fork(t_cwar *cwar, t_proc *proc)
 	int		new_pc;
 
 	new_pc = get_new_fork_pc(cwar, proc);
-	proc->wait = 10;
+	proc->wait = 40;
 	cw_fork_proc(cwar, proc->pc + new_pc, proc, 1);
 	return (1);
 }

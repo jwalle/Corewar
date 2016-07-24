@@ -42,6 +42,8 @@ void set_color(int temp)
 		attron(COLOR_PAIR(PLAYER_THREE));
 	else if (temp == 4)
 		attron(COLOR_PAIR(PLAYER_FOUR));
+	else if (temp == 5)
+		attron(COLOR_PAIR(CURRENT_PC));
 }
 
 void unset_color(int temp)
@@ -56,6 +58,8 @@ void unset_color(int temp)
 		attroff(COLOR_PAIR(PLAYER_THREE));
 	else if (temp == 4)
 		attroff(COLOR_PAIR(PLAYER_FOUR));
+	else if (temp == 5)
+		attroff(COLOR_PAIR(CURRENT_PC));
 }
 
 int	ft_int_hex_len(unsigned char n)
@@ -128,9 +132,12 @@ void	ft_atoi_hex(t_cwar *cwar)
 			x++;
 			j = 3;
 		}
-		set_color(cwar->arena_color[i]);
+		set_color(cwar->arena_color[i][0]);
+		set_color(cwar->arena_color[i][1]);
 		mvprintw(x, j, make_hex(cwar->arena[i]));
-		unset_color(cwar->arena_color[i]);
+		unset_color(cwar->arena_color[i][0]);
+		unset_color(cwar->arena_color[i][1]);
+		cwar->arena_color[i][1] = 0;
 		i++;
 		j += 3;
 	}
@@ -138,12 +145,12 @@ void	ft_atoi_hex(t_cwar *cwar)
 
 static void		ft_init_color(void)
 {
-	init_pair(RED_ON_GREEN, COLOR_RED, COLOR_GREEN);
 	init_pair(BLACK_ON_GREEN, COLOR_WHITE, COLOR_GREEN);
 	init_pair(PLAYER_ONE, COLOR_GREEN, COLOR_BLACK);
 	init_pair(PLAYER_TWO, COLOR_YELLOW, COLOR_BLACK);
 	init_pair(PLAYER_THREE, COLOR_RED, COLOR_BLACK);
 	init_pair(PLAYER_FOUR, COLOR_MAGENTA, COLOR_BLACK);
+	init_pair(CURRENT_PC, 0, COLOR_WHITE);
 	init_pair(32, COLOR_BLACK, COLOR_CYAN);
 	init_pair(64, COLOR_YELLOW, COLOR_CYAN);
 	init_pair(128, COLOR_RED, COLOR_CYAN);
@@ -228,6 +235,8 @@ void			find_instruction(t_cwar *cwar, t_proc *proc)
 	unsigned char	ins;
 
 	ins = cwar->arena[proc->pc];
+
+	cwar->arena_color[proc->pc][1] = 5;
 	// TODO : stuff
 	if (ins == 0x0C)
 		cw_fork(cwar, proc);
