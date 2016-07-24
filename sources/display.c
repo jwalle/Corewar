@@ -33,37 +33,29 @@ void	print_hex(char hex[10], int x, int y)
 void set_color(int temp)
 {
 	if (!temp)
-		attron(COLOR_PAIR(3));
+		return ;
 	else if (temp == 1)
-		attron(COLOR_PAIR(RED_ON_GREEN));
-	else if (temp > 1 && temp <= 50)
-		attron(BLACK_ON_GREEN);
-	else if (temp > 50 && temp <= 100)
-		attron(COLOR_PAIR(128));
-	else if (temp > 100 && temp <= 150)
-		attron(COLOR_PAIR(256));
-	else if (temp > 150 && temp <= 200)
-		attron(COLOR_PAIR(512));
-	else if (temp > 200 && temp <= 250)
-		attron(COLOR_PAIR(1024));
+		attron(COLOR_PAIR(PLAYER_ONE));
+	else if (temp == 2)
+		attron(COLOR_PAIR(PLAYER_TWO));
+	else if (temp == 3)
+		attron(COLOR_PAIR(PLAYER_THREE));
+	else if (temp == 4)
+		attron(COLOR_PAIR(PLAYER_FOUR));
 }
 
 void unset_color(int temp)
 {
 	if (!temp)
-		attroff(COLOR_PAIR(3));
+		return ;
 	else if (temp == 1)
-		attroff(COLOR_PAIR(RED_ON_GREEN));
-	else if (temp > 1 && temp <= 50)
-		attroff(BLACK_ON_GREEN);
-	else if (temp > 50 && temp <= 100)
-		attroff(COLOR_PAIR(128));
-	else if (temp > 100 && temp <= 150)
-		attroff(COLOR_PAIR(256));
-	else if (temp > 150 && temp <= 200)
-		attroff(COLOR_PAIR(512));
-	else if (temp > 200 && temp <= 250)
-		attroff(COLOR_PAIR(1024));
+		attroff(COLOR_PAIR(PLAYER_ONE));
+	else if (temp == 2)
+		attroff(COLOR_PAIR(PLAYER_TWO));
+	else if (temp == 3)
+		attroff(COLOR_PAIR(PLAYER_THREE));
+	else if (temp == 4)
+		attroff(COLOR_PAIR(PLAYER_FOUR));
 }
 
 int	ft_int_hex_len(unsigned char n)
@@ -120,14 +112,12 @@ char *make_hex(int temp)
 	return (hex);
 }
 
-void	ft_atoi_hex(void *ptr, int x, int y)
+void	ft_atoi_hex(t_cwar *cwar)
 {
-	unsigned char		*address = (unsigned char *)ptr;
 	int 				i;
+	int					x;
 	int					j;
-	int					temp;
 
-	(void)y;
 	i = 0;
 	x = 2;
 	j = 3;
@@ -138,12 +128,10 @@ void	ft_atoi_hex(void *ptr, int x, int y)
 			x++;
 			j = 3;
 		}
-		temp = address[i++];
-		//if ((i + 3) % 4 == 0)
-		set_color(temp);
-		mvprintw(x, j, make_hex(temp));
-	//	if ((i + 3) % 4 == 0)
-		unset_color(temp);
+		set_color(cwar->arena_color[i]);
+		mvprintw(x, j, make_hex(cwar->arena[i]));
+		unset_color(cwar->arena_color[i]);
+		i++;
 		j += 3;
 	}
 }
@@ -152,10 +140,10 @@ static void		ft_init_color(void)
 {
 	init_pair(RED_ON_GREEN, COLOR_RED, COLOR_GREEN);
 	init_pair(BLACK_ON_GREEN, COLOR_WHITE, COLOR_GREEN);
-	init_pair(3, COLOR_RED, COLOR_WHITE);
-	init_pair(4, COLOR_BLACK, COLOR_YELLOW);
-	init_pair(8, COLOR_BLACK, COLOR_RED);
-	init_pair(16, COLOR_BLACK, COLOR_MAGENTA);
+	init_pair(PLAYER_ONE, COLOR_GREEN, COLOR_BLACK);
+	init_pair(PLAYER_TWO, COLOR_YELLOW, COLOR_BLACK);
+	init_pair(PLAYER_THREE, COLOR_RED, COLOR_BLACK);
+	init_pair(PLAYER_FOUR, COLOR_MAGENTA, COLOR_BLACK);
 	init_pair(32, COLOR_BLACK, COLOR_CYAN);
 	init_pair(64, COLOR_YELLOW, COLOR_CYAN);
 	init_pair(128, COLOR_RED, COLOR_CYAN);
@@ -219,7 +207,8 @@ void			ft_draw(t_cwar *cwar)
 	draw_coll(67, 196);
 	draw_coll(67, 254);
 	attroff(COLOR_PAIR(1024));
-	ft_atoi_hex(cwar->arena, 2, 2);
+	ft_atoi_hex(cwar);
+
 	print_right_tab(cwar);
 }
 

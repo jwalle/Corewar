@@ -55,8 +55,8 @@ char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
 		i++;
 	}
 	new->pc = program_counter;
-	new->reg[0] = (unsigned char *)ft_itoa_base(id, 16);
-	new->carry = 1;
+	new->reg[0][0] = (unsigned char)id;
+	new->carry = 01;
 	new->wait = 0;
 	new->next = NULL;
 	new->player_id = id;

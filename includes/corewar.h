@@ -29,8 +29,12 @@
 # define ANSI_COLOR_CYAN    "\x1b[36m"
 # define ANSI_COLOR_RESET   "\x1b[0m"
 
-#define RED_ON_GREEN 1
-#define BLACK_ON_GREEN 2
+#define PLAYER_ONE 1
+#define PLAYER_TWO 2
+#define PLAYER_THREE 3
+#define PLAYER_FOUR 4
+#define RED_ON_GREEN 5
+#define BLACK_ON_GREEN 6
 
 typedef struct		s_proc
 {
@@ -68,6 +72,7 @@ typedef struct		s_cwar
 	t_player		*players;
 	t_proc			*proc;
 	unsigned char	*arena;
+	unsigned char	*arena_color;
 }					t_cwar;
 
 void	curse_disp(t_cwar *cwar);

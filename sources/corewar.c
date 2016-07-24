@@ -173,6 +173,9 @@ void	cw_setup_arena(t_cwar *cwar)
 	if (!(cwar->arena = (unsigned char *)malloc(MEM_SIZE + 1)))
 		cw_perror("Malloc failed.", cwar);
 	ft_bzero(cwar->arena, MEM_SIZE + 1);
+	if (!(cwar->arena_color = (unsigned char *)malloc(MEM_SIZE + 1)))
+		cw_perror("Malloc failed.", cwar);
+	ft_bzero(cwar->arena_color, MEM_SIZE + 1);
 	if (cwar->players)
 	{
 		i = 0;
@@ -180,10 +183,11 @@ void	cw_setup_arena(t_cwar *cwar)
 		while (tmp)
 		{
 			begin = (MEM_SIZE * i) / cwar->players_nbr;
-			cw_first_proc(cwar, 0, i); // i = player id ?		
+			cw_first_proc(cwar, 0, i); // i = player id ?
 			j = 0;
 			while (j < tmp->header.prog_size)
 			{
+				cwar->arena_color[begin + j] = i + 1;
 				cwar->arena[begin + j] = tmp->pg[j];
 				j++;
 			}

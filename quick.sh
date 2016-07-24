@@ -1,1 +1,1 @@
-git add -A ; git commit -m "setup fork && instruction reading" ; git push origin master
+git add -A ; git commit -m "Players color" ; git push origin master
