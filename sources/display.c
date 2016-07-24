@@ -215,7 +215,6 @@ void			ft_draw(t_cwar *cwar)
 	draw_coll(67, 254);
 	attroff(COLOR_PAIR(1024));
 	ft_atoi_hex(cwar);
-
 	print_right_tab(cwar);
 }
 
@@ -251,5 +250,5 @@ void	curse_disp(t_cwar *cwar)
 	ft_draw(cwar);
 	ft_game(cwar);
 	endwin();
-	curs_set(1+1);
+	curs_set(1);
 }

@@ -30,6 +30,28 @@ void			sync_cycle(t_cwar *cwar)
 		current_time = time(NULL);
 }
 
+int				get_wait_time(unsigned char ins)
+{
+	if (ins == 0x0C)
+		return (40);
+	return (0);
+}
+
+void			get_instruction(unsigned char ins, t_cwar *cwar, t_proc *proc)
+{
+	if (ins == 0x0C)
+		cw_fork(cwar, proc);
+}
+
+int				is_ins(unsigned char ins)
+{
+	if (ins == 0x0c)
+		return (1);
+	// if (ins > 0x00 && ins <= 0x0e)
+		// return (1);
+	return (0);
+}
+
 void			find_instruction(t_cwar *cwar, t_proc *proc)
 {
 	unsigned char	ins;
@@ -41,16 +63,16 @@ void			find_instruction(t_cwar *cwar, t_proc *proc)
 		proc->wait--;
 	else if (proc->wait >= 0)
 	{
-		if (ins == 0x0C && proc->wait == 1)
+
+		if (proc->wait == 1  && is_ins(ins))
 		{
-			cw_fork(cwar, proc);
-			proc->wait--;
+			get_instruction(ins, cwar, proc);
+			proc->wait = 0;
 		}
-		else if (ins == 0x0C && proc->wait == 0)
-			proc->wait = 40;
+		else if (proc->wait == 0 && is_ins(ins))
+			proc->wait = get_wait_time(ins);
 		else
 			proc->pc++;
-			// if (ins > 0x00 && 0x0e)
 	}
 	// TODO : stuff
 }
