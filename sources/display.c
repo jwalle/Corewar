@@ -219,46 +219,6 @@ void			ft_draw(t_cwar *cwar)
 	print_right_tab(cwar);
 }
 
-void			sync_cycle(t_cwar *cwar)
-{
-	time_t current_time;
-
-	current_time = time(NULL);
-	while (cwar->time_zero + (cwar->cycle / 50)  > current_time)
-		current_time = time(NULL);
-}
-
-
-
-void			find_instruction(t_cwar *cwar, t_proc *proc)
-{
-	unsigned char	ins;
-
-	ins = cwar->arena[proc->pc];
-
-	cwar->arena_color[proc->pc][1] = 5;
-	// TODO : stuff
-	if (ins == 0x0C)
-		cw_fork(cwar, proc);
-	mvprintw(15, 200, make_hex(ins)); // MEM TEST !!
-	proc->pc++;
-}
-
-void			cycle_procs(t_cwar *cwar)
-{
-	t_proc		*current;
-
-	current = cwar->proc;
-	while (current)
-	{
-		if (!current->wait)
-			find_instruction(cwar, current);
-		else
-			(current->wait--);
-		current = current->next;
-	}
-}
-
 void			ft_game(t_cwar *cwar)
 {
 	int c;

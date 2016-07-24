@@ -81,5 +81,8 @@ char	cw_first_proc(t_cwar *cwar, int	program_counter, int id);
 void	cw_error(char *str, t_cwar *cwar);
 char	cw_fork(t_cwar *cwar, t_proc *proc);
 char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id);
+void	sync_cycle(t_cwar *cwar);
+void	cycle_procs(t_cwar *cwar);
+
 
 #endif

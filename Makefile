@@ -28,6 +28,7 @@ SRCS = $(SDIR)/corewar.c \
 		$(SDIR)/init_proc.c \
 		$(SDIR)/error.c \
 		$(SDIR)/fork.c \
+		$(SDIR)/game_handling.c \
 
 
 OBJ = $(SRCS:$(SDIR)/%.c=$(ODIR)/%.o)
