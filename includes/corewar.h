@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:27:20 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/07/21 18:50:36 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/25 18:15:18 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id);
 void	sync_cycle(t_cwar *cwar);
 void	cycle_procs(t_cwar *cwar);
 int		cw_index_nav(int index, int add);
+int		circ(int index, int add);
 
 /*
 **		Instructions :
@@ -91,5 +92,6 @@ int		cw_index_nav(int index, int add);
 char	cw_fork(t_cwar *cwar, t_proc *proc);
 void	cw_load(t_cwar *cwar, t_proc *proc);
 void	cw_store(t_cwar *cwar, t_proc *proc);
+void	cw_live(t_cwar *cwar, t_proc *proc);
 
 #endif
