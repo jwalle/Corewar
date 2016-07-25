@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-
+ 
 static char		*ft_allocstr(int value, int base)
 {
 	int		count;

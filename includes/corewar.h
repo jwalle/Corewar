@@ -82,6 +82,7 @@ void	cw_error(char *str, t_cwar *cwar);
 char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id);
 void	sync_cycle(t_cwar *cwar);
 void	cycle_procs(t_cwar *cwar);
+int		cw_index_nav(int index, int add);
 
 /*
 **		Instructions :
