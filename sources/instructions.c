@@ -96,13 +96,25 @@ void	cw_load(t_cwar *cwar, t_proc *proc)
 void	cw_live(t_cwar *cwar, t_proc *proc)
 {
 	int				player;
-	unsigned char	cur;
+	t_player		*tmp;
+	int				i;
 
-	cur = cwar->arena[cw_index_nav(proc->pc, 1)] 
-	player = 
-	//PLAYER ALIVE
+	i = proc->pc;
+	player = (cwar->arena[i = circ(i, 1)] << 24);
+	player += (cwar->arena[i = circ(i, 1)] << 16);
+	player += (cwar->arena[i = circ(i, 1)] << 8);
+	player += (cwar->arena[i = circ(i, 1)]);
 
-	//PROC ALIVE
+	player *= -1;
+	tmp = cwar->players;
+	while (tmp)
+	{
+		if (tmp->id == player)
+			tmp->alive++;
+		tmp = tmp->next;
+	}
+	proc->alive = 1;	
+	proc->pc += 5;
 }
 
 void	cw_store(t_cwar *cwar, t_proc *proc)

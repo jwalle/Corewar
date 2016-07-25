@@ -64,6 +64,7 @@ char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
 		pnum >>= 8;
 	}
 	new->carry = 1;
+	new->alive = 0;
 	new->wait = 0;
 	new->next = NULL;
 	new->player_id = id;
@@ -92,6 +93,7 @@ char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id)
 	new->pc = program_counter;
 	new->carry = 1;
 	new->wait = 0;
+	new->alive = 0;
 	new->next = NULL;
 	new->player_id = id;
 	new->proc_id = cwar->proc_number + 1;
