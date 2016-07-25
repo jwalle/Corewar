@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 19:04:54 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/07/24 21:44:25 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/25 17:42:22 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		cw_updatepc(int pc, int cbyte)
 {
-	pc++;
+	pc += 2;
 	while (cbyte)
 	{
 		if ((cbyte & 3) == 1)
@@ -32,7 +32,7 @@ void	cw_fillreg(t_cwar *cwar, t_proc *proc, unsigned char regnum, int index)
 {
 	int i;
 
-	if (regnum <= REG_NUMBER)
+	if (regnum && regnum <= REG_NUMBER)
 	{
 		i = 0;
 		while (i < REG_SIZE)
@@ -44,7 +44,7 @@ void	cw_regcpy(t_proc *proc, unsigned char regn1, unsigned char regn2)
 {
 	int	i;
 
-	if (regn1 <= REG_NUMBER && regn2 <= REG_NUMBER)
+	if (regn1 && regn1 <= REG_NUMBER && regn2 && regn2 <= REG_NUMBER)
 	{
 		i = 0;
 		while (i < REG_SIZE)
@@ -62,7 +62,6 @@ void	cw_regongrid(t_cwar *cwar, unsigned char *reg, int index, t_proc *proc)
 	i = 0;
 	while (i < REG_SIZE)
 	{
-		printf("%d\n", reg[i]);
 		cwar->arena_color[index + i][0] = proc->player_id;
 		cwar->arena[index + i] = reg[i];
 		++i;
@@ -76,7 +75,6 @@ void	cw_load(t_cwar *cwar, t_proc *proc)
 	int				cur;
 	int				index;
 
-	//proc->wait += 5;
 	cur = proc->pc + 1;
 	cbyte = cwar->arena[cur];
 	if (((cbyte >> 6) & 3) == 3)
@@ -102,10 +100,9 @@ void	cw_store(t_cwar *cwar, t_proc *proc)
 	unsigned char	cbyte;
 	int				index;
 
-	//proc->wait += 5;
 	cur = proc->pc + 1;
 	cbyte = cwar->arena[cur];
-	if (cwar->arena[cur + 1] <= REG_NUMBER)
+	if (cwar->arena[cur + 1] && cwar->arena[cur + 1] <= REG_NUMBER)
 	{
 		if (((cbyte >> 4) & 3) == 1)
 			cw_regcpy(proc, cwar->arena[cur + 1], cwar->arena[cur + 2]);

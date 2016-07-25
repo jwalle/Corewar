@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/18 16:30:01 by jwalle            #+#    #+#             */
-/*   Updated: 2016/07/21 18:57:11 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/25 17:38:37 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,12 @@ char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
 {
 	t_proc		*new;
 	int			i;
+	int			pnum;
 
 	i = 0;
 	if (!(new = (t_proc *)malloc(sizeof(t_proc))))
 		cw_perror("Malloc failed.", cwar);
-	if (!(new->reg = (unsigned char **)malloc(sizeof(unsigned char *) * REG_NUMBER)))
+	if (!(new->reg = (unsigned char **)malloc(sizeof(unsigned char *) * REG_NUMBER + 1)))
 		cw_perror("Malloc failed.", cwar);
 	while (i < REG_NUMBER)
 	{
@@ -55,11 +56,13 @@ char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
 		i++;
 	}
 	new->pc = program_counter;
-	// new->reg[0][REG_SIZE] = (unsigned char)id;
-	new->reg[0][0] = 0xff;
-	new->reg[0][0] = 0xff;
-	new->reg[0][0] = 0xff;
-	new->reg[0][0] = 0xff - id;
+	i = REG_SIZE - 1;
+	pnum = 0 - id;
+	while (i >= 0)
+	{
+		new->reg[1][i--] = pnum & 0xff;
+		pnum >>= 8;
+	}
 	new->carry = 1;
 	new->wait = 0;
 	new->next = NULL;
