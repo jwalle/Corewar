@@ -55,8 +55,12 @@ char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
 		i++;
 	}
 	new->pc = program_counter;
-	new->reg[0][0] = (unsigned char)id;
-	new->carry = 01;
+	// new->reg[0][REG_SIZE] = (unsigned char)id;
+	new->reg[0][0] = 0xff;
+	new->reg[0][0] = 0xff;
+	new->reg[0][0] = 0xff;
+	new->reg[0][0] = 0xff - id;
+	new->carry = 1;
 	new->wait = 0;
 	new->next = NULL;
 	new->player_id = id;

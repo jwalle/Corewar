@@ -6,7 +6,7 @@
 #    By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/05 11:15:04 by rmicolon          #+#    #+#              #
-#    Updated: 2016/07/15 14:32:33 by jwalle           ###   ########.fr        #
+#    Updated: 2016/07/25 14:44:53 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ SRCS = $(SDIR)/corewar.c \
 		$(SDIR)/error.c \
 		$(SDIR)/fork.c \
 		$(SDIR)/game_handling.c \
+		$(SDIR)/instructions.c \
+
 
 
 OBJ = $(SRCS:$(SDIR)/%.c=$(ODIR)/%.o)

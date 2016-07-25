@@ -55,13 +55,15 @@ void	cw_regcpy(t_proc *proc, unsigned char regn1, unsigned char regn2)
 	}
 }
 
-void	cw_regongrid(t_cwar *cwar, unsigned char *reg, int index)
+void	cw_regongrid(t_cwar *cwar, unsigned char *reg, int index, t_proc *proc)
 {
 	int	i;
 
 	i = 0;
 	while (i < REG_SIZE)
 	{
+		printf("%d\n", reg[i]);
+		cwar->arena_color[index + i][0] = proc->player_id;
 		cwar->arena[index + i] = reg[i];
 		++i;
 	}
@@ -74,7 +76,7 @@ void	cw_load(t_cwar *cwar, t_proc *proc)
 	int				cur;
 	int				index;
 
-	proc->wait += 5;
+	//proc->wait += 5;
 	cur = proc->pc + 1;
 	cbyte = cwar->arena[cur];
 	if (((cbyte >> 6) & 3) == 3)
@@ -84,7 +86,7 @@ void	cw_load(t_cwar *cwar, t_proc *proc)
 		while (i <= IND_SIZE)
 		{
 			index <<= 8;
-			index += cwar->arena[cur + i++];
+			index += cwar->arena[cur + i++]; // TODO CIRCULAIRE
 		}
 		cw_fillreg(cwar, proc, cwar->arena[cur + IND_SIZE + 1], proc->pc + index);
 	}
@@ -100,7 +102,7 @@ void	cw_store(t_cwar *cwar, t_proc *proc)
 	unsigned char	cbyte;
 	int				index;
 
-	proc->wait += 5;
+	//proc->wait += 5;
 	cur = proc->pc + 1;
 	cbyte = cwar->arena[cur];
 	if (cwar->arena[cur + 1] <= REG_NUMBER)
@@ -116,7 +118,7 @@ void	cw_store(t_cwar *cwar, t_proc *proc)
 				index <<= 8;
 				index += cwar->arena[cur + 1 + i++];
 			}
-			cw_regongrid(cwar, proc->reg[cwar->arena[cur + 1]], proc->pc + index);
+			cw_regongrid(cwar, proc->reg[cwar->arena[cur + 1]], proc->pc + index, proc);
 		}
 	}
 	proc->pc = cw_updatepc(proc->pc, cbyte);
