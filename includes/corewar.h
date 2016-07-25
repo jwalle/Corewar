@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:27:20 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/07/21 18:50:36 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/25 18:15:18 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ void	cw_live(t_cwar *cwar, t_proc *proc);
 char	cw_fork(t_cwar *cwar, t_proc *proc);
 void	cw_load(t_cwar *cwar, t_proc *proc);
 void	cw_store(t_cwar *cwar, t_proc *proc);
+void	cw_live(t_cwar *cwar, t_proc *proc);
 
 #endif
