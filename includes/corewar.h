@@ -45,6 +45,7 @@ typedef struct		s_proc
 	int				wait;
 	int				proc_id;
 	int				player_id;
+	int				alive;
 	struct s_proc	*next;
 }					t_proc;
 
@@ -58,6 +59,7 @@ typedef struct		s_player
 {
 	header_t		header;
 	unsigned char	*pg;
+	int				alive;
 	int				id;
 	struct s_player	*next;
 }					t_player;
@@ -82,12 +84,13 @@ void	cw_error(char *str, t_cwar *cwar);
 char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id);
 void	sync_cycle(t_cwar *cwar);
 void	cycle_procs(t_cwar *cwar);
-int		cw_index_nav(int index, int add);
+int		circ(int index, int add);
 
 /*
 **		Instructions :
 */
 
+void	cw_live(t_cwar *cwar, t_proc *proc);
 char	cw_fork(t_cwar *cwar, t_proc *proc);
 void	cw_load(t_cwar *cwar, t_proc *proc);
 void	cw_store(t_cwar *cwar, t_proc *proc);
