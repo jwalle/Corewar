@@ -163,14 +163,14 @@ void	cw_process_args(int argc, char **argv, t_cwar *cwar)
 	}
 }
 
-int		cw_index_nav(int index, int add)
+int		circ(int index, int add)
 {
 	if (add > 0)
 	{
 		if ((add + index) > MEM_SIZE)
 			return ((add + index) - MEM_SIZE); 
 	}
-	else
+	else if (add < 0)
 	{
 		if ((index + add) < 0)
 			return (MEM_SIZE + (index + add));

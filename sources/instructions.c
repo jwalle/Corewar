@@ -93,6 +93,18 @@ void	cw_load(t_cwar *cwar, t_proc *proc)
 	proc->pc = cw_updatepc(proc->pc, cbyte);
 }
 
+void	cw_live(t_cwar *cwar, t_proc *proc)
+{
+	int				player;
+	unsigned char	cur;
+
+	cur = cwar->arena[cw_index_nav(proc->pc, 1)] 
+	player = 
+	//PLAYER ALIVE
+
+	//PROC ALIVE
+}
+
 void	cw_store(t_cwar *cwar, t_proc *proc)
 {
 	int				cur;
