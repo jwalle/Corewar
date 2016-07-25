@@ -62,7 +62,7 @@ char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
 	{
 		new->reg[1][i--] = pnum & 0xff;
 		pnum >>= 8;
-	}
+	}	
 	new->carry = 1;
 	new->alive = 0;
 	new->wait = 0;

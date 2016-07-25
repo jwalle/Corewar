@@ -184,10 +184,47 @@ static void		draw_coll(int y_max, int xa)
 	}
 }
 
+static void		print_programs(int x, t_cwar *cwar)
+{
+	t_player	*cur;
+
+	cur = cwar->players;
+	if (x >= 1)
+	{
+		mvprintw(11, 200, "Player 1 : ");
+		mvprintw(11, 211, cur->header.prog_name);
+		mvprintw(12, 200, "lives : ");
+		mvprintw(12, 209, ft_itoa(cur->alive));
+	}
+	if (x >= 2)
+	{
+		cur = cur->next;
+		mvprintw(14, 200, "Player 2 : ");
+		mvprintw(14, 211, cur->header.prog_name);
+		mvprintw(15, 200, "lives : ");
+		mvprintw(15, 209, ft_itoa(cur->alive));
+	}
+	if (x >= 3)
+	{
+		cur = cur->next;
+		mvprintw(17, 200, "Player 3 : ");
+		mvprintw(17, 211, cur->header.prog_name);
+		mvprintw(18, 200, "lives : ");
+		mvprintw(18, 209, ft_itoa(cur->alive));
+	}
+	if (x >= 4)
+	{
+		cur = cur->next;
+		mvprintw(20, 200, "Player 4 : ");
+		mvprintw(20, 211, cur->header.prog_name);
+		mvprintw(21, 200, "lives : ");
+		mvprintw(21, 209, ft_itoa(cur->alive));
+	}
+}
+
 static void		print_right_tab(t_cwar *cwar)
 {
 	time_t current = time(NULL);
-	unsigned char		*address;
 
 	mvprintw(3, 200, "Cycles/second limit : 50");
 	mvprintw(5, 200, "Cycle : ");
@@ -195,13 +232,10 @@ static void		print_right_tab(t_cwar *cwar)
 	mvprintw(7, 200, "Seconds : ");
 	mvprintw(7, 210, ft_itoa(current - cwar->time_zero));
 
-	address = cwar->arena;
+	mvprintw(9, 200, "Total process : ");
+	mvprintw(9, 220, ft_itoa(cwar->proc_number));
 
-	mvprintw(10, 200, make_hex(address[cwar->cycle])); // MEM TEST !!
-
-	mvprintw(12, 200, "process : ");
-	mvprintw(12, 210, ft_itoa(cwar->proc_number));
-
+	print_programs(cwar->players_nbr, cwar);
 }
 
 void			ft_draw(t_cwar *cwar)
@@ -218,11 +252,34 @@ void			ft_draw(t_cwar *cwar)
 	print_right_tab(cwar);
 }
 
+int		check_live(t_cwar *cwar, int to_die)
+{
+	t_proc		*current;
+	int			lives;
+
+	lives = 0;
+	current = cwar->proc;
+	while (current)
+	{
+		lives += current->alive;
+		if (current->alive == 0)
+			destroy_process();
+		else
+			current->alive = 0; // TODO Player->alive = 0 ?
+		current = current->next;
+	}
+	if (lives >= NBR_LIVE)
+		to_die -= CYCLE_DELTA;
+	return (to_die);
+}
+
 void			ft_game(t_cwar *cwar)
 {
 	int c;
+	int	to_die;
 
 	c = 0;
+	to_die = CYCLE_TO_DIE;
 	while ((c = getch()) != 27)
 	{
 	//	if (c == 27)
@@ -230,6 +287,8 @@ void			ft_game(t_cwar *cwar)
 		cycle_procs(cwar);
 		ft_draw(cwar);
 		cwar->cycle++;
+		if ((cwar->cycle % CYCLE_TO_DIE) == 0)
+			to_die = check_live(cwar, to_die);
 		if ((cwar->cycle % 50) == 0)
 			sync_cycle(cwar);
 		refresh();
