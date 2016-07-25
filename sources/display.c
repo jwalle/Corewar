@@ -184,41 +184,25 @@ static void		draw_coll(int y_max, int xa)
 	}
 }
 
-static void		print_programs(int x, t_cwar *cwar)
+static void		print_programs(t_cwar *cwar)
 {
 	t_player	*cur;
+	int			i;
+	int			j;
 
+	j = 0;
+	i = 1;
 	cur = cwar->players;
-	if (x >= 1)
+	while (cur)
 	{
-		mvprintw(11, 200, "Player 1 : ");
-		mvprintw(11, 211, cur->header.prog_name);
-		mvprintw(12, 200, "lives : ");
-		mvprintw(12, 209, ft_itoa(cur->alive));
-	}
-	if (x >= 2)
-	{
+		mvprintw(11 + j, 200, "Player");
+		mvprintw(11 + j, 207, ft_itoa(i++));
+		mvprintw(11 + j, 208, " : ");
+		mvprintw(11 + j, 211, cur->header.prog_name);
+		mvprintw(12 + j, 200, "lives : ");
+		mvprintw(12 + j, 209, ft_itoa(cur->alive));
 		cur = cur->next;
-		mvprintw(14, 200, "Player 2 : ");
-		mvprintw(14, 211, cur->header.prog_name);
-		mvprintw(15, 200, "lives : ");
-		mvprintw(15, 209, ft_itoa(cur->alive));
-	}
-	if (x >= 3)
-	{
-		cur = cur->next;
-		mvprintw(17, 200, "Player 3 : ");
-		mvprintw(17, 211, cur->header.prog_name);
-		mvprintw(18, 200, "lives : ");
-		mvprintw(18, 209, ft_itoa(cur->alive));
-	}
-	if (x >= 4)
-	{
-		cur = cur->next;
-		mvprintw(20, 200, "Player 4 : ");
-		mvprintw(20, 211, cur->header.prog_name);
-		mvprintw(21, 200, "lives : ");
-		mvprintw(21, 209, ft_itoa(cur->alive));
+		j += 3;
 	}
 }
 
@@ -235,7 +219,7 @@ static void		print_right_tab(t_cwar *cwar)
 	mvprintw(9, 200, "Total process : ");
 	mvprintw(9, 220, ft_itoa(cwar->proc_number));
 
-	print_programs(cwar->players_nbr, cwar);
+	print_programs(	cwar);
 }
 
 void			ft_draw(t_cwar *cwar)
