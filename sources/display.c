@@ -30,38 +30,7 @@ void	print_hex(char hex[10], int x, int y)
 	}
 }
 
-void set_color(int temp)
-{
-	if (!temp)
-		return ;
-	else if (temp == 1)
-		attron(COLOR_PAIR(PLAYER_ONE));
-	else if (temp == 2)
-		attron(COLOR_PAIR(PLAYER_TWO));
-	else if (temp == 3)
-		attron(COLOR_PAIR(PLAYER_THREE));
-	else if (temp == 4)
-		attron(COLOR_PAIR(PLAYER_FOUR));
-	else if (temp == 5)
-		attron(COLOR_PAIR(CURRENT_PC));
-}
-
-void unset_color(int temp)
-{
-	if (!temp)
-		return ;
-	else if (temp == 1)
-		attroff(COLOR_PAIR(PLAYER_ONE));
-	else if (temp == 2)
-		attroff(COLOR_PAIR(PLAYER_TWO));
-	else if (temp == 3)
-		attroff(COLOR_PAIR(PLAYER_THREE));
-	else if (temp == 4)
-		attroff(COLOR_PAIR(PLAYER_FOUR));
-	else if (temp == 5)
-		attroff(COLOR_PAIR(CURRENT_PC));
-}
-
+/*
 int	ft_int_hex_len(unsigned char n)
 {
 	int i;
@@ -73,116 +42,7 @@ int	ft_int_hex_len(unsigned char n)
 		i++;
 	}
 	return (i);
-}
-
-char	*emo(int temp)
-{
-	if (!temp)
-		return ("💀 ");
-	else if (temp < 10)
-		return ("😜 ");
-	else if (temp < 16)
-		return ("💩 ");
-	else if (temp < 100)
-		return ("👙 ");
-	else if (temp < 150)
-		return ("🍒 ");
-	else if (temp < 200)
-		return ("🚘 ");
-	return ("00");
-}
-
-char *make_hex(int temp)
-{
-	int		j;
-	char	*hex;
-	char	*base;
-
-	hex = ft_strnew(3);
-	base = "0123456789abcdef";
-	j = 1;
-	ft_bzero(hex, 3);
-	// return (emo(temp));
-	if (!temp)
-		return ("00");
-	hex[1] = '0';
-	hex[0] = '0';
-	while (temp)
-	{
-		hex[j] = base[temp % 16];
-		temp = temp / 16;
-		j--;
-	}
-	return (hex);
-}
-
-void	ft_atoi_hex(t_cwar *cwar)
-{
-	int 				i;
-	int					x;
-	int					j;
-
-	i = 0;
-	x = 2;
-	j = 3;
-	while(i < (1024 * 4))
-	{
-		if (j > 194)
-		{
-			x++;
-			j = 3;
-		}
-		set_color(cwar->arena_color[i][0]);
-		set_color(cwar->arena_color[i][1]);
-		mvprintw(x, j, make_hex(cwar->arena[i]));
-		unset_color(cwar->arena_color[i][0]);
-		unset_color(cwar->arena_color[i][1]);
-		cwar->arena_color[i][1] = 0;
-		i++;
-		j += 3;
-	}
-}
-
-static void		ft_init_color(void)
-{
-	init_pair(BLACK_ON_GREEN, COLOR_WHITE, COLOR_GREEN);
-	init_pair(PLAYER_ONE, COLOR_GREEN, COLOR_BLACK);
-	init_pair(PLAYER_TWO, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(PLAYER_THREE, COLOR_RED, COLOR_BLACK);
-	init_pair(PLAYER_FOUR, COLOR_MAGENTA, COLOR_BLACK);
-	init_pair(CURRENT_PC, 0, COLOR_WHITE);
-	init_pair(32, COLOR_BLACK, COLOR_CYAN);
-	init_pair(64, COLOR_YELLOW, COLOR_CYAN);
-	init_pair(128, COLOR_RED, COLOR_CYAN);
-	init_pair(256, COLOR_MAGENTA, COLOR_RED);
-	init_pair(512, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(1024, COLOR_YELLOW, COLOR_GREEN);
-	init_pair(2048, COLOR_YELLOW, COLOR_WHITE);
-}
-
-static void		draw_line(int x_max, int ya)
-{
-	int i;
-
-	i = 0;
-	while (i <= x_max)
-	{
-		mvprintw(ya, i, " ");
-		i++;
-	}
-}
-
-static void		draw_coll(int y_max, int xa)
-{
-	int i;
-
-	i = 0;
-	while (i <= y_max)
-	{
-		mvprintw(i, xa, " ");
-		i++;
-	}
-}
+}*/
 
 static void		print_programs(t_cwar *cwar)
 {
@@ -225,15 +85,16 @@ static void		print_right_tab(t_cwar *cwar)
 void			ft_draw(t_cwar *cwar)
 {
 	attron(COLOR_PAIR(1024));
-
 	draw_line(254, 0);
 	draw_line(254, 67);
 	draw_coll(67, 0);
 	draw_coll(67, 196);
 	draw_coll(67, 254);
 	attroff(COLOR_PAIR(1024));
-	ft_atoi_hex(cwar);
+	cw_print_mem(cwar);
 	print_right_tab(cwar);
+	refresh();
+	//doupdate();
 }
 
 int		check_live(t_cwar *cwar, int to_die)
@@ -257,41 +118,37 @@ int		check_live(t_cwar *cwar, int to_die)
 	return (to_die);
 }
 
-void			ft_game(t_cwar *cwar)
+void			cw_game(t_cwar *cwar)
 {
 	int c;
 	int	to_die;
 
 	c = 0;
 	to_die = CYCLE_TO_DIE;
-	while ((c = getch()) != 27)
+	while (1 || (c = getch()) != 27)
 	{
-	//	if (c == 27)
-	//		return ;
 		cycle_procs(cwar);
-		ft_draw(cwar);
+		if (cwar->opt->ncurses)
+			ft_draw(cwar);
 		cwar->cycle++;
 		if ((cwar->cycle % CYCLE_TO_DIE) == 0)
 			to_die = check_live(cwar, to_die);
 		if ((cwar->cycle % 50) == 0)
 			sync_cycle(cwar);
-		refresh();
-		//doupdate();
 	}
 }
 
 void	curse_disp(t_cwar *cwar)
 {
 	setlocale(LC_ALL, ""); // STUPID BONUS
-	cwar->cycle = 0;
-	cwar->time_zero = time(NULL);
 	initscr();
 	start_color();
 	COLOR_PAIRS = 2049;
 	ft_init_color();
 	curs_set(0);
 	ft_draw(cwar);
-	ft_game(cwar);
+	refresh();
+	cw_game(cwar);
 	endwin();
 	curs_set(1);
 }

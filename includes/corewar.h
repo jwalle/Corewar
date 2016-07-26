@@ -88,6 +88,18 @@ void	sync_cycle(t_cwar *cwar);
 void	cycle_procs(t_cwar *cwar);
 void	destroy_process(t_cwar *cwar, t_proc *proc);
 int		circ(int index, int add);
+void	cw_game(t_cwar *cwar);
+
+
+
+/*
+**		ncurses display :
+*/
+
+void			ft_init_color(void);
+void			cw_print_mem(t_cwar *cwar);
+void			draw_coll(int y_max, int xa);
+void			draw_line(int x_max, int ya);
 
 /*
 **		Instructions :

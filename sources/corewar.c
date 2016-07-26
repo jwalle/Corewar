@@ -25,6 +25,7 @@ t_cwar	*cw_init(void)
 	cwar->proc = NULL;
 	cwar->cycle = 0;
 	cwar->proc_number = 0;
+	cwar->time_zero = time(NULL);
 	return (cwar);
 }
 
@@ -289,10 +290,9 @@ int		main(int argc, char **argv)
 	if (!cwar->opt->ncurses)
 	{
 		cw_introduce(cwar);
-		cycle_procs(cwar);
+		cw_game(cwar);
 	}
 	else
 		curse_disp(cwar);
-		// cw_ncurses(cwar);
 	return (0);
 }
