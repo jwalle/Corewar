@@ -239,7 +239,7 @@ void	cw_introduce(t_cwar *cwar)
 	}
 }
 
-char	*cw_color(int n)
+/*char	*cw_color(int n)
 {
 	if (n % 6 == 0)
 		return (ANSI_COLOR_GREEN);
@@ -255,13 +255,11 @@ char	*cw_color(int n)
 		return (ANSI_COLOR_CYAN);
 }
 
-/*void	cw_ncurses(t_cwar *cwar)
+void	cw_dump_mem(t_cwar *cwar)
 {
 	int	i;
 
 	i = 0;
-	e->x = 5;
-	e->arena = cwar->arena;
 	if (cwar->arena)
 	{
 		while (i < MEM_SIZE)
