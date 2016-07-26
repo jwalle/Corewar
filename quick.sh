@@ -1,1 +1,1 @@
-git add -A ; git commit -m "load and store" ; git push origin master
+git add sources/*.c includes/*.h ; git commit -m "files clean-up && enable no_ncurse game" ; git push origin master
