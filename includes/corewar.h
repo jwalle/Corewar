@@ -71,6 +71,7 @@ typedef struct		s_cwar
 	int				players_nbr;
 	int				cycle;
 	int				proc_number;
+	int				to_die;
 	t_opt			*opt;
 	t_player		*players;
 	t_proc			*proc;

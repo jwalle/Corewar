@@ -17,6 +17,9 @@ void	destroy_process(t_cwar *cwar, t_proc *proc)
 	int		i;
 	t_proc	*temp;
 
+	printf("destroy_process : %i\n", proc->proc_id);
+	printf("nb of process : %i\n", cwar->proc_number);
+
 	i = 0;
 	while (i < REG_NUMBER)
 		free(proc->reg[i++]);
@@ -24,9 +27,12 @@ void	destroy_process(t_cwar *cwar, t_proc *proc)
 	temp = cwar->proc;
 	if (temp == proc)
 	{
-		free(proc);
 		cwar->proc = temp->next;
-		temp->next->prev = NULL;
+		if (!cwar->proc)
+			cwar->last = NULL;
+		if (temp->next)
+			temp->next->prev = NULL;
+		free(proc);
 	}
 	else
 	{
@@ -40,7 +46,10 @@ void	destroy_process(t_cwar *cwar, t_proc *proc)
 			}
 			temp = temp->next;
 		}
+		cwar->last = temp;
 	}
+	cwar->proc_number--;
+	printf("end of destroy_process\n");
 }
 
 t_proc	*cw_add_proc(t_proc *new, t_cwar *cwar)

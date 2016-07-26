@@ -30,21 +30,7 @@ void	print_hex(char hex[10], int x, int y)
 	}
 }
 
-/*
-int	ft_int_hex_len(unsigned char n)
-{
-	int i;
-
-	i = 0;
-	while (n)
-	{
-		n /= 16;
-		i++;
-	}
-	return (i);
-}*/
-
-static void		print_programs(t_cwar *cwar)
+static int		print_programs(t_cwar *cwar)
 {
 	t_player	*cur;
 	int			i;
@@ -64,10 +50,13 @@ static void		print_programs(t_cwar *cwar)
 		cur = cur->next;
 		j += 3;
 	}
+	return (j);
 }
 
 static void		print_right_tab(t_cwar *cwar)
 {
+	int	j;
+
 	time_t current = time(NULL);
 
 	mvprintw(3, 200, "Cycles/second limit : 50");
@@ -79,7 +68,11 @@ static void		print_right_tab(t_cwar *cwar)
 	mvprintw(9, 200, "Total process : ");
 	mvprintw(9, 220, ft_itoa(cwar->proc_number));
 
-	print_programs(	cwar);
+	j = print_programs(	cwar);
+
+	mvprintw(12 + j, 200, "CYCLE TO DIE : ");
+	mvprintw(13 + j, 220, ft_itoa(cwar->to_die));
+
 }
 
 void			ft_draw(t_cwar *cwar)
@@ -97,7 +90,7 @@ void			ft_draw(t_cwar *cwar)
 	//doupdate();
 }
 
-int		check_live(t_cwar *cwar, int to_die)
+void			check_live(t_cwar *cwar)
 {
 	t_proc		*current;
 	int			lives;
@@ -114,17 +107,15 @@ int		check_live(t_cwar *cwar, int to_die)
 		current = current->next;
 	}
 	if (lives >= NBR_LIVE)
-		to_die -= CYCLE_DELTA;
-	return (to_die);
+		cwar->to_die -= CYCLE_DELTA;
 }
 
 void			cw_game(t_cwar *cwar)
 {
 	int c;
-	int	to_die;
 
 	c = 0;
-	to_die = CYCLE_TO_DIE;
+	cwar->to_die -= 1000;
 	while (1 || (c = getch()) != 27)
 	{
 		cycle_procs(cwar);
@@ -132,9 +123,9 @@ void			cw_game(t_cwar *cwar)
 			ft_draw(cwar);
 		cwar->cycle++;
 		if ((cwar->cycle % CYCLE_TO_DIE) == 0)
-			to_die = check_live(cwar, to_die);
-		if ((cwar->cycle % 50) == 0)
-			sync_cycle(cwar);
+			check_live(cwar);
+		//if ((cwar->cycle % 50) == 0)
+		// 	sync_cycle(cwar);
 	}
 }
 

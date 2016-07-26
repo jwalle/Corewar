@@ -35,7 +35,7 @@ static void unset_color(int temp)
 	else if (temp == 1)
 		attroff(COLOR_PAIR(PLAYER_ONE));
 	else if (temp == 2)
-		attroff(COLOR_PAIR(PLAYER_TWO));
+		attroff(COLOR_PAIR(PLAYER_TWO));	
 	else if (temp == 3)
 		attroff(COLOR_PAIR(PLAYER_THREE));
 	else if (temp == 4)

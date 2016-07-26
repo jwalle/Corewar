@@ -113,7 +113,7 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 		tmp = tmp->next;
 	}
 	proc->alive = 1;	
-	proc->pc += 5;
+	proc->pc = circ(proc->pc, 5);
 }
 
 void	cw_store(t_cwar *cwar, t_proc *proc)

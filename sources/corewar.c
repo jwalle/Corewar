@@ -24,6 +24,7 @@ t_cwar	*cw_init(void)
 	cwar->arena = NULL;
 	cwar->proc = NULL;
 	cwar->cycle = 0;
+	cwar->to_die = CYCLE_TO_DIE;
 	cwar->proc_number = 0;
 	cwar->time_zero = time(NULL);
 	return (cwar);

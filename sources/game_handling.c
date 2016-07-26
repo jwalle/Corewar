@@ -18,6 +18,8 @@
 void			game_over(t_cwar *cwar)
 {
 	(void)cwar;
+	ft_printf("La partie est finie !\n");
+	exit (1);
 	return ;
 }
 
@@ -75,7 +77,6 @@ void			find_instruction(t_cwar *cwar, t_proc *proc)
 	unsigned char	ins;
 
 	ins = cwar->arena[proc->pc];
-
 	cwar->arena_color[proc->pc][1] = 5;
 	if (proc->wait > 1)
 		proc->wait--;
@@ -90,7 +91,7 @@ void			find_instruction(t_cwar *cwar, t_proc *proc)
 		else if (proc->wait == 0 && is_ins(ins))
 			proc->wait = get_wait_time(ins);
 		else
-			proc->pc++;
+			proc->pc = circ(proc->pc, 1);
 	}
 	// TODO : stuff
 }
@@ -100,10 +101,15 @@ void			cycle_procs(t_cwar *cwar)
 	t_proc		*current;
 
 	current = cwar->last;
-	if (!current)
+	if (!current || !cwar->proc)
 		game_over(cwar);
 	while (current)
 	{
+		// printf("ID  : %i\n", current->proc_id);
+
+		printf("pc  : %i\n", current->pc);
+		
+		printf("cycle  : %i\n", cwar->cycle);
 		find_instruction(cwar, current);
 		current = current->prev;
 	}
