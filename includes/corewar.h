@@ -47,6 +47,7 @@ typedef struct		s_proc
 	int				player_id;
 	int				alive;
 	struct s_proc	*next;
+	struct s_proc	*prev;
 }					t_proc;
 
 
@@ -73,6 +74,7 @@ typedef struct		s_cwar
 	t_opt			*opt;
 	t_player		*players;
 	t_proc			*proc;
+	t_proc			*last;
 	unsigned char	*arena;
 	unsigned char	**arena_color;
 }					t_cwar;
@@ -84,7 +86,7 @@ void	cw_error(char *str, t_cwar *cwar);
 char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id);
 void	sync_cycle(t_cwar *cwar);
 void	cycle_procs(t_cwar *cwar);
-void	*destroy_process(void);
+void	destroy_process(t_cwar *cwar, t_proc *proc);
 int		circ(int index, int add);
 
 /*

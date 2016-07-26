@@ -12,12 +12,38 @@
 
 #include "corewar.h"
 
-void	*destroy_process(void)
+void	destroy_process(t_cwar *cwar, t_proc *proc)
 {
-	return (NULL);
+	int		i;
+	t_proc	*temp;
+
+	i = 0;
+	while (i < REG_NUMBER)
+		free(proc->reg[i++]);
+	free(proc->reg);
+	temp = cwar->proc;
+	if (temp == proc)
+	{
+		free(proc);
+		cwar->proc = temp->next;
+		temp->next->prev = NULL;
+	}
+	else
+	{
+		while(temp->next)
+		{
+			if (temp->next == proc)
+			{
+				temp->next = temp->next->next;
+				temp->next->prev = temp;
+				free(proc);
+			}
+			temp = temp->next;
+		}
+	}
 }
 
-void	cw_add_proc(t_proc *new, t_cwar *cwar)
+t_proc	*cw_add_proc(t_proc *new, t_cwar *cwar)
 {
 	t_proc *tmp;
 
@@ -29,13 +55,18 @@ void	cw_add_proc(t_proc *new, t_cwar *cwar)
 			while (tmp->next)
 				tmp = tmp->next;
 			tmp->next = new;
+			new->prev = tmp;
 		}
 		else
+		{
 			cwar->proc->next = new;
+			new->prev = cwar->proc;
+		}
 	}
 	else
-		cwar->proc = new;	
-	cwar->proc_number++;
+		cwar->proc = new;
+	cwar->proc_number++;	
+	return (new);
 }
 
 char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
@@ -62,15 +93,15 @@ char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
 	{
 		new->reg[1][i--] = pnum & 0xff;
 		pnum >>= 8;
-	}	
+	}		
 	new->carry = 1;
 	new->alive = 0;
 	new->wait = 0;
 	new->next = NULL;
+	new->prev = NULL;
 	new->player_id = id;
 	new->proc_id = cwar->proc_number + 1;
-	cw_add_proc(new, cwar);	// MAX PROCESS ?
-	//cw_add_proc(new, player);	// MAX PROCESS ?
+	cwar->last = cw_add_proc(new, cwar);	// MAX PROCESS ?
 	return (1);
 }
 
@@ -95,8 +126,9 @@ char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id)
 	new->wait = 0;
 	new->alive = 0;
 	new->next = NULL;
+	new->prev = NULL;
 	new->player_id = id;
 	new->proc_id = cwar->proc_number + 1;
-	cw_add_proc(new, cwar);	// MAX PROCESS ?
+	cwar->last = cw_add_proc(new, cwar);	// MAX PROCESS ?
 	return (1);
 }

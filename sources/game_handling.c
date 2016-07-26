@@ -99,12 +99,13 @@ void			cycle_procs(t_cwar *cwar)
 {
 	t_proc		*current;
 
-	current = cwar->proc;
+	current = cwar->last;
 	if (!current)
 		game_over(cwar);
 	while (current)
 	{
+		printf("cycle proc_id = %i\n", current->proc_id);
 		find_instruction(cwar, current);
-		current = current->next;
+		current = current->prev;
 	}
 }

@@ -247,7 +247,7 @@ int		check_live(t_cwar *cwar, int to_die)
 	{
 		lives += current->alive;
 		if (current->alive == 0)
-			destroy_process();
+			destroy_process(cwar, current);
 		else
 			current->alive = 0; // TODO Player->alive = 0 ?
 		current = current->next;
@@ -283,7 +283,7 @@ void			ft_game(t_cwar *cwar)
 void	curse_disp(t_cwar *cwar)
 {
 	setlocale(LC_ALL, ""); // STUPID BONUS
-		cwar->cycle = 0;
+	cwar->cycle = 0;
 	cwar->time_zero = time(NULL);
 	initscr();
 	start_color();

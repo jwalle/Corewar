@@ -205,9 +205,8 @@ void	cw_setup_arena(t_cwar *cwar)
 		while (tmp)
 		{
 			begin = (MEM_SIZE * i) / cwar->players_nbr;
-			cw_first_proc(cwar, begin	, i + 1); // i = player id ?
+			cw_first_proc(cwar, begin , i + 1); // i = player id ?
 			j = 0;
-
 			while (j < tmp->header.prog_size)
 			{
 				cwar->arena_color[begin + j][0] = i + 1;
@@ -283,10 +282,15 @@ int		main(int argc, char **argv)
 	cwar = cw_init();
 	if (argc == 1)
 		cw_usage(cwar);
+
 	cw_process_args(argc, argv, cwar);	
-	cw_setup_arena(cwar);	
+	cw_setup_arena(cwar);
+
 	if (!cwar->opt->ncurses)
+	{
 		cw_introduce(cwar);
+		cycle_procs(cwar);
+	}
 	else
 		curse_disp(cwar);
 		// cw_ncurses(cwar);
