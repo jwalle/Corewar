@@ -21,8 +21,8 @@ void	destroy_process(t_cwar *cwar, t_proc *proc)
 	// printf("nb of process : %i\n", cwar->proc_number);
 
 	i = 0;
-	// while (i <= REG_NUMBER)
-		// free(proc->reg[i++]); \\ TODO : free the registry
+	 while (i <= REG_NUMBER)
+		 free(proc->reg[i++]); // TODO : free the registry
 	free(proc->reg);
 	temp = cwar->proc;
 	if (temp == proc)
