@@ -25,7 +25,6 @@ int		get_new_fork_pc(t_cwar *cwar, t_proc *proc)
 		pc = index;
 	mvprintw(20, 200, "pc : ");
 	mvprintw(20, 210, ft_itoa(pc));
-	
 	return (pc);
 }
 

@@ -24,7 +24,9 @@ t_cwar	*cw_init(void)
 	cwar->arena = NULL;
 	cwar->proc = NULL;
 	cwar->cycle = 0;
+	cwar->to_die = CYCLE_TO_DIE;
 	cwar->proc_number = 0;
+	cwar->time_zero = time(NULL);
 	return (cwar);
 }
 
@@ -117,6 +119,7 @@ char	cw_new_player(header_t header, int fd, t_cwar *cwar)
 	if (ret != (int)header.prog_size)
 		return (0);
 	new->next = NULL;
+	new->alive = 0;
 	if (cwar->players_nbr < MAX_PLAYERS)
 		cw_add_player(new, cwar);
 	else
@@ -204,9 +207,8 @@ void	cw_setup_arena(t_cwar *cwar)
 		while (tmp)
 		{
 			begin = (MEM_SIZE * i) / cwar->players_nbr;
-			cw_first_proc(cwar, begin	, i + 1); // i = player id ?
+			cw_first_proc(cwar, begin , i + 1); // i = player id ?
 			j = 0;
-
 			while (j < tmp->header.prog_size)
 			{
 				cwar->arena_color[begin + j][0] = i + 1;
@@ -238,7 +240,7 @@ void	cw_introduce(t_cwar *cwar)
 	}
 }
 
-char	*cw_color(int n)
+/*char	*cw_color(int n)
 {
 	if (n % 6 == 0)
 		return (ANSI_COLOR_GREEN);
@@ -254,13 +256,11 @@ char	*cw_color(int n)
 		return (ANSI_COLOR_CYAN);
 }
 
-/*void	cw_ncurses(t_cwar *cwar)
+void	cw_dump_mem(t_cwar *cwar)
 {
 	int	i;
 
 	i = 0;
-	e->x = 5;
-	e->arena = cwar->arena;
 	if (cwar->arena)
 	{
 		while (i < MEM_SIZE)
@@ -282,12 +282,16 @@ int		main(int argc, char **argv)
 	cwar = cw_init();
 	if (argc == 1)
 		cw_usage(cwar);
+
 	cw_process_args(argc, argv, cwar);	
-	cw_setup_arena(cwar);	
+	cw_setup_arena(cwar);
+
 	if (!cwar->opt->ncurses)
+	{
 		cw_introduce(cwar);
+		cw_game(cwar);
+	}
 	else
 		curse_disp(cwar);
-		// cw_ncurses(cwar);
 	return (0);
 }
