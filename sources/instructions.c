@@ -136,11 +136,21 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 	player += (cwar->arena[i = circ(i, 1)]);
 	player *= -1;
 	tmp = cwar->players;
-	while (tmp)
-	{
-		if (tmp->id == player)
-			tmp->alive++;
-		tmp = tmp->next;
+
+	// printf("player id = %d\n", player);
+
+
+	if (player > 0 && player < cwar->players_nbr)
+	{	
+		while (tmp)
+		{
+			if (tmp->id == player)
+			{
+				printf("player id = %d, player lives = %d\n", player, tmp->alive);
+				tmp->alive++;
+			}
+			tmp = tmp->next;
+		}
 	}
 	proc->alive = 1;	
 	proc->pc = circ(proc->pc, 5);

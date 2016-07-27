@@ -70,8 +70,8 @@ static void		print_right_tab(t_cwar *cwar)
 
 	j = print_programs(	cwar);
 
-	mvprintw(12 + j, 200, "CYCLE TO DIE : ");
-	mvprintw(13 + j, 220, ft_itoa(cwar->to_die));
+	mvprintw(14 + j, 200, "CYCLE TO DIE : ");
+	mvprintw(14 + j, 215, ft_itoa(cwar->to_die)); // one too big
 
 }
 
@@ -116,6 +116,7 @@ void			cw_game(t_cwar *cwar)
 
 	c = 0;
 	cwar->to_die -= 1000; // for testing, delete this
+	// printf("to_die = %d\n", cwar->to_die);
 	while (1 || (c = getch()) != 27)
 	{
 		cycle_procs(cwar);
