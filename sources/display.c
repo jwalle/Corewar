@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/17 17:01:57 by jwalle            #+#    #+#             */
-/*   Updated: 2016/07/27 15:11:24 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/27 18:58:21 by jwalle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void			check_live(t_cwar *cwar)
 
 	lives = 0;
 	current = cwar->proc;
+	printf("PLOP\n");
 	while (current)
 	{
 		lives += current->alive;
@@ -115,7 +116,7 @@ void			cw_game(t_cwar *cwar)
 	int c;
 
 	c = 0;
-	cwar->to_die -= 1000; // for testing, delete this
+	// cwar->to_die -= 1200; // for testing, delete this
 	// printf("to_die = %d\n", cwar->to_die);
 	while (1 || (c = getch()) != 27)
 	{

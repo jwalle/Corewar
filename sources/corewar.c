@@ -207,6 +207,7 @@ void	cw_setup_arena(t_cwar *cwar)
 		while (tmp)
 		{
 			begin = (MEM_SIZE * i) / cwar->players_nbr;
+			tmp->id = i + 1;
 			cw_first_proc(cwar, begin , i + 1); // i = player id ?
 			j = 0;
 			while (j < tmp->header.prog_size)

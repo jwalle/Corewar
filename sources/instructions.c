@@ -88,7 +88,7 @@ void	cw_load(t_cwar *cwar, t_proc *proc)
 		{
 			index <<= 8;
 			index += cwar->arena[circ(cur, i)];
-			i = circ(i, 1);
+			i++; //i = circ(i, 1); ?? IND_SIZE !!
 		}
 		cw_fillreg(cwar, proc, cwar->arena[circ(cur, IND_SIZE + 1)], circ(proc->pc, (index % IDX_MOD)));
 	}
@@ -114,7 +114,7 @@ void	cw_longload(t_cwar *cwar, t_proc *proc)
 		{
 			index <<= 8;
 			index += cwar->arena[circ(cur, i)];
-			i = circ(i, 1);
+			i++; //i = circ(i, 1); ?? IND_SIZE
 		}
 		cw_fillreg(cwar, proc, cwar->arena[circ(cur, IND_SIZE + 1)], circ(proc->pc, index));
 	}
@@ -137,16 +137,17 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 	player *= -1;
 	tmp = cwar->players;
 
-	// printf("player id = %d\n", player);
+	//printf("player id = %d\n", player);
 
 
-	if (player > 0 && player < cwar->players_nbr)
+	if (player > 0 && player <= cwar->players_nbr)
 	{	
 		while (tmp)
 		{
+			//printf("player post if id = %d, tmp id = %d\n", player, tmp->id);
 			if (tmp->id == player)
 			{
-				printf("player id = %d, player lives = %d\n", player, tmp->alive);
+			//	printf("player id = %d, player lives = %d\n", player, tmp->alive);
 				tmp->alive++;
 			}
 			tmp = tmp->next;
