@@ -33,7 +33,7 @@ void	destroy_process(t_cwar *cwar, t_proc *proc)
 		free(proc);
 		kill++;
 	}
-	else
+	else	
 	{
 		while(temp)
 		{
