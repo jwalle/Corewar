@@ -75,7 +75,6 @@ typedef struct		s_cwar
 	t_opt			*opt;
 	t_player		*players;
 	t_proc			*proc;
-	t_proc			*last;
 	unsigned char	*arena;
 	unsigned char	**arena_color;
 }					t_cwar;
@@ -90,8 +89,7 @@ void	cycle_procs(t_cwar *cwar);
 void	destroy_process(t_cwar *cwar, t_proc *proc);
 int		circ(int index, int add);
 void	cw_game(t_cwar *cwar);
-
-
+void	game_over(t_cwar *cwar);
 
 /*
 **		ncurses display :

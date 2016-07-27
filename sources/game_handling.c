@@ -47,6 +47,8 @@ int				get_wait_time(unsigned char ins)
 
 void			get_instruction(unsigned char ins, t_cwar *cwar, t_proc *proc)
 {
+	// printf("ins = %#x\n", ins);
+	
 	if (ins == 0x0C)
 		cw_fork(cwar, proc);
 	else if (ins == 0x01)
@@ -57,6 +59,7 @@ void			get_instruction(unsigned char ins, t_cwar *cwar, t_proc *proc)
 		cw_store(cwar, proc);
 	else if (ins == 0x0d)
 		cw_longload(cwar, proc);
+
 }
 
 int				is_ins(unsigned char ins)
@@ -102,17 +105,17 @@ void			cycle_procs(t_cwar *cwar)
 {
 	t_proc		*current;
 
-	current = cwar->last;
+	current = cwar->proc;
 	if (!current || !cwar->proc)
 		game_over(cwar);
 	while (current)
 	{
-		// printf("ID  : %i\n", current->proc_id);
+//		 printf("ID  : %i\n", current->proc_id);
 
-		printf("pc  : %i\n", current->pc);
+//		printf("pc  : %i\n", current->pc);
 		
-		printf("cycle  : %i\n", cwar->cycle);
+//		printf("cycle  : %i\n", cwar->cycle);
 		find_instruction(cwar, current);
-		current = current->prev;
+		current = current->next;
 	}
 }

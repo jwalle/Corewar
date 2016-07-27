@@ -72,7 +72,7 @@ unsigned int	cw_betole(unsigned int a)
 {
 	unsigned int	b;
 	unsigned char	*src;
-	unsigned char	*dst;
+	unsigned char	*dst; 
 
 	src = (unsigned char *)&a;
 	dst = (unsigned char *)&b;
@@ -170,7 +170,7 @@ int		circ(int index, int add)
 {
 	if (add > 0)
 	{
-		if ((add + index) > MEM_SIZE)
+		if ((add + index) >= MEM_SIZE)
 			return ((add + index) - MEM_SIZE); 
 	}
 	else if (add < 0)

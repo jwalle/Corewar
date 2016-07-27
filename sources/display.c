@@ -115,8 +115,8 @@ void			cw_game(t_cwar *cwar)
 	int c;
 
 	c = 0;
-	cwar->to_die -= 1000;
-	while ((c = getch()) != 27)
+	cwar->to_die -= 1000; // for testing, delete this
+	while (1 || (c = getch()) != 27)
 	{
 		cycle_procs(cwar);
 		if (cwar->opt->ncurses)
