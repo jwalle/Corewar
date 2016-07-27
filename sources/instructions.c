@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 19:04:54 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/07/25 18:15:58 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/25 21:37:38 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ void	cw_fillreg(t_cwar *cwar, t_proc *proc, unsigned char regnum, int index)
 	{
 		i = 0;
 		while (i < REG_SIZE)
-			proc->reg[regnum][i++] = cwar->arena[index = circ(index, 1)];
+		{
+			proc->reg[regnum][i++] = cwar->arena[index];
+			index = circ(index, 1);
+		}
 	}
 }
 
@@ -84,7 +87,34 @@ void	cw_load(t_cwar *cwar, t_proc *proc)
 		while (i <= IND_SIZE)
 		{
 			index <<= 8;
-			index += cwar->arena[cur + (i = circ(i, 1))]; // TODO CIRCULAIRE
+			index += cwar->arena[circ(cur, i)];
+			i = circ(i, 1);
+		}
+		cw_fillreg(cwar, proc, cwar->arena[circ(cur, IND_SIZE + 1)], circ(proc->pc, (index % IDX_MOD)));
+	}
+	else if (((cbyte >> 6) & 3) == 2)
+		cw_fillreg(cwar, proc, cwar->arena[circ(cur, REG_SIZE + 1)], circ(cur, 1));
+	proc->pc = cw_updatepc(proc->pc, cbyte);
+}
+
+void	cw_longload(t_cwar *cwar, t_proc *proc)
+{
+	int				i;
+	unsigned char	cbyte;
+	int				cur;
+	int				index;
+
+	cur = circ(proc->pc, 1);
+	cbyte = cwar->arena[cur];
+	if (((cbyte >> 6) & 3) == 3)
+	{
+		i = 1;
+		index = 0;
+		while (i <= IND_SIZE)
+		{
+			index <<= 8;
+			index += cwar->arena[circ(cur, i)];
+			i = circ(i, 1);
 		}
 		cw_fillreg(cwar, proc, cwar->arena[circ(cur, IND_SIZE + 1)], circ(proc->pc, index));
 	}
@@ -124,9 +154,9 @@ void	cw_store(t_cwar *cwar, t_proc *proc)
 			{
 				index <<= 8;
 				index += cwar->arena[circ(cur, 1 + i)];
-				++i;
+				i = circ(i, 1);
 			}
-			cw_regongrid(cwar, proc->reg[cwar->arena[circ(cur, 1)]], circ(proc->pc, index), proc);
+			cw_regongrid(cwar, proc->reg[cwar->arena[circ(cur, 1)]], circ(proc->pc, (index % IDX_MOD)), proc);
 		}
 	}
 	proc->pc = cw_updatepc(proc->pc, cbyte);

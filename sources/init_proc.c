@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/18 16:30:01 by jwalle            #+#    #+#             */
-/*   Updated: 2016/07/25 17:50:57 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/25 21:29:54 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
 		cw_perror("Malloc failed.", cwar);
 	if (!(new->reg = (unsigned char **)malloc(sizeof(unsigned char *) * REG_NUMBER + 1)))
 		cw_perror("Malloc failed.", cwar);
-	while (i < REG_NUMBER)
+	while (i <= REG_NUMBER)
 	{
 		new->reg[i] = (unsigned char *)malloc(sizeof(unsigned char) * (REG_SIZE + 1));
 		ft_bzero(new->reg[i], REG_SIZE + 1);
