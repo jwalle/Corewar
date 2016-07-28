@@ -38,6 +38,7 @@ t_opt	*cw_opt_init(t_cwar *cwar)
 	if (!(opt = (t_opt *)malloc(sizeof(t_opt))))
 		cw_perror("Malloc failed.", cwar);
 	opt->ncurses = 0;
+	opt->dump = 0;
 	return (opt);
 }
 
@@ -152,6 +153,22 @@ void	cw_check_arg(char *arg, t_cwar *cwar)
 	close(fd);
 }
 
+int		is_number(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while(str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	cw_process_args(int argc, char **argv, t_cwar *cwar)
 {
 	int i;
@@ -162,25 +179,25 @@ void	cw_process_args(int argc, char **argv, t_cwar *cwar)
 	{
 		if (!ft_strcmp(argv[i], "-n"))
 			cwar->opt->ncurses = 1;
+		else if (!ft_strcmp(argv[i], "-dump"))
+		{
+			if (is_number(argv[i + 1])) // IMPORTANT
+				cwar->opt->dump = ft_atoi(argv[i++ + 1]);
+			else
+				cw_usage(cwar);
+		}
 		else
-			cw_check_arg(argv[i], cwar);
+			cw_check_arg(argv[i], cwar); // doesnt go there if last arg is an option, segfault on ncurses
 		++i;
 	}
 }
 
 int		circ(int index, int add)
 {
-	if (add > 0)
-	{
-		if ((add + index) >= MEM_SIZE)
-			return ((add + index) - MEM_SIZE); 
-	}
-	else if (add < 0)
-	{
-		if ((index + add) < 0)
-			return (MEM_SIZE + (index + add));
-	}
-	return (index + add);
+	int		i;
+
+	i = (index + add) % MEM_SIZE;
+	return (i >= 0 ? i : i + MEM_SIZE);
 }
 
 void	cw_setup_arena(t_cwar *cwar)
@@ -211,6 +228,7 @@ void	cw_setup_arena(t_cwar *cwar)
 			begin = (MEM_SIZE * i) / cwar->players_nbr;
 			tmp->id = i + 1;
 			cw_first_proc(cwar, begin , i + 1); // i = player id ?
+			printf("player : %d, begin : %d\n", i + 1, begin);
 			j = 0;
 			while (j < tmp->header.prog_size)
 			{
@@ -258,6 +276,7 @@ void	cw_introduce(t_cwar *cwar)
 	else
 		return (ANSI_COLOR_CYAN);
 }
+*/
 
 void	cw_dump_mem(t_cwar *cwar)
 {
@@ -276,7 +295,8 @@ void	cw_dump_mem(t_cwar *cwar)
 			++i;
 		}
 	}
-}*/
+	exit (1);
+}
 
 int		main(int argc, char **argv)
 {

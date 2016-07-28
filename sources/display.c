@@ -124,12 +124,11 @@ void			cw_game(t_cwar *cwar)
 
 	c = 0;
 	// cwar->to_die -= 1200; // for testing, delete this
-	// printf("to_die = %d\n", cwar->to_die);
 	while (1)
 	{
 		c = getch();
 		if (c == ' ')
-			(!cwar->pause) ? cwar->pause++ : cwar->pause--	; // ugllyyyyy
+			(!cwar->pause) ? cwar->pause++ : cwar->pause--; // ugllyyyyy
 		if (!cwar->pause)
 		{
 			cycle_procs(cwar);
@@ -138,18 +137,18 @@ void			cw_game(t_cwar *cwar)
 			cwar->cycle++;
 			if ((cwar->cycle % CYCLE_TO_DIE) == 0)
 				check_live(cwar);
+			if (cwar->opt->dump && cwar->opt->dump == cwar->cycle)
+				cw_dump_mem(cwar);
 		}
 		if (c == 27)
 			return ;
-		//if ((cwar->cycle % 50) == 0)
+		//if ((cwar->cycle % 50) == 0) // improve this
 		// 	sync_cycle(cwar);
 	}
 }
 
 void	curse_disp(t_cwar *cwar)
 {
-	// WINDOW	*win;
-
 	setlocale(LC_ALL, ""); // STUPID BONUS
 	initscr();
 	start_color();
@@ -158,7 +157,6 @@ void	curse_disp(t_cwar *cwar)
 	curs_set(0);
 	nodelay(stdscr, TRUE);
 	nodelay(stdscr, TRUE);
-	// halfdelay();
 	ft_draw(cwar);
 	refresh();
 	cw_game(cwar);

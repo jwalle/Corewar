@@ -54,6 +54,7 @@ typedef struct		s_proc
 typedef struct		s_opt
 {
 	char			ncurses;
+	int				dump;
 }					t_opt;
 
 typedef struct		s_player
@@ -108,6 +109,8 @@ void			draw_line(int x_max, int ya);
 **		Instructions :
 */
 
+void	cw_dump_mem(t_cwar *cwar);
+char	cw_zjmp(t_cwar *cwar, t_proc *proc);
 void	cw_live(t_cwar *cwar, t_proc *proc);
 char	cw_lfork(t_cwar *cwar, t_proc *proc);
 char	cw_fork(t_cwar *cwar, t_proc *proc);

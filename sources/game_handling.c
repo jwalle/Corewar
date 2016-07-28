@@ -83,6 +83,8 @@ int				get_wait_time(unsigned char ins)
 		return (5);
 	if (ins == 0x02)
 		return (5);
+	if (ins == 0x09)
+		return (20);
 	if (ins == 0x0b)
 		return (25);
 	if (ins == 0x0d)
@@ -104,6 +106,8 @@ void			get_instruction(unsigned char ins, t_cwar *cwar, t_proc *proc)
 		cw_load(cwar, proc);
 	else if (ins == 0x03)
 		cw_store(cwar, proc);
+	else if (ins == 0x09)
+		cw_zjmp(cwar, proc);
 	else if (ins == 0x0d)
 		cw_longload(cwar, proc);
 	else if (ins == 0x0b)
@@ -122,6 +126,12 @@ int				is_ins(unsigned char ins)
 		return (1);
 	if (ins == 0x03)
 		return (1);
+	if (ins == 0x09)
+		return (1);
+	if (ins == 0x0d)
+		return (1);
+	if (ins == 0x0b)
+		return (1);
 	// if (ins > 0x00 && ins <= 0x0e)
 		// return (1);
 	return (0);
@@ -131,6 +141,8 @@ void			find_instruction(t_cwar *cwar, t_proc *proc)
 {
 	unsigned char	ins;
 
+
+	printf("%d\n", proc->pc);
 	ins = cwar->arena[proc->pc];
 	cwar->arena_color[proc->pc][1] = 5;
 	if (proc->wait > 1)
@@ -146,7 +158,9 @@ void			find_instruction(t_cwar *cwar, t_proc *proc)
 		else if (proc->wait == 0 && is_ins(ins))
 			proc->wait = get_wait_time(ins);
 		else
+		{
 			proc->pc = circ(proc->pc, 1);
+		}
 	}
 	// TODO : stuff
 }

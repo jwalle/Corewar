@@ -18,9 +18,6 @@ void	destroy_process(t_cwar *cwar, t_proc *proc)
 	t_proc	*temp;
 	int		kill;
 
-	 // printf("destroy_process : %i\n", proc->proc_id);
-	 // printf("nb of process : %i\n", cwar->proc_number);
-
 	i = 0;
 	kill = 0;
 	 while (i <= REG_NUMBER)
@@ -37,7 +34,6 @@ void	destroy_process(t_cwar *cwar, t_proc *proc)
 	{
 		while(temp)
 		{
-			// printf("temp->id = %d\n", temp->proc_id);
 			if (temp->next == proc)
 			{
 				temp->next = temp->next->next;
@@ -55,7 +51,6 @@ void	destroy_process(t_cwar *cwar, t_proc *proc)
 	}
 	if (!cwar->proc_number)
 		game_over(cwar);
-	 // printf("end of destroy_process\n");
 }
 
 

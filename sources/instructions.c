@@ -150,18 +150,12 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 	player += (cwar->arena[i = circ(i, 1)]);
 	player *= -1;
 	tmp = cwar->players;
-
-	//printf("player id = %d\n", player);
-
-
 	if (player > 0 && player <= cwar->players_nbr)
 	{
 		while (tmp)
 		{
-			//printf("player post if id = %d, tmp id = %d\n", player, tmp->id);
 			if (tmp->id == player)
 			{
-			//	printf("player id = %d, player lives = %d\n", player, tmp->alive);
 				tmp->last_alive = cwar->cycle;
 				tmp->alive++;
 			}
