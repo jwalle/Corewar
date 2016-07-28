@@ -147,8 +147,6 @@ void			find_instruction(t_cwar *cwar, t_proc *proc)
 {
 	unsigned char	ins;
 
-
-	printf("%d\n", proc->pc);
 	ins = cwar->arena[proc->pc];
 	cwar->arena_color[proc->pc][1] = 5;
 	if (proc->wait > 1)

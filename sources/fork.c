@@ -35,7 +35,6 @@ char	cw_zjmp(t_cwar *cwar, t_proc *proc)
 	int		new_pc;
 
 	new_pc = get_new_fork_pc(cwar, proc);
-	printf("PLOP\n");
 	// if (proc->carry) // uncomment when carry set on other ins
 		proc->pc = circ(proc->pc, new_pc);
 	return (1);
