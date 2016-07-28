@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 19:04:54 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/07/25 21:37:38 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/28 17:04:02 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,20 @@ int		cw_updatepc(int pc, int cbyte)
 			pc = circ(pc, REG_SIZE);
 		else if ((cbyte & 3) == 3)
 			pc = circ(pc, IND_SIZE);
+		cbyte >>= 2;
+	}
+	return (pc);
+}
+
+int		cw_updatestipc(int pc, int cbyte)
+{
+	pc = circ(pc, 2);
+	while (cbyte)
+	{
+		if ((cbyte & 3) == 1)
+			pc = circ(pc, 1);
+		else if ((cbyte & 3) == 3 || (cbyte & 3) == 3)
+			pc = circ(pc, 2);
 		cbyte >>= 2;
 	}
 	return (pc);
@@ -144,6 +158,88 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 	}
 	proc->alive = 1;	
 	proc->pc = circ(proc->pc, 5);
+}
+
+void	cw_storeindex(t_cwar *cwar, t_proc *proc)
+{
+	int				cur;
+	int				i;
+	unsigned char	cbyte;
+	int				adress;
+	int				index;
+
+	cur = circ(proc->pc, 1);
+	cbyte = cwar->arena[cur];
+	index = 0;
+	adress = 0;
+	if (cwar->arena[circ(cur, 1)] && cwar->arena[circ(cur, 1)] <= REG_NUMBER)
+	{
+		if (((cbyte >> 4) & 3) == 1)
+		{
+			if (cwar->arena[circ(cur, 2)] && cwar->arena[circ(cur, 2)] <= REG_NUMBER)
+			{
+				i = 0;
+				while (i < REG_SIZE)
+				{
+					index <<= 8;
+					index += proc->reg[circ(cur, 2)][i++];
+				}
+			}
+			cur = circ(cur, 3);
+		}
+		else if (((cbyte >> 4) & 3) == 2)
+		{
+			i = 1;
+			while (i <= 2)
+			{
+				index <<= 8;
+				index += cwar->arena[circ(cur, 1 + i++)];
+			}
+			cur = circ(cur, 4);
+		}
+		else if (((cbyte >> 4) & 3) == 3)
+		{
+			i= 1;
+			while (i <= 2)
+			{
+				adress <<= 8;
+				adress += cwar->arena[circ(cur, 1 + i++)];
+			}
+			adress %= IDX_MOD;
+			i = 0;
+			while (i <= REG_SIZE)
+			{
+				index <<= 8;
+				index += cwar->arena[circ((adress - 1), 1)];
+			}
+			cur = circ(cur, 4);
+		}
+		adress = index;
+		if (((cbyte >> 2) & 3) == 1)
+		{
+			if (cwar->arena[cur] && cwar->arena[cur] <= REG_NUMBER)
+			{
+				i = 0;
+				while (i < REG_SIZE)
+				{
+					index <<= 8;
+					index += proc->reg[cur][i++];
+				}
+			}
+		}
+		else if (((cbyte >> 2) & 3) == 2)
+		{
+			i = 0;
+			while (i < 2)
+			{
+				index <<= 8;
+				index += cwar->arena[circ(cur, i++)];
+			}
+		}
+		adress += index;
+		cw_regongrid(cwar, proc->reg[cwar->arena[circ(cur, 1)]], circ(proc->pc, (adress % IDX_MOD)), proc);
+	}
+	proc->pc = cw_updatestipc(proc->pc, cbyte);
 }
 
 void	cw_store(t_cwar *cwar, t_proc *proc)
