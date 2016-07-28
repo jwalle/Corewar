@@ -72,7 +72,7 @@ unsigned int	cw_betole(unsigned int a)
 {
 	unsigned int	b;
 	unsigned char	*src;
-	unsigned char	*dst;
+	unsigned char	*dst; 
 
 	src = (unsigned char *)&a;
 	dst = (unsigned char *)&b;
@@ -120,6 +120,7 @@ char	cw_new_player(header_t header, int fd, t_cwar *cwar)
 		return (0);
 	new->next = NULL;
 	new->alive = 0;
+	new->last_alive = 0;
 	if (cwar->players_nbr < MAX_PLAYERS)
 		cw_add_player(new, cwar);
 	else
@@ -170,7 +171,7 @@ int		circ(int index, int add)
 {
 	if (add > 0)
 	{
-		if ((add + index) > MEM_SIZE)
+		if ((add + index) >= MEM_SIZE)
 			return ((add + index) - MEM_SIZE); 
 	}
 	else if (add < 0)
@@ -207,6 +208,7 @@ void	cw_setup_arena(t_cwar *cwar)
 		while (tmp)
 		{
 			begin = (MEM_SIZE * i) / cwar->players_nbr;
+			tmp->id = i + 1;
 			cw_first_proc(cwar, begin , i + 1); // i = player id ?
 			j = 0;
 			while (j < tmp->header.prog_size)

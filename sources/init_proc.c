@@ -16,66 +16,62 @@ void	destroy_process(t_cwar *cwar, t_proc *proc)
 {
 	int		i;
 	t_proc	*temp;
+	int		kill;
 
-	printf("destroy_process : %i\n", proc->proc_id);
-	printf("nb of process : %i\n", cwar->proc_number);
+	 // printf("destroy_process : %i\n", proc->proc_id);
+	 // printf("nb of process : %i\n", cwar->proc_number);
 
 	i = 0;
-	while (i < REG_NUMBER)
-		free(proc->reg[i++]);
+	kill = 0;
+	 while (i <= REG_NUMBER)
+		 free(proc->reg[i++]); // TODO : free the registry
 	free(proc->reg);
 	temp = cwar->proc;
 	if (temp == proc)
 	{
-		cwar->proc = temp->next;
-		if (!cwar->proc)
-			cwar->last = NULL;
-		if (temp->next)
-			temp->next->prev = NULL;
+		cwar->proc = proc->next;
 		free(proc);
+		kill++;
 	}
-	else
+	else	
 	{
-		while(temp->next)
+		while(temp)
 		{
+			// printf("temp->id = %d\n", temp->proc_id);
 			if (temp->next == proc)
 			{
 				temp->next = temp->next->next;
-				temp->next->prev = temp;
 				free(proc);
+				kill++;
 			}
 			temp = temp->next;
 		}
-		cwar->last = temp;
 	}
 	cwar->proc_number--;
-	printf("end of destroy_process\n");
+	if (!kill)
+	{
+		printf("WTF NO KILL\n");
+		exit (1);
+	}
+	if (!cwar->proc_number)
+		game_over(cwar);
+	 // printf("end of destroy_process\n");
 }
 
-t_proc	*cw_add_proc(t_proc *new, t_cwar *cwar)
+
+void	cw_add_proc(t_proc *new, t_cwar *cwar)
 {
 	t_proc *tmp;
 
 	if (cwar->proc)
 	{
-		if (cwar->proc->next)
-		{
-			tmp = cwar->proc;
-			while (tmp->next)
-				tmp = tmp->next;
-			tmp->next = new;
-			new->prev = tmp;
-		}
-		else
-		{
-			cwar->proc->next = new;
-			new->prev = cwar->proc;
-		}
+		tmp = cwar->proc;
+		new->next = tmp;
+		cwar->proc = new;
 	}
 	else
 		cwar->proc = new;
 	cwar->proc_number++;	
-	return (new);
 }
 
 char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
@@ -110,7 +106,7 @@ char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
 	new->prev = NULL;
 	new->player_id = id;
 	new->proc_id = cwar->proc_number + 1;
-	cwar->last = cw_add_proc(new, cwar);	// MAX PROCESS ?
+	cw_add_proc(new, cwar);	// MAX PROCESS ?
 	return (1);
 }
 
@@ -122,12 +118,12 @@ char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id)
 	i = 0;
 	if (!(new = (t_proc *)malloc(sizeof(t_proc))))
 		cw_perror("Malloc failed.", cwar);
-	if (!(new->reg = (void *)malloc(sizeof(void *))))
+	if (!(new->reg = (unsigned char **)malloc(sizeof(unsigned char *) * REG_NUMBER + 1)))
 		cw_perror("Malloc failed.", cwar);
 	while (i <= REG_NUMBER)
 	{
-		new->reg[i] = (unsigned char *)malloc(sizeof(unsigned char) * (REG_SIZE + 1));		//(void* !?? uns_char*) // REG_SIZE ?
-		new->reg[i] = ft_memcpy(new->reg[i], old->reg[i], REG_SIZE + 1);
+		new->reg[i] = (unsigned char *)malloc(sizeof(unsigned char) * (REG_SIZE + 1));
+		ft_memcpy(new->reg[i], old->reg[i], sizeof(old->reg[i]));
 		i++;
 	}
 	new->pc = program_counter;
@@ -138,6 +134,6 @@ char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id)
 	new->prev = NULL;
 	new->player_id = id;
 	new->proc_id = cwar->proc_number + 1;
-	cwar->last = cw_add_proc(new, cwar);	// MAX PROCESS ?
+	cw_add_proc(new, cwar);	// MAX PROCESS ?
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 17:21:57 by jwalle            #+#    #+#             */
-/*   Updated: 2016/07/28 17:02:56 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/28 17:06:38 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void			sync_cycle(t_cwar *cwar)
 
 int				get_wait_time(unsigned char ins)
 {
-	if (ins == 0x0C)
-		return (40);
+	if (ins == 0x0c)
+		return (800); // 800 !
+	if (ins == 0x0f)
+		return (1000); // 1000 !!
 	if (ins == 0x01)
 		return (10);
 	if (ins == 0x03)
@@ -51,8 +53,12 @@ int				get_wait_time(unsigned char ins)
 
 void			get_instruction(unsigned char ins, t_cwar *cwar, t_proc *proc)
 {
+	// printf("ins = %#x\n", ins);
+	
 	if (ins == 0x0C)
 		cw_fork(cwar, proc);
+	else if (ins == 0x0f)
+		cw_lfork(cwar, proc);
 	else if (ins == 0x01)
 		cw_live(cwar, proc);
 	else if (ins == 0x02)
@@ -68,6 +74,8 @@ void			get_instruction(unsigned char ins, t_cwar *cwar, t_proc *proc)
 int				is_ins(unsigned char ins)
 {
 	if (ins == 0x0c)
+		return (1);
+	if (ins == 0x0f)
 		return (1);
 	if (ins == 0x01)
 		return (1);
@@ -108,17 +116,17 @@ void			cycle_procs(t_cwar *cwar)
 {
 	t_proc		*current;
 
-	current = cwar->last;
+	current = cwar->proc;
 	if (!current || !cwar->proc)
 		game_over(cwar);
 	while (current)
 	{
-		// printf("ID  : %i\n", current->proc_id);
+//		 printf("ID  : %i\n", current->proc_id);
 
-		printf("pc  : %i\n", current->pc);
+//		printf("pc  : %i\n", current->pc);
 		
-		printf("cycle  : %i\n", cwar->cycle);
+//		printf("cycle  : %i\n", cwar->cycle);
 		find_instruction(cwar, current);
-		current = current->prev;
+		current = current->next;
 	}
 }

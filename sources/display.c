@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/17 17:01:57 by jwalle            #+#    #+#             */
-/*   Updated: 2016/07/27 15:11:24 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/27 18:58:21 by jwalle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,23 @@ static int		print_programs(t_cwar *cwar)
 	while (cur)
 	{
 		mvprintw(11 + j, 200, "Player");
-		mvprintw(11 + j, 207, ft_itoa(i++));
+		mvprintw(11 + j, 207, ft_itoa(i));
 		mvprintw(11 + j, 208, " : ");
+		set_color(i);
 		mvprintw(11 + j, 211, cur->header.prog_name);
-		mvprintw(12 + j, 200, "lives : ");
-		mvprintw(12 + j, 209, ft_itoa(cur->alive));
+		unset_color(i++);
+
+
+		mvprintw(12 + j, 205, "Last lives : ");
+		mvprintw(12 + j, 240, ft_itoa(cur->last_alive)); // last cycles with live
+
+		mvprintw(13 + j, 205, "Lives in current period : ");
+		mvprintw(13 + j, 240, ft_itoa(cur->alive));
+
 		cur = cur->next;
 		j += 3;
 	}
-	return (j);
+	return (j + 2);
 }
 
 static void		print_right_tab(t_cwar *cwar)
@@ -70,8 +78,8 @@ static void		print_right_tab(t_cwar *cwar)
 
 	j = print_programs(	cwar);
 
-	mvprintw(12 + j, 200, "CYCLE TO DIE : ");
-	mvprintw(13 + j, 220, ft_itoa(cwar->to_die));
+	mvprintw(14 + j, 200, "CYCLE TO DIE : ");
+	mvprintw(14 + j, 215, ft_itoa(cwar->to_die)); // one too big
 
 }
 
@@ -97,6 +105,7 @@ void			check_live(t_cwar *cwar)
 
 	lives = 0;
 	current = cwar->proc;
+	printf("PLOP\n");
 	while (current)
 	{
 		lives += current->alive;
@@ -115,8 +124,9 @@ void			cw_game(t_cwar *cwar)
 	int c;
 
 	c = 0;
-	cwar->to_die -= 1000;
-	while ((c = getch()) != 27)
+	// cwar->to_die -= 1200; // for testing, delete this
+	// printf("to_die = %d\n", cwar->to_die);
+	while (1 || (c = getch()) != 27)
 	{
 		cycle_procs(cwar);
 		if (cwar->opt->ncurses)
