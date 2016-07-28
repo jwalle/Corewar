@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:18:39 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/07/09 02:55:48 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/28 20:09:24 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ void	cw_process_args(int argc, char **argv, t_cwar *cwar)
 	}
 }
 
-int		circ(int index, int add)
+int		circ( int index, int add)
 {
 	int		i;
 
