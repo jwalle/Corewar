@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 19:04:54 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/07/28 22:06:51 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/28 22:12:41 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,13 +234,19 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 	player += (cwar->arena[i = circ(i, 1)]);
 	player *= -1;
 	tmp = cwar->players;
-	while (tmp)
+	if (player > 0 && player <= cwar->players_nbr)
 	{
-		if (tmp->id == player)
-			tmp->alive++;
-		tmp = tmp->next;
+		while (tmp)
+		{
+			if (tmp->id == player)
+			{
+				tmp->last_alive = cwar->cycle;
+				tmp->alive++;
+			}
+			tmp = tmp->next;
+		}
 	}
-	proc->alive = 1;	
+	proc->alive = 1;
 	proc->pc = circ(proc->pc, 5);
 }
 

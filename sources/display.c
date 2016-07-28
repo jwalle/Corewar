@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/17 17:01:57 by jwalle            #+#    #+#             */
-/*   Updated: 2016/07/28 17:11:06 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/28 22:14:00 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void		print_right_tab(t_cwar *cwar)
 	j = print_programs(	cwar);
 
 	mvprintw(14 + j, 200, "CYCLE TO DIE : ");
-	mvprintw(14 + j, 215, ft_itoa(cwar->to_die)); // one too big
+	mvprintw(14 + j, 215, ft_itoa(cwar->to_die));
 
 }
 
@@ -105,7 +105,6 @@ void			check_live(t_cwar *cwar)
 
 	lives = 0;
 	current = cwar->proc;
-	printf("PLOP\n");
 	while (current)
 	{
 		lives += current->alive;
@@ -126,14 +125,22 @@ void			cw_game(t_cwar *cwar)
 	c = 0;
 	// cwar->to_die -= 1200; // for testing, delete this
 	// printf("to_die = %d\n", cwar->to_die);
-	while ((c = getch()) != 27)
+	while (1)
 	{
-		cycle_procs(cwar);
-		if (cwar->opt->ncurses)
-			ft_draw(cwar);
-		cwar->cycle++;
-		if ((cwar->cycle % CYCLE_TO_DIE) == 0)
-			check_live(cwar);
+		c = getch();
+		if (c == ' ')
+			(!cwar->pause) ? cwar->pause++ : cwar->pause--	; // ugllyyyyy
+		if (!cwar->pause)
+		{
+			cycle_procs(cwar);
+			if (cwar->opt->ncurses)
+				ft_draw(cwar);
+			cwar->cycle++;
+			if ((cwar->cycle % CYCLE_TO_DIE) == 0)
+				check_live(cwar);
+		}
+		if (c == 27)
+			return ;
 		//if ((cwar->cycle % 50) == 0)
 		// 	sync_cycle(cwar);
 	}
@@ -141,12 +148,17 @@ void			cw_game(t_cwar *cwar)
 
 void	curse_disp(t_cwar *cwar)
 {
+	// WINDOW	*win;
+
 	setlocale(LC_ALL, ""); // STUPID BONUS
 	initscr();
 	start_color();
 	COLOR_PAIRS = 2049;
 	ft_init_color();
 	curs_set(0);
+	nodelay(stdscr, TRUE);
+	nodelay(stdscr, TRUE);
+	// halfdelay();
 	ft_draw(cwar);
 	refresh();
 	cw_game(cwar);
