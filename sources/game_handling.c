@@ -15,12 +15,51 @@
 // TODO : game over
 
 
+void			cw_ncurses_win(int i, char *player)
+{
+	mvprintw(30, 200, "And the winner is player");
+	mvprintw(30, 225, ft_itoa(i));
+	mvprintw(30, 227, ":");
+	set_color(i);
+	mvprintw(30, 229, player);
+	unset_color(i);
+	refresh();
+	// cwar->pause = 1;
+	sleep(3);
+	endwin();
+	curs_set(1);
+	exit(1);
+}
+
+
 void			game_over(t_cwar *cwar)
 {
-	(void)cwar;
-	ft_printf("La partie est finie !\n");
-	exit (1);
-	return ;
+	int			i;
+	int			last;
+	t_player	*cur;
+	char		*player;
+
+	i = 0;
+	last = 0;
+	cur = cwar->players;
+	player = ft_strnew(PROG_NAME_LENGTH + 1);
+	while (cur)
+	{
+		if (cur->last_alive >= last)
+		{
+			last = cur->last_alive;
+			i = cur->id;
+			ft_bzero(player, PROG_NAME_LENGTH + 1); // ??
+			ft_strcpy(player, cur->header.prog_name);
+		}
+		cur = cur->next;
+	}
+	if (!cwar->opt->ncurses)
+	{
+		ft_printf("And the winner is player %d : %s !!\n",i ,player);
+		exit (1);
+	}
+	cw_ncurses_win(i, cur->header.prog_name);
 }
 
 void			sync_cycle(t_cwar *cwar)

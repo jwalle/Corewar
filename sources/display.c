@@ -79,7 +79,7 @@ static void		print_right_tab(t_cwar *cwar)
 	j = print_programs(	cwar);
 
 	mvprintw(14 + j, 200, "CYCLE TO DIE : ");
-	mvprintw(14 + j, 215, ft_itoa(cwar->to_die)); // one too big
+	mvprintw(14 + j, 215, ft_itoa(cwar->to_die));
 
 }
 
@@ -105,7 +105,6 @@ void			check_live(t_cwar *cwar)
 
 	lives = 0;
 	current = cwar->proc;
-	printf("PLOP\n");
 	while (current)
 	{
 		lives += current->alive;
@@ -130,7 +129,7 @@ void			cw_game(t_cwar *cwar)
 	{
 		c = getch();
 		if (c == ' ')
-			(!cwar->pause) ? cwar->pause++ : cwar->pause--; // ternaire
+			(!cwar->pause) ? cwar->pause++ : cwar->pause--	; // ugllyyyyy
 		if (!cwar->pause)
 		{
 			cycle_procs(cwar);
