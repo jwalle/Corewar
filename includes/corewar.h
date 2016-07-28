@@ -69,6 +69,7 @@ typedef struct		s_player
 typedef struct		s_cwar
 {
 	time_t			time_zero;
+	int				pause;
 	int				players_nbr;
 	int				cycle;
 	int				proc_number;

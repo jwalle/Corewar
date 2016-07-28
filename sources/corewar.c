@@ -27,6 +27,7 @@ t_cwar	*cw_init(void)
 	cwar->to_die = CYCLE_TO_DIE;
 	cwar->proc_number = 0;
 	cwar->time_zero = time(NULL);
+	cwar->pause = 0;
 	return (cwar);
 }
 

@@ -141,7 +141,7 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 
 
 	if (player > 0 && player <= cwar->players_nbr)
-	{	
+	{
 		while (tmp)
 		{
 			//printf("player post if id = %d, tmp id = %d\n", player, tmp->id);
@@ -154,7 +154,7 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 			tmp = tmp->next;
 		}
 	}
-	proc->alive = 1;	
+	proc->alive = 1;
 	proc->pc = circ(proc->pc, 5);
 }
 
