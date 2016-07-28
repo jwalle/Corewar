@@ -30,7 +30,7 @@ int		get_new_fork_pc(t_cwar *cwar, t_proc *proc)
 
 // Pareil qu’un fork sans modulo
 
-/*char	cw_lfork(t_cwar *cwar, t_proc *proc) // modif 
+char	cw_lfork(t_cwar *cwar, t_proc *proc) // modif 
 {
 	int		new_pc;
 
@@ -40,7 +40,7 @@ int		get_new_fork_pc(t_cwar *cwar, t_proc *proc)
 
 	proc->pc = circ(proc->pc, 3);
 	return (1);
-}*/
+}
 
 // son PC est mis à (PC + (1er paramètre % IDX_MOD)).
 
@@ -50,7 +50,7 @@ char	cw_fork(t_cwar *cwar, t_proc *proc)
 
 	new_pc = get_new_fork_pc(cwar, proc);
 
-	cw_fork_proc(cwar, circ(proc->pc, new_pc), proc, 1);
+	cw_fork_proc(cwar, circ(proc->pc, new_pc % IDX_MOD), proc, 1); //  ??
 
 	proc->pc = circ(proc->pc, 3);
 	return (1);

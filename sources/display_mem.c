@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-static void set_color(int temp)
+void set_color(int temp)
 {
 	if (!temp)
 		return ;
@@ -28,7 +28,7 @@ static void set_color(int temp)
 		attron(COLOR_PAIR(CURRENT_PC));
 }
 
-static void unset_color(int temp)
+void unset_color(int temp)
 {
 	if (!temp)
 		return ;

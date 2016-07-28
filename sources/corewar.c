@@ -120,6 +120,7 @@ char	cw_new_player(header_t header, int fd, t_cwar *cwar)
 		return (0);
 	new->next = NULL;
 	new->alive = 0;
+	new->last_alive = 0;
 	if (cwar->players_nbr < MAX_PLAYERS)
 		cw_add_player(new, cwar);
 	else

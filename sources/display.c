@@ -42,15 +42,23 @@ static int		print_programs(t_cwar *cwar)
 	while (cur)
 	{
 		mvprintw(11 + j, 200, "Player");
-		mvprintw(11 + j, 207, ft_itoa(i++));
+		mvprintw(11 + j, 207, ft_itoa(i));
 		mvprintw(11 + j, 208, " : ");
+		set_color(i);
 		mvprintw(11 + j, 211, cur->header.prog_name);
-		mvprintw(12 + j, 200, "lives : ");
-		mvprintw(12 + j, 209, ft_itoa(cur->alive));
+		unset_color(i++);
+
+
+		mvprintw(12 + j, 205, "Last lives : ");
+		mvprintw(12 + j, 240, ft_itoa(cur->last_alive)); // last cycles with live
+
+		mvprintw(13 + j, 205, "Lives in current period : ");
+		mvprintw(13 + j, 240, ft_itoa(cur->alive));
+
 		cur = cur->next;
 		j += 3;
 	}
-	return (j);
+	return (j + 2);
 }
 
 static void		print_right_tab(t_cwar *cwar)

@@ -148,6 +148,7 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 			if (tmp->id == player)
 			{
 			//	printf("player id = %d, player lives = %d\n", player, tmp->alive);
+				tmp->last_alive = cwar->cycle;
 				tmp->alive++;
 			}
 			tmp = tmp->next;

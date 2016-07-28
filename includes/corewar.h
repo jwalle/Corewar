@@ -61,6 +61,7 @@ typedef struct		s_player
 	header_t		header;
 	unsigned char	*pg;
 	int				alive;
+	int				last_alive;
 	int				id;
 	struct s_player	*next;
 }					t_player;
@@ -96,6 +97,8 @@ void	game_over(t_cwar *cwar);
 */
 
 void			ft_init_color(void);
+void			set_color(int temp);
+void			unset_color(int temp);
 void			cw_print_mem(t_cwar *cwar);
 void			draw_coll(int y_max, int xa);
 void			draw_line(int x_max, int ya);
@@ -105,6 +108,7 @@ void			draw_line(int x_max, int ya);
 */
 
 void	cw_live(t_cwar *cwar, t_proc *proc);
+char	cw_lfork(t_cwar *cwar, t_proc *proc);
 char	cw_fork(t_cwar *cwar, t_proc *proc);
 void	cw_load(t_cwar *cwar, t_proc *proc);
 void	cw_longload(t_cwar *cwar, t_proc *proc);
