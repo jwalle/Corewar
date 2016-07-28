@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 17:21:57 by jwalle            #+#    #+#             */
-/*   Updated: 2016/07/27 15:20:45 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/28 17:06:38 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ int				get_wait_time(unsigned char ins)
 		return (5);
 	if (ins == 0x02)
 		return (5);
+	if (ins == 0x0b)
+		return (25);
+	if (ins == 0x0d)
+		return (10);
 	return (0);
 }
 
@@ -63,7 +67,8 @@ void			get_instruction(unsigned char ins, t_cwar *cwar, t_proc *proc)
 		cw_store(cwar, proc);
 	else if (ins == 0x0d)
 		cw_longload(cwar, proc);
-
+	else if (ins == 0x0b)
+		cw_storeindex(cwar, proc);
 }
 
 int				is_ins(unsigned char ins)
