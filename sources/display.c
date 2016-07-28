@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/17 17:01:57 by jwalle            #+#    #+#             */
-/*   Updated: 2016/07/27 18:58:21 by jwalle           ###   ########.fr       */
+/*   Updated: 2016/07/28 17:11:06 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void			cw_game(t_cwar *cwar)
 	c = 0;
 	// cwar->to_die -= 1200; // for testing, delete this
 	// printf("to_die = %d\n", cwar->to_die);
-	while (1 || (c = getch()) != 27)
+	while ((c = getch()) != 27)
 	{
 		cycle_procs(cwar);
 		if (cwar->opt->ncurses)

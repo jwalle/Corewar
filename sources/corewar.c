@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:18:39 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/07/09 02:55:48 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/07/28 20:09:24 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,19 +167,12 @@ void	cw_process_args(int argc, char **argv, t_cwar *cwar)
 	}
 }
 
-int		circ(int index, int add)
+int		circ( int index, int add)
 {
-	if (add > 0)
-	{
-		if ((add + index) >= MEM_SIZE)
-			return ((add + index) - MEM_SIZE); 
-	}
-	else if (add < 0)
-	{
-		if ((index + add) < 0)
-			return (MEM_SIZE + (index + add));
-	}
-	return (index + add);
+	int	ret;
+
+	ret = ((index + add) % 4096);
+	return (ret >= 0) ? ret : ret + 4096;
 }
 
 void	cw_setup_arena(t_cwar *cwar)
