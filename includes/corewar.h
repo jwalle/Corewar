@@ -93,6 +93,8 @@ void	destroy_process(t_cwar *cwar, t_proc *proc);
 int		circ(int index, int add);
 void	cw_game(t_cwar *cwar);
 void	game_over(t_cwar *cwar);
+int		get_reg(t_cwar *cwar, t_proc *proc, int cur);
+int		cw_updatepc(int pc, int cbyte);
 
 /*
 **		ncurses display :
@@ -120,5 +122,8 @@ void	cw_longload(t_cwar *cwar, t_proc *proc);
 void	cw_storeindex(t_cwar *cwar, t_proc *proc);
 void	cw_store(t_cwar *cwar, t_proc *proc);
 void	cw_live(t_cwar *cwar, t_proc *proc);
+void	cw_and(t_cwar *cwar, t_proc *proc);
+void	cw_xor(t_cwar *cwar, t_proc *proc);
+void	cw_or(t_cwar *cwar, t_proc *proc);
 
 #endif

@@ -67,6 +67,8 @@ static void		print_right_tab(t_cwar *cwar)
 
 	time_t current = time(NULL);
 
+	mvprintw(2, 220, "RUNING");
+
 	mvprintw(3, 200, "Cycles/second limit : 50");
 	mvprintw(5, 200, "Cycle : ");
 	mvprintw(5, 210, ft_itoa(cwar->cycle));
@@ -93,14 +95,17 @@ void			ft_draw(t_cwar *cwar)
 	draw_coll(67, 254);
 	attroff(COLOR_PAIR(1024));
 	cw_print_mem(cwar);
+
 	print_right_tab(cwar);
 	refresh();
 	//doupdate();
+
 }
 
 void			check_live(t_cwar *cwar)
 {
 	t_proc		*current;
+	t_player	*player;
 	int			lives;
 
 	lives = 0;
@@ -115,7 +120,15 @@ void			check_live(t_cwar *cwar)
 		current = current->next;
 	}
 	if (lives >= NBR_LIVE)
+	{
 		cwar->to_die -= CYCLE_DELTA;
+		player = cwar->players;
+		while (player)
+		{
+			player->alive = 0;
+			player = player->next;
+		}
+	}	
 }
 
 void			cw_game(t_cwar *cwar)
@@ -140,10 +153,15 @@ void			cw_game(t_cwar *cwar)
 			if (cwar->opt->dump && cwar->opt->dump == cwar->cycle)
 				cw_dump_mem(cwar);
 		}
+			else if (cwar->opt->ncurses)
+		{
+			mvprintw(2, 220, " PAUSE");
+			refresh();
+		}
 		if (c == 27)
 			return ;
-		//if ((cwar->cycle % 50) == 0) // improve this
-		// 	sync_cycle(cwar);
+		// if ((cwar->cycle % 50) == 0) // improve this
+			// sync_cycle(cwar);
 	}
 }
 
@@ -156,10 +174,10 @@ void	curse_disp(t_cwar *cwar)
 	ft_init_color();
 	curs_set(0);
 	nodelay(stdscr, TRUE);
-	nodelay(stdscr, TRUE);
 	ft_draw(cwar);
 	refresh();
 	cw_game(cwar);
 	endwin();
 	curs_set(1);
 }
+		

@@ -12,7 +12,184 @@
 
 #include "corewar.h"
 
+int		get_dir(t_cwar *cwar, int cur)
+{
+	int	i;
+	int	index;
+
+	i = 1;
+	index = 0;
+	while (i <= DIR_SIZE)
+	{
+		index <<= 8;
+		index += cwar->arena[circ(cur, i)];
+		i++;
+	}
+	return (index);
+}
+
+int		get_ind(t_cwar *cwar, t_proc *proc, int cur)
+{
+	int	i;
+	int	index;
+	int	adress;
+
+	i = 1;
+	index = 0;
+	adress = 0;
+	while (i <= IND_SIZE)
+	{
+		adress <<= 8;
+		adress += cwar->arena[circ(cur, i)];
+		i++;
+	}
+	adress = (short)adress % IDX_MOD;
+	i = 0;
+	while (i < REG_SIZE)
+	{
+		index <<= 8;
+		index += cwar->arena[circ(proc->pc, adress + i++)];
+	}
+	return (index);
+}
+
+int		get_reg(t_cwar *cwar, t_proc *proc, int cur)
+{
+	int	index;
+	int	i;
+
+	index = 0;
+	if (cwar->arena[circ(cur, 1)] && cwar->arena[circ(cur, 1)] <= REG_NUMBER)
+	{
+		i = 0;
+		while (i < REG_SIZE)
+		{
+			index <<= 8;
+			index += proc->reg[cwar->arena[circ(cur, 1)]][i];
+			i++;
+		}
+	}
+	return (index);
+}
+
+void	put_in_reg(t_proc *proc, int index, unsigned char regnum)
+{
+	int i;
+
+	if (regnum && regnum <= REG_NUMBER)
+	{
+		i = REG_SIZE - 1;
+		while (i >= 0 && index)
+		{
+			proc->reg[regnum][i] = index;
+			index = index >> 8;
+			i--;
+		}
+	}	
+}
+
+/*
+** IND_SIZE = 2
+** DIR_SIZE = REG_SIZE = 4
+*/
+
+int		cw_solo_updatepc(int pc, int cbyte)
+{
+	if ((cbyte & 3) == 1)
+		pc = circ(pc, 1);
+	else if ((cbyte & 3) == 2)
+		pc = circ(pc, DIR_SIZE); 
+	else if ((cbyte & 3) == 3)
+		pc = circ(pc, IND_SIZE);
+	return (pc);
+}
+
+void	cw_and(t_cwar *cwar, t_proc *proc)
+{
+	int	cbyte;
+	int	index;
+	int	cur;
+
+	cur = circ(proc->pc, 1);
+	cbyte = cwar->arena[cur];
+	index = 0;
+	if (((cbyte >> 6) & 3) == 1)
+		index = get_reg(cwar, proc, cur);
+	else if (((cbyte >> 6) & 3) == 2)
+		index = get_dir(cwar, cur);
+	else if (((cbyte >> 6) & 3) == 3)
+		index = get_ind(cwar, proc, cur);
+	cur = cw_solo_updatepc(cur, cbyte >> 6);
+	if (((cbyte >> 4) & 3) == 1)
+		index = index & get_reg(cwar, proc, cur);
+	else if (((cbyte >> 4) & 3) == 2)
+		index = index & get_dir(cwar, cur);
+	else if (((cbyte >> 4) & 3) == 3)
+		index = index & get_ind(cwar, proc, cur);
+	cur = cw_solo_updatepc(cur, cbyte >> 4);
+	put_in_reg(proc, index, cwar->arena[cur = circ(cur, 1)]);
+	proc->pc = circ(cur, 1);
+	proc->carry = 1; // ??
+}
+
+void	cw_xor(t_cwar *cwar, t_proc *proc)
+{
+	int	cbyte;
+	int	index;
+	int	cur;
+
+	cur = circ(proc->pc, 1);
+	cbyte = cwar->arena[cur];
+	index = 0;
+	if (((cbyte >> 6) & 3) == 1)
+		index = get_reg(cwar, proc, cur);
+	else if (((cbyte >> 6) & 3) == 2)
+		index = get_dir(cwar, cur);
+	else if (((cbyte >> 6) & 3) == 3)
+		index = get_ind(cwar, proc, cur);
+	cur = cw_solo_updatepc(cur, cbyte >> 6);
+	if (((cbyte >> 4) & 3) == 1)
+		index = index ^ get_reg(cwar, proc, cur);
+	else if (((cbyte >> 4) & 3) == 2)
+		index = index ^ get_dir(cwar, cur);
+	else if (((cbyte >> 4) & 3) == 3)
+		index = index ^ get_ind(cwar, proc, cur);
+	cur = cw_solo_updatepc(cur, cbyte >> 4);
+	put_in_reg(proc, index, cwar->arena[cur = circ(cur, 1)]);
+	proc->pc = circ(cur, 1);
+	proc->carry = 1; // ??
+}
+
 void	cw_or(t_cwar *cwar, t_proc *proc)
 {
-	
+	int	cbyte;
+	int	index;
+	int	cur;
+
+	cur = circ(proc->pc, 1);
+	cbyte = cwar->arena[cur];
+	index = 0;
+	if (((cbyte >> 6) & 3) == 1)
+		index = get_reg(cwar, proc, cur);
+	else if (((cbyte >> 6) & 3) == 2)
+		index = get_dir(cwar, cur);
+	else if (((cbyte >> 6) & 3) == 3)
+		index = get_ind(cwar, proc, cur);
+	cur = cw_solo_updatepc(cur, cbyte >> 6);
+	if (((cbyte >> 4) & 3) == 1)
+		index = index | get_reg(cwar, proc, cur);
+	else if (((cbyte >> 4) & 3) == 2)
+		index = index | get_dir(cwar, cur);
+	else if (((cbyte >> 4) & 3) == 3)
+		index = index | get_ind(cwar, proc, cur);
+	cur = cw_solo_updatepc(cur, cbyte >> 4);
+	put_in_reg(proc, index, cwar->arena[cur = circ(cur, 1)]);
+	proc->pc = circ(cur, 1);
+	proc->carry = 1; // ??
 }
+
+
+
+
+
+

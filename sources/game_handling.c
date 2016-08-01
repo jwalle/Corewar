@@ -17,6 +17,7 @@
 
 void			cw_ncurses_win(int i, char *player)
 {
+	(void)player;
 	mvprintw(30, 200, "And the winner is player");
 	mvprintw(30, 225, ft_itoa(i));
 	mvprintw(30, 227, ":");
@@ -59,7 +60,7 @@ void			game_over(t_cwar *cwar)
 		ft_printf("And the winner is player %d : %s !!\n",i ,player);
 		exit (1);
 	}
-	cw_ncurses_win(i, cur->header.prog_name);
+	cw_ncurses_win(i, player);
 }
 
 void			sync_cycle(t_cwar *cwar)
@@ -83,6 +84,8 @@ int				get_wait_time(unsigned char ins)
 		return (5);
 	if (ins == 0x02)
 		return (5);
+	if (ins == 0x06 || ins == 0x07 || ins == 0x08)
+		return (6);
 	if (ins == 0x09)
 		return (20);
 	if (ins == 0x0a)
@@ -108,6 +111,12 @@ void			get_instruction(unsigned char ins, t_cwar *cwar, t_proc *proc)
 		cw_load(cwar, proc);
 	else if (ins == 0x03)
 		cw_store(cwar, proc);
+	else if (ins == 0x06)
+		cw_and(cwar, proc);
+	else if (ins == 0x07)
+		cw_or(cwar, proc);
+	else if (ins == 0x08)
+		cw_xor(cwar, proc);
 	else if (ins == 0x09)
 		cw_zjmp(cwar, proc);
 	else if (ins == 0x0a)
@@ -129,6 +138,8 @@ int				is_ins(unsigned char ins)
 	if (ins == 0x02)
 		return (1);
 	if (ins == 0x03)
+		return (1);
+	if (ins == 0x06 || ins == 0x07 || ins == 0x08)
 		return (1);
 	if (ins == 0x09)
 		return (1);
