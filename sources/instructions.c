@@ -149,7 +149,7 @@ void	cw_loadindex(t_cwar *cwar, t_proc *proc)
 	}
 	else if (((cbyte >> 6) & 3) == 3)
 	{
-		i= 1;
+		i = 1;
 		while (i <= 2)
 		{
 			adress <<= 8;
@@ -162,7 +162,7 @@ void	cw_loadindex(t_cwar *cwar, t_proc *proc)
 			index <<= 8;
 			index += cwar->arena[circ(proc->pc, adress + i++)];
 		}
-		cur = circ(cur, 4);
+		cur = circ(cur, 4); // ??
 	}
 	adress = index;
 	if (((cbyte >> 4) & 3) == 1)
@@ -266,15 +266,7 @@ void	cw_storeindex(t_cwar *cwar, t_proc *proc)
 	{
 		if (((cbyte >> 4) & 3) == 1)
 		{
-			if (cwar->arena[circ(cur, 2)] && cwar->arena[circ(cur, 2)] <= REG_NUMBER)
-			{
-				i = 0;
-				while (i < REG_SIZE)
-				{
-					index <<= 8;
-					index += proc->reg[cwar->arena[circ(cur, 2)]][i++];
-				}
-			}
+			index = get_reg(cwar, proc, cur);
 			cur = circ(cur, 3);
 		}
 		else if (((cbyte >> 4) & 3) == 2)
@@ -290,7 +282,7 @@ void	cw_storeindex(t_cwar *cwar, t_proc *proc)
 		}
 		else if (((cbyte >> 4) & 3) == 3)
 		{
-			i= 1;
+			i = 1;
 			while (i <= 2)
 			{
 				adress <<= 8;
@@ -328,7 +320,7 @@ void	cw_storeindex(t_cwar *cwar, t_proc *proc)
 			}
 			index = (short)index;
 		}
-		adress += index;
+		adress += index; // ??
 		cw_regongrid(cwar, proc->reg[cwar->arena[circ(proc->pc, 2)]], circ(proc->pc, (adress % IDX_MOD)), proc);
 	}
 	proc->pc = cw_updatestipc(proc->pc, cbyte);
