@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 19:04:54 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/07/28 22:12:41 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/08/02 00:26:50 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,16 +125,16 @@ void	cw_loadindex(t_cwar *cwar, t_proc *proc)
 	adress = 0;
 	if (((cbyte >> 6) & 3) == 1)
 	{
-		if (cwar->arena[circ(cur, 2)] && cwar->arena[circ(cur, 2)] <= REG_NUMBER)
+		if (cwar->arena[circ(cur, 1)] && cwar->arena[circ(cur, 1)] <= REG_NUMBER)
 		{
 			i = 0;
 			while (i < REG_SIZE)
 			{
 				index <<= 8;
-				index += proc->reg[cwar->arena[circ(cur, 2)]][i++];
+				index += proc->reg[cwar->arena[circ(cur, 1)]][i++];
 			}
 		}
-		cur = circ(cur, 3);
+		cur = circ(cur, 2);
 	}
 	else if (((cbyte >> 6) & 3) == 2)
 	{
@@ -142,10 +142,10 @@ void	cw_loadindex(t_cwar *cwar, t_proc *proc)
 		while (i <= 2)
 		{
 			index <<= 8;
-			index += cwar->arena[circ(cur, 1 + i++)];
+			index += cwar->arena[circ(cur, i++)];
 		}
 		index = (short)index;
-		cur = circ(cur, 4);
+		cur = circ(cur, 3);
 	}
 	else if (((cbyte >> 6) & 3) == 3)
 	{
@@ -153,7 +153,7 @@ void	cw_loadindex(t_cwar *cwar, t_proc *proc)
 		while (i <= 2)
 		{
 			adress <<= 8;
-			adress += cwar->arena[circ(cur, 1 + i++)];
+			adress += cwar->arena[circ(cur, i++)];
 		}
 		adress = (short)adress % IDX_MOD;
 		i = 0;
@@ -162,7 +162,7 @@ void	cw_loadindex(t_cwar *cwar, t_proc *proc)
 			index <<= 8;
 			index += cwar->arena[circ(proc->pc, adress + i++)];
 		}
-		cur = circ(cur, 4);
+		cur = circ(cur, 3);
 	}
 	adress = index;
 	if (((cbyte >> 4) & 3) == 1)
@@ -219,6 +219,90 @@ void	cw_longload(t_cwar *cwar, t_proc *proc)
 	else if (((cbyte >> 6) & 3) == 2)
 		cw_fillreg(cwar, proc, cwar->arena[circ(cur, REG_SIZE + 1)], circ(cur, 1));
 	proc->pc = cw_updatepc(proc->pc, cbyte);
+}
+
+void	cw_longloadindex(t_cwar *cwar, t_proc *proc)
+{
+	int	i;
+	unsigned char	cbyte;
+	int				cur;
+	int				index;
+	int				adress;
+
+	cur = circ(proc->pc, 1);
+	cbyte = cwar->arena[cur];
+	index = 0;
+	adress = 0;
+	if (((cbyte >> 6) & 3) == 1)
+	{
+		if (cwar->arena[circ(cur, 1)] && cwar->arena[circ(cur, 1)] <= REG_NUMBER)
+		{
+			i = 0;
+			while (i < REG_SIZE)
+			{
+				index <<= 8;
+				index += proc->reg[cwar->arena[circ(cur, 1)]][i++];
+			}
+		}
+		cur = circ(cur, 2);
+	}
+	else if (((cbyte >> 6) & 3) == 2)
+	{
+		i = 1;
+		while (i <= 2)
+		{
+			index <<= 8;
+			index += cwar->arena[circ(cur, i++)];
+		}
+		index = (short)index;
+		cur = circ(cur, 3);
+	}
+	else if (((cbyte >> 6) & 3) == 3)
+	{
+		i= 1;
+		while (i <= 2)
+		{
+			adress <<= 8;
+			adress += cwar->arena[circ(cur, i++)];
+		}
+		adress = (short)adress % IDX_MOD;
+		i = 0;
+		while (i < REG_SIZE)
+		{
+			index <<= 8;
+			index += cwar->arena[circ(proc->pc, adress + i++)];
+		}
+		cur = circ(cur, 3);
+	}
+	adress = index;
+	if (((cbyte >> 4) & 3) == 1)
+	{
+		if (cwar->arena[cur] && cwar->arena[cur] <= REG_NUMBER)
+		{
+			i = 0;
+			while (i < REG_SIZE)
+			{
+				index <<= 8;
+				index += proc->reg[cwar->arena[cur]][i++];
+			}
+		}
+		cur = circ(cur, 1);
+	}
+	else if (((cbyte >> 4) & 3) == 2)
+	{
+		i = 0;
+		while (i < 2)
+		{
+			index <<= 8;
+			index += cwar->arena[circ(cur, i++)];
+		}
+		//index = (short)index;
+		cur = circ(cur, 2);
+	}
+	adress += index;
+	if (cwar->arena[cur] && cwar->arena[cur] <= REG_NUMBER)
+		cw_fillreg(cwar, proc, cwar->arena[cur], circ(proc->pc, adress));
+	proc->pc = cw_updatestipc(proc->pc, cbyte);
 }
 
 void	cw_live(t_cwar *cwar, t_proc *proc)
