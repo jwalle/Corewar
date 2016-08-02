@@ -125,5 +125,7 @@ void	cw_live(t_cwar *cwar, t_proc *proc);
 void	cw_and(t_cwar *cwar, t_proc *proc);
 void	cw_xor(t_cwar *cwar, t_proc *proc);
 void	cw_or(t_cwar *cwar, t_proc *proc);
+void	cw_add(t_cwar *cwar, t_proc *proc);
+void	cw_sub(t_cwar *cwar, t_proc *proc);
 
 #endif
