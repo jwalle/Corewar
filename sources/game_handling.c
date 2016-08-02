@@ -98,6 +98,8 @@ int				get_wait_time(unsigned char ins)
 		return (25);
 	if (ins == 0x0d)
 		return (10);
+	if (ins == 0x10)
+		return (2);
 	return (0);
 }
 
@@ -135,11 +137,13 @@ void			get_instruction(unsigned char ins, t_cwar *cwar, t_proc *proc)
 		cw_storeindex(cwar, proc);
 	else if (ins == 0x0d)
 		cw_longload(cwar, proc);
+	else if (ins == 0x10)
+		cw_aff(cwar, proc);
 }
 
 int				is_ins(unsigned char ins)
 {
-	 if (ins > 0x00 && ins <= 0x0e)
+	 if (ins > 0x00 && ins <= 0x10)
 		 return (1);
 	return (0);
 }
