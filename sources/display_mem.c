@@ -43,7 +43,7 @@ void unset_color(int temp)
 	else if (temp == 5)
 		attroff(COLOR_PAIR(CURRENT_PC));
 }
-
+	
 char	*emo(int temp)
 {
 	if (!temp)
@@ -63,17 +63,18 @@ char	*emo(int temp)
 
 char		*make_hex(int temp)
 {
-	int		j;
-	char	*hex;
-	char	*base;
+	int			j;
+	char		*hex;
+	char		*base;
 
+
+	// return (emo(temp));
+	if (!temp)
+		return (ft_strdup("00"));
 	hex = ft_strnew(3);
 	base = "0123456789abcdef";
 	j = 1;
 	ft_bzero(hex, 3);
-	// return (emo(temp));
-	if (!temp)
-		return ("00");
 	hex[1] = '0';
 	hex[0] = '0';
 	while (temp)
@@ -87,9 +88,10 @@ char		*make_hex(int temp)
 
 void		cw_print_mem(t_cwar *cwar)
 {
-	int 				i;
-	int					x;
-	int					j;
+	int 	i;
+	int		x;
+	int		j;
+	char	*hex;
 
 	i = 0;
 	x = 2;
@@ -101,9 +103,11 @@ void		cw_print_mem(t_cwar *cwar)
 			x++;
 			j = 3;
 		}
+		hex = make_hex(cwar->arena[i]);
 		set_color(cwar->arena_color[i][0]);
 		set_color(cwar->arena_color[i][1]);
-		mvprintw(x, j, make_hex(cwar->arena[i]));
+		mvprintw(x, j, hex);
+		free(hex);
 		unset_color(cwar->arena_color[i][0]);
 		unset_color(cwar->arena_color[i][1]);
 		cwar->arena_color[i][1] = 0;

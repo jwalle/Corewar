@@ -52,3 +52,30 @@ void		draw_coll(int y_max, int xa)
 		i++;
 	}
 }
+
+void	print_hex(char hex[10], int x, int y)
+{
+	int		i;
+	int		j;
+	char	prt[2];
+
+	j = 0;
+	i = 0;
+	while (i < 4)
+	{		prt[0] = hex[0 + i];
+		prt[1] = hex[1 + i];
+		mvprintw(x , y + j, prt);
+		mvprintw(x , y + 2 + j, " ");
+		i++;
+		j += 3;
+	}
+}
+
+void	print_number(int i, int j, int nb)
+{
+	char *tmp;
+
+	tmp = ft_itoa(nb);
+	mvprintw(i, j, tmp);
+	free(tmp);
+}
