@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 19:04:54 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/08/02 00:26:50 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/08/02 20:35:25 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ void	cw_longloadindex(t_cwar *cwar, t_proc *proc)
 			index <<= 8;
 			index += cwar->arena[circ(cur, i++)];
 		}
-		//index = (short)index;
+		index = (short)index; // has been uncommented (-> further testing required)
 		cur = circ(cur, 2);
 	}
 	adress += index;
@@ -404,7 +404,7 @@ void	cw_storeindex(t_cwar *cwar, t_proc *proc)
 			}
 			index = (short)index;
 		}
-		adress += index; // ??
+		adress += index;
 		cw_regongrid(cwar, proc->reg[cwar->arena[circ(proc->pc, 2)]], circ(proc->pc, (adress % IDX_MOD)), proc);
 	}
 	proc->pc = cw_updatestipc(proc->pc, cbyte);
