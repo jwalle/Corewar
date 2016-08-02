@@ -64,8 +64,8 @@ static int		print_programs(t_cwar *cwar)
 static void		print_right_tab(t_cwar *cwar)
 {
 	int	j;
-
 	time_t current = time(NULL);
+	char *temp;
 
 	mvprintw(2, 220, "RUNING");
 
@@ -78,11 +78,12 @@ static void		print_right_tab(t_cwar *cwar)
 	mvprintw(9, 200, "Total process : ");
 	mvprintw(9, 220, ft_itoa(cwar->proc_number));
 
-	j = print_programs(	cwar);
+	j = print_programs(cwar);
 
+	temp = ft_itoa(cwar->to_die);
 	mvprintw(14 + j, 200, "CYCLE TO DIE : ");
-	mvprintw(14 + j, 215, ft_itoa(cwar->to_die));
-
+	mvprintw(14 + j, 215, temp); // WTF
+	free(temp);
 }
 
 void			ft_draw(t_cwar *cwar)
@@ -119,9 +120,13 @@ void			check_live(t_cwar *cwar)
 			current->alive = 0; // TODO Player->alive = 0 ?
 		current = current->next;
 	}
+	printf("\nlives = %d\n", lives);
+
 	if (lives >= NBR_LIVE)
 	{
-		cwar->to_die -= CYCLE_DELTA;
+		cwar->to_die -= CYCLE_DELTA; // to_die <<<<<< 0;
+		if (cwar->to_die <= 0)
+			game_over(cwar);
 		player = cwar->players;
 		while (player)
 		{
@@ -136,7 +141,7 @@ void			cw_game(t_cwar *cwar)
 	int c;
 
 	c = 0;
-	// cwar->to_die -= 1200; // for testing, delete this
+	// cwar->to_die -= 1000; // for testing, delete this
 	while (1)
 	{
 		c = getch();
