@@ -160,7 +160,7 @@ void	cw_loadindex(t_cwar *cwar, t_proc *proc)
 		while (i < REG_SIZE)
 		{
 			index <<= 8;
-			index += cwar->arena[circ(proc->pc, adress + i++)];
+				index += cwar->arena[circ(proc->pc, adress + i++)];
 		}
 		cur = circ(cur, 3);
 	}
@@ -330,7 +330,7 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 			tmp = tmp->next;
 		}
 	}
-	proc->alive = 1;
+	proc->alive += 1;
 	proc->pc = circ(proc->pc, 5);
 }
 

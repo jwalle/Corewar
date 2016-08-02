@@ -253,43 +253,35 @@ void	cw_introduce(t_cwar *cwar)
 		tmp = cwar->players;
 		while (tmp)
 		{
-			ft_printf("* Player %d, weighting %d bytes, \"%s\" (\"%s\") !\n", i, tmp->header.prog_size, tmp->header.prog_name, tmp->header.comment);
+			ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n", i, tmp->header.prog_size, tmp->header.prog_name, tmp->header.comment);
 			++i;
 			tmp = tmp->next;
 		}
 	}
 }
 
-/*char	*cw_color(int n)
-{
-	if (n % 6 == 0)
-		return (ANSI_COLOR_GREEN);
-	else if (n % 6 == 1)
-		return (ANSI_COLOR_BLUE);
-	else if (n % 6 == 2)
-		return (ANSI_COLOR_RED);
-	else if (n % 6 == 3)
-		return (ANSI_COLOR_YELLOW);
-	else if (n % 6 == 4)
-		return (ANSI_COLOR_MAGENTA);
-	else
-		return (ANSI_COLOR_CYAN);
-}
-*/
-
 void	cw_dump_mem(t_cwar *cwar)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	if (cwar->arena)
 	{
 		while (i < MEM_SIZE)
 		{
-			ft_printf("%.2x", cwar->arena[i]);
-			if (!i || (i + 1) % 64)
-				ft_putchar(' ');
-			else
+			if (!j)
+			{
+				ft_printf("0x0000 : ");
+				j++;
+			}
+			if (i && ((i) % 64) == 0)
+				ft_printf("%#.4x : ", j++ * 64);
+			ft_printf("%.2x ", cwar->arena[i]);
+			if (((i + 1) % 64) == 0) 
+			// if (!i)
+			//else
 				ft_putchar('\n');
 			++i;
 		}

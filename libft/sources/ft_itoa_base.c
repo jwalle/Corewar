@@ -70,7 +70,6 @@ char			*ft_itoa_base(int value, int base)
 	if (isneg)
 		str[i++] = '-';
 	str[i] = '\0';
-	// ft_printf("post strrev = %s\n", str);
 	ft_strrev(str);
 	return (str);
 }
