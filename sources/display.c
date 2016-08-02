@@ -90,8 +90,6 @@ void			check_live(t_cwar *cwar)
 			current->alive = 0; // TODO Player->alive = 0 ?
 		current = current->next;
 	}
-	printf("\nlives = %d\n", lives);
-
 	if (lives >= NBR_LIVE)
 	{
 		cwar->to_die -= CYCLE_DELTA;

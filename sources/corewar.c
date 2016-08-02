@@ -253,7 +253,7 @@ void	cw_introduce(t_cwar *cwar)
 		tmp = cwar->players;
 		while (tmp)
 		{
-			ft_printf("* Player %d, weigh	ing %d bytes, \"%s\" (\"%s\") !\n", i, tmp->header.prog_size, tmp->header.prog_name, tmp->header.comment);
+			ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n", i, tmp->header.prog_size, tmp->header.prog_name, tmp->header.comment);
 			++i;
 			tmp = tmp->next;
 		}
