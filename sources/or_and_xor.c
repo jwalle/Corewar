@@ -234,4 +234,22 @@ void	cw_sub(t_cwar *cwar, t_proc *proc)
 	}
 }
 
+void	cw_aff(t_cwar *cwar, t_proc *proc)
+{
+	int	cur;
+	int	temp;
+	int	cbyte;
 
+	cur = circ(proc->pc, 1);
+	cbyte = cwar->arena[cur];
+	if (cwar->arena[circ(cur, 1)] && cwar->arena[circ(cur, 1)] <= REG_NUMBER)
+	{
+		if (cwar->opt->ncurses == 0)
+		{
+			temp = get_reg(cwar, proc, cur);
+			ft_printf("Aff: %c", temp % 256);
+		}
+		proc->pc = circ(cur, 1);
+	}
+
+}

@@ -130,5 +130,6 @@ void				cw_or(t_cwar *cwar, t_proc *proc);
 void				cw_add(t_cwar *cwar, t_proc *proc);
 void				cw_sub(t_cwar *cwar, t_proc *proc);
 void				cw_longloadindex(t_cwar *cwar, t_proc *proc);
+void				cw_aff(t_cwar *cwar, t_proc *proc);
 
 #endif
