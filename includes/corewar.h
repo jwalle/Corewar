@@ -82,51 +82,53 @@ typedef struct		s_cwar
 	unsigned char	**arena_color;
 }					t_cwar;
 
-void	curse_disp(t_cwar *cwar);
-void	cw_perror(char *str, t_cwar *cwar);
-char	cw_first_proc(t_cwar *cwar, int	program_counter, int id);
-void	cw_error(char *str, t_cwar *cwar);
-char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id);
-void	sync_cycle(t_cwar *cwar);
-void	cycle_procs(t_cwar *cwar);
-void	destroy_process(t_cwar *cwar, t_proc *proc);
-int		circ(int index, int add);
-void	cw_game(t_cwar *cwar);
-void	game_over(t_cwar *cwar);
-int		get_reg(t_cwar *cwar, t_proc *proc, int cur);
-int		cw_updatepc(int pc, int cbyte);
+void				curse_disp(t_cwar *cwar);
+void				cw_perror(char *str, t_cwar *cwar);
+char				cw_first_proc(t_cwar *cwar, int	program_counter, int id);
+void				cw_error(char *str, t_cwar *cwar);
+char				cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id);
+void				sync_cycle(t_cwar *cwar);
+void				cycle_procs(t_cwar *cwar);
+void				destroy_process(t_cwar *cwar, t_proc *proc);
+int					circ(int index, int add);
+void				cw_game(t_cwar *cwar);
+void				game_over(t_cwar *cwar);
+int					get_reg(t_cwar *cwar, t_proc *proc, int cur);
+int					cw_updatepc(int pc, int cbyte);
+
 
 /*
 **		ncurses display :
 */
-
-void			ft_init_color(void);
-void			set_color(int temp);
-void			unset_color(int temp);
-void			cw_print_mem(t_cwar *cwar);
-void			draw_coll(int y_max, int xa);
-void			draw_line(int x_max, int ya);
+void				print_hex(char hex[10], int x, int y);
+void				print_number(int i, int j, int nb);
+void				ft_init_color(void);
+void				set_color(int temp);
+void				unset_color(int temp);
+void				cw_print_mem(t_cwar *cwar);
+void				draw_coll(int y_max, int xa);
+void				draw_line(int x_max, int ya);
 
 /*
 **		Instructions :
 */
 
-void	cw_dump_mem(t_cwar *cwar);
-char	cw_zjmp(t_cwar *cwar, t_proc *proc);
-void	cw_live(t_cwar *cwar, t_proc *proc);
-char	cw_lfork(t_cwar *cwar, t_proc *proc);
-char	cw_fork(t_cwar *cwar, t_proc *proc);
-void	cw_load(t_cwar *cwar, t_proc *proc);
-void	cw_loadindex(t_cwar *cwar, t_proc *proc);
-void	cw_longload(t_cwar *cwar, t_proc *proc);
-void	cw_storeindex(t_cwar *cwar, t_proc *proc);
-void	cw_store(t_cwar *cwar, t_proc *proc);
-void	cw_live(t_cwar *cwar, t_proc *proc);
-void	cw_and(t_cwar *cwar, t_proc *proc);
-void	cw_xor(t_cwar *cwar, t_proc *proc);
-void	cw_or(t_cwar *cwar, t_proc *proc);
-void	cw_add(t_cwar *cwar, t_proc *proc);
-void	cw_sub(t_cwar *cwar, t_proc *proc);
-void	cw_longloadindex(t_cwar *cwar, t_proc *proc);
+void				cw_dump_mem(t_cwar *cwar);
+char				cw_zjmp(t_cwar *cwar, t_proc *proc);
+void				cw_live(t_cwar *cwar, t_proc *proc);
+char				cw_lfork(t_cwar *cwar, t_proc *proc);
+char				cw_fork(t_cwar *cwar, t_proc *proc);
+void				cw_load(t_cwar *cwar, t_proc *proc);
+void				cw_loadindex(t_cwar *cwar, t_proc *proc);
+void				cw_longload(t_cwar *cwar, t_proc *proc);
+void				cw_storeindex(t_cwar *cwar, t_proc *proc);
+void				cw_store(t_cwar *cwar, t_proc *proc);
+void				cw_live(t_cwar *cwar, t_proc *proc);
+void				cw_and(t_cwar *cwar, t_proc *proc);
+void				cw_xor(t_cwar *cwar, t_proc *proc);
+void				cw_or(t_cwar *cwar, t_proc *proc);
+void				cw_add(t_cwar *cwar, t_proc *proc);
+void				cw_sub(t_cwar *cwar, t_proc *proc);
+void				cw_longloadindex(t_cwar *cwar, t_proc *proc);
 
 #endif
