@@ -36,8 +36,9 @@ SRCS = $(SDIR)/corewar.c \
 		$(SDIR)/display_misc.c \
 		$(SDIR)/or_and_xor.c \
 		$(SDIR)/display_info_tab.c \
-
-
+		$(SDIR)/ins_tools_one.c \
+		$(SDIR)/ins_update_pc.c \
+		$(SDIR)/add_sub_aff.c \
 
 OBJ = $(SRCS:$(SDIR)/%.c=$(ODIR)/%.o)
 

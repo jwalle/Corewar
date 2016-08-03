@@ -95,7 +95,8 @@ void				cw_game(t_cwar *cwar);
 void				game_over(t_cwar *cwar);
 int					get_reg(t_cwar *cwar, t_proc *proc, int cur);
 int					cw_updatepc(int pc, int cbyte);
-int					get_dir(t_cwar *cwar, int cur);
+int					cw_updatestipc(int pc, int cbyte);
+int					cw_solo_updatepc(int pc, int cbyte);
 
 /*
 **		ncurses display :
@@ -146,5 +147,6 @@ int					get_dir(t_cwar *cwar, int cur);
 int					get_sdir(t_cwar *cwar, int cur);
 int					get_ind(t_cwar *cwar, t_proc *proc, int cur);
 int					get_reg(t_cwar *cwar, t_proc *proc, int cur);
+char				put_in_reg(t_proc *proc, int index, unsigned char regnum);
 
 #endif
