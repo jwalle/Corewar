@@ -24,70 +24,78 @@ void	cw_add_proc(t_proc *new, t_cwar *cwar)
 	}
 	else
 		cwar->proc = new;
-	cwar->proc_number++;	
+	cwar->proc_number++;
 }
 
-char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
+void	put_info_proc(t_proc *new, int id)
 {
-	t_proc		*new;
-	int			i;
-	int			pnum;
+	int	i;
+	int	pnum;
 
-	i = 0;
-	if (!(new = (t_proc *)malloc(sizeof(t_proc))))
-		cw_perror("Malloc failed.", cwar);
-	if (!(new->reg = (unsigned char **)malloc(sizeof(unsigned char *) * REG_NUMBER + 1)))
-		cw_perror("Malloc failed.", cwar);
-	while (i <= REG_NUMBER)
-	{
-		new->reg[i] = (unsigned char *)malloc(sizeof(unsigned char) * (REG_SIZE + 1));
-		ft_bzero(new->reg[i], REG_SIZE + 1);
-		i++;
-	}
-	new->pc = program_counter;
 	i = REG_SIZE - 1;
 	pnum = 0 - id;
 	while (i >= 0)
 	{
 		new->reg[1][i--] = pnum & 0xff;
 		pnum >>= 8;
-	}		
-	new->carry = 1;
+	}
+	new->carry = 0;
 	new->alive = 0;
 	new->wait = 0;
 	new->next = NULL;
-	new->prev = NULL;
 	new->player_id = id;
+}
+
+char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
+{
+	t_proc		*new;
+	int			i;
+
+	i = 0;
+	if (!(new = (t_proc *)malloc(sizeof(t_proc))))
+		cw_perror("Malloc failed.", cwar);
+	if (!(new->reg = (unsigned char **)malloc(sizeof(unsigned char *)
+		* REG_NUMBER + 1)))
+		cw_perror("Malloc failed.", cwar);
+	while (i <= REG_NUMBER)
+	{
+		new->reg[i] = (unsigned char *)malloc(sizeof(unsigned char)
+			* (REG_SIZE + 1));
+		ft_bzero(new->reg[i], REG_SIZE + 1);
+		i++;
+	}
+	put_info_proc(new, id);
+	new->pc = program_counter;
 	new->proc_id = cwar->proc_number + 1;
-	cw_add_proc(new, cwar);	// MAX PROCESS ?
+	cw_add_proc(new, cwar);
 	return (1);
 }
 
-char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id)
+char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old)
 {
 	t_proc	*new;
 	int		i;
 
-	(void)id;
 	i = 0;
 	if (!(new = (t_proc *)malloc(sizeof(t_proc))))
 		cw_perror("Malloc failed.", cwar);
-	if (!(new->reg = (unsigned char **)malloc(sizeof(unsigned char *) * REG_NUMBER + 1)))
+	if (!(new->reg = (unsigned char **)malloc(sizeof(unsigned char *)
+		* REG_NUMBER + 1)))
 		cw_perror("Malloc failed.", cwar);
 	while (i <= REG_NUMBER)
 	{
-		new->reg[i] = (unsigned char *)malloc(sizeof(unsigned char) * (REG_SIZE + 1));
+		new->reg[i] = (unsigned char *)malloc(sizeof(unsigned char)
+		* (REG_SIZE + 1));
 		ft_memcpy(new->reg[i], old->reg[i], sizeof(old->reg[i]));
 		i++;
 	}
 	new->pc = program_counter;
-	new->carry = 1;
+	new->carry = 0;
 	new->wait = 0;
 	new->alive = 0;
 	new->next = NULL;
-	new->prev = NULL;
 	new->player_id = old->player_id;
 	new->proc_id = cwar->proc_number + 1;
-	cw_add_proc(new, cwar);	// MAX PROCESS ?
+	cw_add_proc(new, cwar);
 	return (1);
 }

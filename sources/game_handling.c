@@ -46,7 +46,7 @@ void			game_over(t_cwar *cwar)
 			i = cur->id;
 			ft_bzero(player, PROG_NAME_LENGTH + 1);
 			ft_strcpy(player, cur->header.prog_name);
-		}
+		}	
 		cur = cur->next;
 	}
 	if (cwar->opt->ncurses)
