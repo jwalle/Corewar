@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:27:20 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/07/28 21:39:44 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/08/03 03:34:21 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,5 +133,14 @@ void				cw_add(t_cwar *cwar, t_proc *proc);
 void				cw_sub(t_cwar *cwar, t_proc *proc);
 void				cw_longloadindex(t_cwar *cwar, t_proc *proc);
 void				cw_aff(t_cwar *cwar, t_proc *proc);
+
+/*
+**		Instruction tools :
+*/
+
+int					get_dir(t_cwar *cwar, int cur);
+int					get_sdir(t_cwar *cwar, int cur);
+int					get_ind(t_cwar *cwar, t_proc *proc, int cur);
+int					get_reg(t_cwar *cwar, t_proc *proc, int cur);
 
 #endif

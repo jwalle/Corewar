@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/28 20:39:37 by jwalle            #+#    #+#             */
-/*   Updated: 2016/07/28 20:39:48 by jwalle           ###   ########.fr       */
+/*   Updated: 2016/08/03 04:22:14 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		get_dir(t_cwar *cwar, int cur)
 	{
 		index <<= 8;
 		index += cwar->arena[circ(cur, i)];
-		i++;
+		++i;
 	}
 	return (index);
 }
@@ -41,7 +41,7 @@ int		get_ind(t_cwar *cwar, t_proc *proc, int cur)
 	{
 		adress <<= 8;
 		adress += cwar->arena[circ(cur, i)];
-		i++;
+		++i;
 	}
 	adress = (short)adress % IDX_MOD;
 	i = 0;
@@ -66,26 +66,30 @@ int		get_reg(t_cwar *cwar, t_proc *proc, int cur)
 		{
 			index <<= 8;
 			index += proc->reg[cwar->arena[circ(cur, 1)]][i];
-			i++;
+			++i;
 		}
 	}
 	return (index);
 }
 
-void	put_in_reg(t_proc *proc, int index, unsigned char regnum)
+char	put_in_reg(t_proc *proc, int index, unsigned char regnum)
 {
 	int i;
+	int	carry;
 
 	if (regnum && regnum <= REG_NUMBER)
 	{
+		carry = (index == 0) ? 1 : 0;
 		i = REG_SIZE - 1;
 		while (i >= 0 && index)
 		{
 			proc->reg[regnum][i] = index;
 			index = index >> 8;
-			i--;
+			--i;
 		}
-	}	
+		return (carry);
+	}
+	return (proc->carry);
 }
 
 /*
@@ -98,7 +102,7 @@ int		cw_solo_updatepc(int pc, int cbyte)
 	if ((cbyte & 3) == 1)
 		pc = circ(pc, 1);
 	else if ((cbyte & 3) == 2)
-		pc = circ(pc, DIR_SIZE); 
+		pc = circ(pc, DIR_SIZE);
 	else if ((cbyte & 3) == 3)
 		pc = circ(pc, IND_SIZE);
 	return (pc);
@@ -127,9 +131,8 @@ void	cw_and(t_cwar *cwar, t_proc *proc)
 	else if (((cbyte >> 4) & 3) == 3)
 		index = index & get_ind(cwar, proc, cur);
 	cur = cw_solo_updatepc(cur, cbyte >> 4);
-	put_in_reg(proc, index, cwar->arena[cur = circ(cur, 1)]);
-	proc->pc = circ(cur, 1);
-	proc->carry = 1; // ??
+	proc->carry = put_in_reg(proc, index, cwar->arena[circ(cur, 1)]);
+	proc->pc = circ(cur, 2);
 }
 
 void	cw_xor(t_cwar *cwar, t_proc *proc)
@@ -155,9 +158,8 @@ void	cw_xor(t_cwar *cwar, t_proc *proc)
 	else if (((cbyte >> 4) & 3) == 3)
 		index = index ^ get_ind(cwar, proc, cur);
 	cur = cw_solo_updatepc(cur, cbyte >> 4);
-	put_in_reg(proc, index, cwar->arena[cur = circ(cur, 1)]);
-	proc->pc = circ(cur, 1);
-	proc->carry = 1; // ??
+	proc->carry = put_in_reg(proc, index, cwar->arena[circ(cur, 1)]);
+	proc->pc = circ(cur, 2);
 }
 
 void	cw_or(t_cwar *cwar, t_proc *proc)
@@ -183,9 +185,8 @@ void	cw_or(t_cwar *cwar, t_proc *proc)
 	else if (((cbyte >> 4) & 3) == 3)
 		index = index | get_ind(cwar, proc, cur);
 	cur = cw_solo_updatepc(cur, cbyte >> 4);
-	put_in_reg(proc, index, cwar->arena[cur = circ(cur, 1)]);
-	proc->pc = circ(cur, 1);
-	proc->carry = 1; // ??
+	proc->carry = put_in_reg(proc, index, cwar->arena[circ(cur, 1)]);
+	proc->pc = circ(cur, 2);
 }
 
 void	cw_add(t_cwar *cwar, t_proc *proc)
@@ -205,10 +206,11 @@ void	cw_add(t_cwar *cwar, t_proc *proc)
 		cur = circ(cur, 1);
 		temp = temp + get_reg(cwar, proc, cur);
 		cur = circ(cur, 2);
-		put_in_reg(proc, temp, cwar->arena[cur]);
+		proc->carry = put_in_reg(proc, temp, cwar->arena[cur]);
 		proc->pc = circ(cur, 1);
-		// some shit about carry, obviously I don't know about!
 	}
+	else
+		proc->pc = circ(cur, 4);
 }
 
 void	cw_sub(t_cwar *cwar, t_proc *proc)
@@ -228,10 +230,11 @@ void	cw_sub(t_cwar *cwar, t_proc *proc)
 		cur = circ(cur, 1);
 		temp = temp - get_reg(cwar, proc, cur);
 		cur = circ(cur, 2);
-		put_in_reg(proc, temp, cwar->arena[cur]);
+		proc->carry = put_in_reg(proc, temp, cwar->arena[cur]);
 		proc->pc = circ(cur, 1);
-		// some shit about carry, obviously I don't know about!
 	}
+	else
+		proc->pc = circ(cur, 4);
 }
 
 void	cw_aff(t_cwar *cwar, t_proc *proc)
@@ -249,7 +252,6 @@ void	cw_aff(t_cwar *cwar, t_proc *proc)
 			temp = get_reg(cwar, proc, cur);
 			ft_printf("Aff: %c", temp % 256);
 		}
-		proc->pc = circ(cur, 1);
 	}
-
+	proc->pc = circ(cur, 1);
 }
