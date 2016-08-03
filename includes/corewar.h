@@ -140,6 +140,10 @@ void				cw_aff(t_cwar *cwar, t_proc *proc);
 **		Instruction tools :
 */
 
+int					is_ins(unsigned char ins);
+void				get_instruction(unsigned char ins, t_cwar *cwar, t_proc *proc);
+int					get_wait_time(unsigned char ins);
+void				find_instruction(t_cwar *cwar, t_proc *proc);
 int					get_dir(t_cwar *cwar, int cur);
 int					get_sdir(t_cwar *cwar, int cur);
 int					get_ind(t_cwar *cwar, t_proc *proc, int cur);

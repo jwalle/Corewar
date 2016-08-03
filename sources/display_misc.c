@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-void	ft_init_color(void)
+void		ft_init_color(void)
 {
 	init_pair(BLACK_ON_GREEN, COLOR_WHITE, COLOR_GREEN);
 	init_pair(PLAYER_ONE, COLOR_GREEN, COLOR_BLACK);
