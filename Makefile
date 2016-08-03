@@ -33,6 +33,7 @@ SRCS = $(SDIR)/corewar.c \
 		$(SDIR)/display_mem.c \
 		$(SDIR)/display_misc.c \
 		$(SDIR)/or_and_xor.c \
+		$(SDIR)/display_info_tab.c \
 
 
 
