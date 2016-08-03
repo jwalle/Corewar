@@ -12,9 +12,6 @@
 
 #include "corewar.h"
 
-// TODO : game over
-
-
 void			cw_ncurses_win(int i, char *player)
 {
 	(void)player;
@@ -25,7 +22,6 @@ void			cw_ncurses_win(int i, char *player)
 	mvprintw(30, 229, player);
 	unset_color(i);
 	refresh();
-	// cwar->pause = 1;
 	sleep(3);
 	endwin();
 	curs_set(1);
@@ -151,6 +147,7 @@ int				is_ins(unsigned char ins)
 void			find_instruction(t_cwar *cwar, t_proc *proc)
 {
 	unsigned char	ins;
+
 
 	ins = cwar->arena[proc->pc];
 	cwar->arena_color[proc->pc][1] = 5;

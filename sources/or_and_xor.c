@@ -92,7 +92,7 @@ void	put_in_reg(t_proc *proc, int index, unsigned char regnum)
 ** IND_SIZE = 2
 ** DIR_SIZE = REG_SIZE = 4
 */
-
+	
 int		cw_solo_updatepc(int pc, int cbyte)
 {
 	if ((cbyte & 3) == 1)

@@ -28,6 +28,7 @@ t_cwar	*cw_init(void)
 	cwar->proc_number = 0;
 	cwar->time_zero = time(NULL);
 	cwar->pause = 0;
+	cwar->check = 0;
 	return (cwar);
 }
 
@@ -106,7 +107,21 @@ void	cw_add_player(t_player *new, t_cwar *cwar)
 	cwar->players_nbr++;
 }
 
-char	cw_new_player(header_t header, int fd, t_cwar *cwar)
+int	check_if_id_available(t_cwar *cwar, int n)
+{
+	t_player	*cur;
+
+	cur = cwar->players;
+	while (cur)
+	{
+		if (cur->id == n)
+			return(check_if_id_available(cwar, ++n));
+		cur = cur->next;
+	}
+	return (n);
+}
+
+char	cw_new_player(header_t header, int fd, t_cwar *cwar, int numb)
 {
 	int			ret;
 	t_player	*new;
@@ -120,6 +135,7 @@ char	cw_new_player(header_t header, int fd, t_cwar *cwar)
 		cw_perror(header.prog_name, cwar);
 	if (ret != (int)header.prog_size)
 		return (0);
+	new->id = numb;
 	new->next = NULL;
 	new->alive = 0;
 	new->last_alive = 0;
@@ -130,7 +146,7 @@ char	cw_new_player(header_t header, int fd, t_cwar *cwar)
 	return (1);
 }
 
-void	cw_check_arg(char *arg, t_cwar *cwar)
+void	cw_check_arg(char *arg, t_cwar *cwar, int numb)
 {
 	int				fd;
 	int				ret;
@@ -148,7 +164,7 @@ void	cw_check_arg(char *arg, t_cwar *cwar)
 		cw_error("(insert filename) is too big (this error msg has to be checked !!)", cwar);
 	if (header.magic != COREWAR_EXEC_MAGIC)
 		cw_error("(insert filename) has wrong header (this error msg has to be checked !!)", cwar);
-	if (!cw_new_player(header, fd, cwar))
+	if (!cw_new_player(header, fd, cwar, numb))
 		cw_error("(insert filename) is too small", cwar);
 	close(fd);
 }
@@ -186,8 +202,16 @@ void	cw_process_args(int argc, char **argv, t_cwar *cwar)
 			else
 				cw_usage(cwar);
 		}
+		else if (!ft_strcmp(argv[i], "-numb"))
+		{
+			if (is_number(argv[i + 1]))
+				cw_check_arg(argv[i + 2], cwar, ft_atoi(argv[i + 1])); // doesnt go there if last arg is an option, segfault on ncurses
+			else
+				cw_usage(cwar);
+			i += 2;
+		}
 		else
-			cw_check_arg(argv[i], cwar); // doesnt go there if last arg is an option, segfault on ncurses
+			cw_check_arg(argv[i], cwar, 0); // doesnt go there if last arg is an option, segfault on ncurses
 		++i;
 	}
 }
@@ -226,12 +250,13 @@ void	cw_setup_arena(t_cwar *cwar)
 		while (tmp)
 		{
 			begin = (MEM_SIZE * i) / cwar->players_nbr;
-			tmp->id = i + 1;
-			cw_first_proc(cwar, begin , i + 1); // i = player id ?
+			if (!tmp->id)
+				tmp->id = check_if_id_available(cwar, i + 1);
+			cw_first_proc(cwar, begin , tmp->id); // i = player id ?
 			j = 0;
 			while (j < tmp->header.prog_size)
 			{
-				cwar->arena_color[begin + j][0] = i + 1;
+				cwar->arena_color[begin + j][0] = (tmp->id % 4) + 1;
 				cwar->arena[begin + j] = tmp->pg[j];
 				j++;
 			}
@@ -253,7 +278,7 @@ void	cw_introduce(t_cwar *cwar)
 		tmp = cwar->players;
 		while (tmp)
 		{
-			ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n", i, tmp->header.prog_size, tmp->header.prog_name, tmp->header.comment);
+			ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n", tmp->id, tmp->header.prog_size, tmp->header.prog_name, tmp->header.comment);
 			++i;
 			tmp = tmp->next;
 		}

@@ -46,7 +46,7 @@ void	destroy_process(t_cwar *cwar, t_proc *proc)
 	cwar->proc_number--;
 	if (!kill)
 	{
-		printf("WTF NO KILL\n");
+		ft_printf("WTF NO KILL\n");
 		exit (1);
 	}
 	if (!cwar->proc_number)

@@ -79,7 +79,7 @@ void	cw_regongrid(t_cwar *cwar, unsigned char *reg, int index, t_proc *proc)
 	i = 0;
 	while (i < REG_SIZE)
 	{
-		cwar->arena_color[circ(index, i)][0] = proc->player_id;
+		cwar->arena_color[circ(index, i)][0] = (proc->player_id % 4) + 1;
 		cwar->arena[circ(index, i)] = reg[i];
 		++i;
 	}
@@ -307,18 +307,14 @@ void	cw_longloadindex(t_cwar *cwar, t_proc *proc)
 
 void	cw_live(t_cwar *cwar, t_proc *proc)
 {
-	int				player;
-	t_player		*tmp;
-	int				i;
+	int			player;
+	t_player	*tmp;
 
-	i = proc->pc;
-	player = (cwar->arena[i = circ(i, 1)] << 24);
-	player += (cwar->arena[i = circ(i, 1)] << 16);
-	player += (cwar->arena[i = circ(i, 1)] << 8);
-	player += (cwar->arena[i = circ(i, 1)]);
-	player *= -1;
+	player = -1 * get_dir(cwar, proc->pc);
+
 	tmp = cwar->players;
-	if (player > 0 && player <= cwar->players_nbr)
+	// printf("COUCOU JE suis un proc de %d, ma vie est : %d\n", proc->player_id, player);
+	if (player > 0)
 	{
 		while (tmp)
 		{
@@ -326,10 +322,13 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 			{
 				tmp->last_alive = cwar->cycle;
 				tmp->alive++;
+				if (!cwar->opt->ncurses)
+					ft_printf("A process said the player %i (%s) is alive !!!\n",
+						player, tmp->header.prog_name);
 			}
 			tmp = tmp->next;
 		}
-	}
+	}	
 	proc->alive += 1;
 	proc->pc = circ(proc->pc, 5);
 }

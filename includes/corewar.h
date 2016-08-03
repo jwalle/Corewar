@@ -75,6 +75,7 @@ typedef struct		s_cwar
 	int				cycle;
 	int				proc_number;
 	int				to_die;
+	int				check;
 	t_opt			*opt;
 	t_player		*players;
 	t_proc			*proc;
@@ -95,6 +96,7 @@ void				cw_game(t_cwar *cwar);
 void				game_over(t_cwar *cwar);
 int					get_reg(t_cwar *cwar, t_proc *proc, int cur);
 int					cw_updatepc(int pc, int cbyte);
+int					get_dir(t_cwar *cwar, int cur);
 
 
 /*

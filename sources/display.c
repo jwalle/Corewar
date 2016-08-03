@@ -15,20 +15,20 @@
 static int		print_programs(t_cwar *cwar)
 {
 	t_player	*cur;
-	int			i;
 	int			j;
+	int			i;
 
 	j = 0;
-	i = 1;
+	i = 0;
 	cur = cwar->players;
 	while (cur)
 	{
 		mvprintw(11 + j, 200, "Player");
 		print_number(11 + j, 207, cur->id);
-		mvprintw(11 + j, 208, " : ");
-		set_color(i);
-		mvprintw(11 + j, 211, cur->header.prog_name);
-		unset_color(i++);
+		mvprintw(11 + j, 209, " : ");
+		set_color((cur->id % 4) + 1);
+		mvprintw(11 + j, 212, cur->header.prog_name);
+		unset_color((cur->id % 4) + 1);
 		mvprintw(12 + j, 205, "Last lives : ");
 		print_number(12 + j, 240, cur->last_alive); // last cycles with live
 		mvprintw(13 + j, 205, "Lives in current period : ");
@@ -53,9 +53,18 @@ static void		print_right_tab(t_cwar *cwar)
 	mvprintw(9, 200, "Total process : ");
 	print_number(9, 220, cwar->proc_number);
 	j = print_programs(cwar);
-	mvprintw(14 + j, 200, "CYCLE TO DIE : ");
+	mvprintw(14 + j, 200, "CYCLE_TO_DIE : ");
 	print_number(14 + j, 215, cwar->to_die);
-}
+	mvprintw(15 + j, 200, "CYCLE_DELTA  : ");
+	print_number(15 + j, 215, CYCLE_DELTA);
+	mvprintw(16 + j, 200, "NBR_LIVE     : ");
+	print_number(16 + j, 215, NBR_LIVE);
+	mvprintw(17 + j, 200, "MAX_CHECKS   : ");
+	print_number(17 + j, 215, MAX_CHECKS);
+	mvprintw(17 + j, 220, "( check : ");
+	print_number(17 + j, 230, cwar->check);
+	mvprintw(17 + j, 233, ")");
+ }
 
 void			ft_draw(t_cwar *cwar)
 {
@@ -90,8 +99,10 @@ void			check_live(t_cwar *cwar)
 			current->alive = 0; // TODO Player->alive = 0 ?
 		current = current->next;
 	}
-	if (lives >= NBR_LIVE)
+	cwar->check++;
+	if (lives >= NBR_LIVE || cwar->check >= MAX_CHECKS)	
 	{
+		cwar->check = 0;
 		cwar->to_die -= CYCLE_DELTA;
 		if (cwar->to_die <= 0)
 			game_over(cwar);

@@ -26,7 +26,7 @@ int		get_new_fork_pc(t_cwar *cwar, t_proc *proc)
 		index += cwar->arena[circ(proc->pc, i)];
 		i++;
 	}
-	pc = (short)index; // caca ?
+	pc = (short)index;
 	return (pc);
 }
 
@@ -36,7 +36,7 @@ char	cw_zjmp(t_cwar *cwar, t_proc *proc)
 
 	new_pc = get_new_fork_pc(cwar, proc);
 	// if (proc->carry) // uncomment when carry set on other ins
-		proc->pc = circ(proc->pc, new_pc);
+		proc->pc = circ(proc->pc, new_pc % IDX_MOD	);
 	return (1);
 }
 
