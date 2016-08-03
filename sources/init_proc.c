@@ -110,6 +110,7 @@ char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id)
 	t_proc	*new;
 	int		i;
 
+	(void)id;
 	i = 0;
 	if (!(new = (t_proc *)malloc(sizeof(t_proc))))
 		cw_perror("Malloc failed.", cwar);
@@ -127,7 +128,7 @@ char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old, int id)
 	new->alive = 0;
 	new->next = NULL;
 	new->prev = NULL;
-	new->player_id = id;
+	new->player_id = old->player_id;
 	new->proc_id = cwar->proc_number + 1;
 	cw_add_proc(new, cwar);	// MAX PROCESS ?
 	return (1);
