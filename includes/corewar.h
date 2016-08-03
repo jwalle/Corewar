@@ -98,7 +98,6 @@ int					get_reg(t_cwar *cwar, t_proc *proc, int cur);
 int					cw_updatepc(int pc, int cbyte);
 int					get_dir(t_cwar *cwar, int cur);
 
-
 /*
 **		ncurses display :
 */

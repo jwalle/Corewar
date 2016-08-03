@@ -29,6 +29,7 @@ SRCS = $(SDIR)/corewar.c \
 		$(SDIR)/error.c \
 		$(SDIR)/fork.c \
 		$(SDIR)/game_handling.c \
+		$(SDIR)/destroy_process.c \
 		$(SDIR)/instructions.c \
 		$(SDIR)/find_instructions.c \
 		$(SDIR)/display_mem.c \

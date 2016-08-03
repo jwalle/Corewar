@@ -15,7 +15,7 @@
 void	cw_perror(char *str, t_cwar *cwar)
 {
 	t_player *tmp;
-	
+
 	if (cwar)
 	{
 		if (cwar->opt)
@@ -37,13 +37,13 @@ void	cw_perror(char *str, t_cwar *cwar)
 		free(cwar);
 	}
 	perror(str);
-	exit (1);
+	exit(1);
 }
 
 void	cw_error(char *str, t_cwar *cwar)
 {
 	t_player *tmp;
-	
+
 	if (cwar)
 	{
 		if (cwar->opt)
@@ -65,5 +65,5 @@ void	cw_error(char *str, t_cwar *cwar)
 		free(cwar);
 	}
 	ft_printf("%s", str);
-	exit (1);
+	exit(1);
 }

@@ -12,48 +12,6 @@
 
 #include "corewar.h"
 
-void	destroy_process(t_cwar *cwar, t_proc *proc)
-{
-	int		i;
-	t_proc	*temp;
-	int		kill;
-
-	i = 0;
-	kill = 0;
-	 while (i <= REG_NUMBER)
-		 free(proc->reg[i++]); // TODO : free the registry
-	free(proc->reg);
-	temp = cwar->proc;
-	if (temp == proc)
-	{
-		cwar->proc = proc->next;
-		free(proc);
-		kill++;
-	}
-	else	
-	{
-		while(temp)
-		{
-			if (temp->next == proc)
-			{
-				temp->next = temp->next->next;
-				free(proc);
-				kill++;
-			}
-			temp = temp->next;
-		}
-	}
-	cwar->proc_number--;
-	if (!kill)
-	{
-		ft_printf("WTF NO KILL\n");
-		exit (1);
-	}
-	if (!cwar->proc_number)
-		game_over(cwar);
-}
-
-
 void	cw_add_proc(t_proc *new, t_cwar *cwar)
 {
 	t_proc *tmp;
