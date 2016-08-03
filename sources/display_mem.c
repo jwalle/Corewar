@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-void set_color(int temp)
+void	set_color(int temp)
 {
 	if (!temp)
 		return ;
@@ -28,14 +28,14 @@ void set_color(int temp)
 		attron(COLOR_PAIR(CURRENT_PC));
 }
 
-void unset_color(int temp)
+void	unset_color(int temp)
 {
 	if (!temp)
 		return ;
 	else if (temp == 1)
 		attroff(COLOR_PAIR(PLAYER_ONE));
 	else if (temp == 2)
-		attroff(COLOR_PAIR(PLAYER_TWO));	
+		attroff(COLOR_PAIR(PLAYER_TWO));
 	else if (temp == 3)
 		attroff(COLOR_PAIR(PLAYER_THREE));
 	else if (temp == 4)
@@ -43,32 +43,13 @@ void unset_color(int temp)
 	else if (temp == 5)
 		attroff(COLOR_PAIR(CURRENT_PC));
 }
-	
-char	*emo(int temp)
-{
-	if (!temp)
-		return ("💀 ");
-	else if (temp < 10)
-		return ("😜 ");
-	else if (temp < 16)
-		return ("💩 ");
-	else if (temp < 100)
-		return ("👙 ");
-	else if (temp < 150)
-		return ("🍒 ");
-	else if (temp < 200)
-		return ("🚘 ");
-	return ("00");
-}
 
-char		*make_hex(int temp)
+char	*make_hex(int temp)
 {
 	int			j;
 	char		*hex;
 	char		*base;
 
-
-	// return (emo(temp));
 	if (!temp)
 		return (ft_strdup("00"));
 	hex = ft_strnew(3);
@@ -86,9 +67,9 @@ char		*make_hex(int temp)
 	return (hex);
 }
 
-void		cw_print_mem(t_cwar *cwar)
+void	cw_print_mem(t_cwar *cwar)
 {
-	int 	i;
+	int		i;
 	int		x;
 	int		j;
 	char	*hex;
@@ -96,7 +77,7 @@ void		cw_print_mem(t_cwar *cwar)
 	i = 0;
 	x = 2;
 	j = 3;
-	while(i < (1024 * 4))
+	while (i < (1024 * 4))
 	{
 		if (j > 194)
 		{
@@ -110,8 +91,7 @@ void		cw_print_mem(t_cwar *cwar)
 		free(hex);
 		unset_color(cwar->arena_color[i][0]);
 		unset_color(cwar->arena_color[i][1]);
-		cwar->arena_color[i][1] = 0;
-		i++;
+		cwar->arena_color[i++][1] = 0;
 		j += 3;
 	}
 }

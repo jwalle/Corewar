@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-void		ft_init_color(void)
+void	ft_init_color(void)
 {
 	init_pair(BLACK_ON_GREEN, COLOR_WHITE, COLOR_GREEN);
 	init_pair(PLAYER_ONE, COLOR_GREEN, COLOR_BLACK);
@@ -29,7 +29,7 @@ void		ft_init_color(void)
 	init_pair(2048, COLOR_YELLOW, COLOR_WHITE);
 }
 
-void		draw_line(int x_max, int ya)
+void	draw_line(int x_max, int ya)
 {
 	int i;
 
@@ -41,7 +41,7 @@ void		draw_line(int x_max, int ya)
 	}
 }
 
-void		draw_coll(int y_max, int xa)
+void	draw_coll(int y_max, int xa)
 {
 	int i;
 
@@ -62,10 +62,11 @@ void	print_hex(char hex[10], int x, int y)
 	j = 0;
 	i = 0;
 	while (i < 4)
-	{		prt[0] = hex[0 + i];
+	{
+		prt[0] = hex[0 + i];
 		prt[1] = hex[1 + i];
-		mvprintw(x , y + j, prt);
-		mvprintw(x , y + 2 + j, " ");
+		mvprintw(x, y + j, prt);
+		mvprintw(x, y + 2 + j, " ");
 		i++;
 		j += 3;
 	}

@@ -110,6 +110,8 @@ void				unset_color(int temp);
 void				cw_print_mem(t_cwar *cwar);
 void				draw_coll(int y_max, int xa);
 void				draw_line(int x_max, int ya);
+void				cw_blink_pause(void);
+void				print_right_tab(t_cwar *cwar);
 
 /*
 **		Instructions :
