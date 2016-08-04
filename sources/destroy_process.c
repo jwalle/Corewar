@@ -12,28 +12,23 @@
 
 #include "corewar.h"
 
-int		find_process(t_cwar *cwar, t_proc *proc, t_proc *temp)
+int		find_process(t_cwar *cwar, t_proc *proc, t_proc *prev)
 {
-	while (temp)
+	if (prev->next == proc)
 	{
-		if (temp->next == proc)
-		{
-			if (cwar->opt->verbose)
-				ft_printf("The process ID (%d) as been killed.\n",
-					proc->proc_id);
-			temp->next = temp->next->next;
-			free(proc);
-			return (1);
-		}
-		temp = temp->next;
+		if (cwar->opt->verbose)
+			ft_printf("The process ID (%d) as been killed.\n",
+				proc->proc_id);
+		prev->next = prev->next->next;
+		free(proc);
+		return (1);
 	}
 	return (0);
 }
 
-void	destroy_process(t_cwar *cwar, t_proc *proc)
+t_proc	*destroy_process(t_cwar *cwar, t_proc *proc, t_proc *prev)
 {
 	int		i;
-	t_proc	*temp;
 	int		kill;
 
 	i = 0;
@@ -41,18 +36,19 @@ void	destroy_process(t_cwar *cwar, t_proc *proc)
 	while (i <= REG_NUMBER)
 		free(proc->reg[i++]);
 	free(proc->reg);
-	temp = cwar->proc;
-	if (temp == proc)
+	if (cwar->proc == proc)
 	{
 		cwar->proc = proc->next;
 		free(proc);
 		kill++;
 	}
 	else
-		kill = find_process(cwar, proc, temp);
+		kill = find_process(cwar, proc, prev);
 	if (!kill)
-		cw_error("The process to kill wasn't found", cwar);
+		cw_error("The process to kill wasn't found\n", cwar);
 	cwar->proc_number--;
 	if (!cwar->proc_number)
 		game_over(cwar);
+
+	return (cwar->proc);
 }

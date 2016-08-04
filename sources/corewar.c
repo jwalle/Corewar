@@ -201,11 +201,12 @@ void	cw_process_args(int argc, char **argv, t_cwar *cwar)
 		else if (!ft_strcmp(argv[i], "-dump"))
 		{
 			if (is_number(argv[i + 1])) // IMPORTANT
-				cwar->opt->dump = ft_atoi(argv[i++ + 1]);
+				cwar->opt->dump = atoi(argv[i + 1]);
 			else
 				cw_usage(cwar);
+			i++;
 		}
-		else if (!ft_strcmp(argv[i], "-numb"))
+		else if (!ft_strcmp(argv[i], "-number"))
 		{
 			if (is_number(argv[i + 1]))
 				cw_check_arg(argv[i + 2], cwar, ft_atoi(argv[i + 1])); // doesnt go there if last arg is an option, segfault on ncurses
@@ -227,9 +228,36 @@ int		circ( int index, int add)
 	return (i >= 0 ? i : i + MEM_SIZE);
 }
 
+void	cw_set_player_in_arena(t_cwar *cwar, int begin, int i, unsigned int j)
+{
+	t_player	*tmp;
+	int			n;
+
+	n = 0;
+	if (cwar->players)
+	{
+		tmp = cwar->players;
+		while (tmp)
+		{
+			begin = (MEM_SIZE * i) / cwar->players_nbr;
+			if (!tmp->id)
+				tmp->id = check_if_id_available(cwar, ++n);
+			cw_first_proc(cwar, begin , tmp->id);
+			j = 0;
+			while (j < tmp->header.prog_size)
+			{
+				cwar->arena_color[begin + j][0] = (tmp->id % 4) + 1;
+				cwar->arena[begin + j] = tmp->pg[j];
+				j++;
+			}
+			++i;
+			tmp = tmp->next;
+		}
+	}
+}
+
 void	cw_setup_arena(t_cwar *cwar)
 {
-	t_player		*tmp;
 	int				i;
 	unsigned int	j;
 	int				begin;
@@ -246,27 +274,10 @@ void	cw_setup_arena(t_cwar *cwar)
 		ft_bzero(cwar->arena_color[i], sizeof(unsigned char) * 3);
 		i++;
 	}
-	if (cwar->players)
-	{
-		i = 0;
-		tmp = cwar->players;
-		while (tmp)
-		{
-			begin = (MEM_SIZE * i) / cwar->players_nbr;
-			if (!tmp->id)
-				tmp->id = check_if_id_available(cwar, i + 1);
-			cw_first_proc(cwar, begin , tmp->id); // i = player id ?
-			j = 0;
-			while (j < tmp->header.prog_size)
-			{
-				cwar->arena_color[begin + j][0] = (tmp->id % 4) + 1;
-				cwar->arena[begin + j] = tmp->pg[j];
-				j++;
-			}
-			++i;
-			tmp = tmp->next;
-		}
-	}
+	j = 0;
+	i = 0;
+	begin = 0;
+	cw_set_player_in_arena(cwar, begin, i, j);
 }
 
 void	cw_introduce(t_cwar *cwar)

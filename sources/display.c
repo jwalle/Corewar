@@ -31,15 +31,18 @@ int		check_process(t_cwar *cwar)
 	t_proc		*current;
 	int			lives;
 
-	current = cwar->proc;
-	lives = 0;
-	while (current)
+	if ((current = cwar->proc) == NULL)
+		game_over(cwar);
+	while(!current->alive)
+		current = destroy_process(cwar, current, NULL);
+	lives = current->alive;
+	while (current && current->next)
 	{
 		lives += current->alive;
-		if (current->alive == 0)
-			destroy_process(cwar, current);
+		if (current->next->alive == 0)
+			destroy_process(cwar, current->next, current);
 		else
-			current->alive = 0;
+			current->next->alive = 0;
 		current = current->next;
 	}
 	return (lives);
@@ -52,6 +55,7 @@ void	check_live(t_cwar *cwar)
 
 	lives = check_process(cwar);
 	cwar->check++;
+	// printf("lives = %d\n", lives);
 	if (lives >= NBR_LIVE || cwar->check >= MAX_CHECKS)
 	{
 		cwar->check = 0;
@@ -82,8 +86,15 @@ void	cw_game(t_cwar *cwar)
 			cycle_procs(cwar);
 			if (cwar->opt->ncurses)
 				ft_draw(cwar);
-			if ((++cwar->cycle % CYCLE_TO_DIE) == 0)
+			if ((++cwar->cycle % cwar->to_die) == 0)
+			{
+				// ft_printf("This is cycle nb %i\n", cwar->cycle);
+				// ft_printf("CYCLE_TO_DIE =  %i\n", cwar->to_die);
 				check_live(cwar);
+				// ft_printf("CYCLE_TO_DIE =  %i\n", cwar->to_die);
+			}
+				//if (cwar->opt->verbose)
+			// printf("dump = %d\n", cwar->opt->dump);
 			if (cwar->opt->dump && cwar->opt->dump == cwar->cycle)
 				cw_dump_mem(cwar);
 		}
@@ -91,8 +102,6 @@ void	cw_game(t_cwar *cwar)
 			cw_blink_pause();
 		if (c == 27)
 			return ;
-		// if ((cwar->cycle % 50) == 0) // improve this or remove it
-			// sync_cycle(cwar);
 	}
 }
 

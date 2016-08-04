@@ -16,7 +16,6 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <curses.h>
-# include <locale.h> // STUPID BONUS
 # include "libft.h"
 # include "op.h"
 # include <time.h>
@@ -39,7 +38,6 @@
 typedef struct		s_proc
 {
 	unsigned char	**reg;
-	// unsigned char	*pc;
 	int				pc;
 	int				carry;
 	int				wait;
@@ -53,7 +51,7 @@ typedef struct		s_proc
 typedef struct		s_opt
 {
 	char			ncurses;
-	char			dump;
+	int				dump;
 	char			verbose;
 }					t_opt;
 
@@ -90,7 +88,7 @@ void				cw_error(char *str, t_cwar *cwar);
 char				cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old);
 void				sync_cycle(t_cwar *cwar);
 void				cycle_procs(t_cwar *cwar);
-void				destroy_process(t_cwar *cwar, t_proc *proc);
+t_proc				*destroy_process(t_cwar *cwar, t_proc *proc, t_proc *prev);
 int					circ(int index, int add);
 void				cw_game(t_cwar *cwar);
 void				game_over(t_cwar *cwar);

@@ -279,13 +279,13 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 			{
 				tmp->last_alive = cwar->cycle;
 				tmp->alive++;
-				if (!cwar->opt->ncurses)
+				if (cwar->opt->verbose)
 					ft_printf("A process said the player %i (%s) is alive !!!\n",
-						player, tmp->header.prog_name);
+						player, tmp->header.prog_name);	
 			}
 			tmp = tmp->next;
 		}
-	}	
+	}
 	proc->alive += 1;
 	proc->pc = circ(proc->pc, 5);
 }
@@ -364,6 +364,8 @@ void	cw_storeindex(t_cwar *cwar, t_proc *proc)
 		cw_regongrid(cwar, proc->reg[cwar->arena[circ(proc->pc, 2)]], circ(proc->pc, (adress % IDX_MOD)), proc);
 	}
 	proc->pc = cw_updatestipc(proc->pc, cbyte);
+	/*if (verbose)
+		ft_printf("The process ID (%d) stored the index from adress  ",);*/
 }
 
 void	cw_store(t_cwar *cwar, t_proc *proc)

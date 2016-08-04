@@ -55,15 +55,6 @@ void			game_over(t_cwar *cwar)
 	exit(1);
 }
 
-void			sync_cycle(t_cwar *cwar) // TODO : REMOVE THIS ?
-{
-	time_t current_time;
-
-	current_time = time(NULL);
-	while (cwar->time_zero + (cwar->cycle / 50) > current_time)
-		current_time = time(NULL);
-}
-
 void			cycle_procs(t_cwar *cwar)
 {
 	t_proc		*current;
