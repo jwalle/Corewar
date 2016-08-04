@@ -40,6 +40,7 @@ t_opt	*cw_opt_init(t_cwar *cwar)
 		cw_perror("Malloc failed.", cwar);
 	opt->ncurses = 0;
 	opt->dump = 0;
+	opt->verbose = 0;
 	return (opt);
 }
 
@@ -195,6 +196,8 @@ void	cw_process_args(int argc, char **argv, t_cwar *cwar)
 	{
 		if (!ft_strcmp(argv[i], "-n"))
 			cwar->opt->ncurses = 1;
+			else if (!ft_strcmp(argv[i], "-v"))
+			cwar->opt->verbose = 1;
 		else if (!ft_strcmp(argv[i], "-dump"))
 		{
 			if (is_number(argv[i + 1])) // IMPORTANT

@@ -64,6 +64,7 @@ void		print_right_tab(t_cwar *cwar)
 	print_number(10, 220, cwar->proc_number);
 	j = print_programs(cwar);
 	mvprintw(15 + j, 200, "CYCLE_TO_DIE : ");
+	mvprintw(15 + j, 215, "     ");
 	print_number(15 + j, 215, cwar->to_die);
 	mvprintw(16 + j, 200, "CYCLE_DELTA  : ");
 	print_number(16 + j, 215, CYCLE_DELTA);

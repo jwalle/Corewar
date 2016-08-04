@@ -12,12 +12,15 @@
 
 #include "corewar.h"
 
-int		find_process(t_proc *proc, t_proc *temp)
+int		find_process(t_cwar *cwar, t_proc *proc, t_proc *temp)
 {
 	while (temp)
 	{
 		if (temp->next == proc)
 		{
+			if (cwar->opt->verbose)
+				ft_printf("The process ID (%d) as been killed.\n",
+					proc->proc_id);
 			temp->next = temp->next->next;
 			free(proc);
 			return (1);
@@ -46,7 +49,7 @@ void	destroy_process(t_cwar *cwar, t_proc *proc)
 		kill++;
 	}
 	else
-		kill = find_process(proc, temp);
+		kill = find_process(cwar, proc, temp);
 	if (!kill)
 		cw_error("The process to kill wasn't found", cwar);
 	cwar->proc_number--;

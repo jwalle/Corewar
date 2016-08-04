@@ -53,7 +53,8 @@ typedef struct		s_proc
 typedef struct		s_opt
 {
 	char			ncurses;
-	int				dump;
+	char			dump;
+	char			verbose;
 }					t_opt;
 
 typedef struct		s_player

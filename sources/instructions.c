@@ -373,6 +373,8 @@ void	cw_store(t_cwar *cwar, t_proc *proc)
 	unsigned char	cbyte;
 	int				index;
 
+
+
 	cur = circ(proc->pc, 1);
 	cbyte = cwar->arena[cur];
 	if (cwar->arena[circ(cur, 1)] && cwar->arena[circ(cur, 1)] <= REG_NUMBER)
@@ -390,6 +392,17 @@ void	cw_store(t_cwar *cwar, t_proc *proc)
 				i = circ(i, 1);
 			}
 			index = (short)index;
+			if (cwar->opt->verbose)
+				ft_printf("The process ID (%d) as stored r%d on positon %d.\n",
+					proc->proc_id, cwar->arena[circ(cur, 1)], circ(proc->pc, (index % IDX_MOD)));
+			// printf("index = %i\n", index);
+			// printf("index avec IDX_MOD = %i\n", index % IDX_MOD);
+			/*printf("proc->pc = %i, index = %i, content registre = %.2x %.2x %.2x %.2x\n", proc->pc, index,
+				proc->reg[cwar->arena[circ(cur, 1)]][0],
+				proc->reg[cwar->arena[circ(cur, 1)]][1],
+				proc->reg[cwar->arena[circ(cur, 1)]][3],
+				proc->reg[cwar->arena[circ(cur, 1)]][4]);*/
+			
 			cw_regongrid(cwar, proc->reg[cwar->arena[circ(cur, 1)]], circ(proc->pc, (index % IDX_MOD)), proc);
 		}
 	}
