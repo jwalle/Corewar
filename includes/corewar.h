@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:27:20 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/08/04 23:33:59 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/08/05 00:58:05 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <curses.h>
-# include <locale.h> // STUPID BONUS
 # include "libft.h"
 # include "op.h"
 # include <time.h>
@@ -29,17 +28,18 @@
 # define ANSI_COLOR_CYAN    "\x1b[36m"
 # define ANSI_COLOR_RESET   "\x1b[0m"
 
-#define PLAYER_ONE 1
-#define PLAYER_TWO 2
-#define PLAYER_THREE 3
-#define PLAYER_FOUR 4
-#define CURRENT_PC 5
-#define BLACK_ON_GREEN 6
+# define PLAYER_ONE 1
+# define PLAYER_TWO 2
+# define PLAYER_THREE 3
+# define PLAYER_FOUR 4
+# define CURRENT_PC 5
+# define BLACK_ON_GREEN 6
+
+typedef unsigned char	t_u8;
 
 typedef struct		s_proc
 {
 	unsigned char	**reg;
-	// unsigned char	*pc;
 	int				pc;
 	int				carry;
 	int				wait;
@@ -48,7 +48,6 @@ typedef struct		s_proc
 	int				alive;
 	struct s_proc	*next;
 }					t_proc;
-
 
 typedef struct		s_opt
 {
@@ -59,7 +58,7 @@ typedef struct		s_opt
 
 typedef struct		s_player
 {
-	header_t		header;
+	t_header		header;
 	unsigned char	*pg;
 	int				alive;
 	int				last_alive;
@@ -87,7 +86,7 @@ void				curse_disp(t_cwar *cwar);
 void				cw_perror(char *str, t_cwar *cwar);
 char				cw_first_proc(t_cwar *cwar, int	program_counter, int id);
 void				cw_error(char *str, t_cwar *cwar);
-char				cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old);
+char				cw_fork_proc(t_cwar *cwar, int pc, t_proc *old);
 void				sync_cycle(t_cwar *cwar);
 void				cycle_procs(t_cwar *cwar);
 void				destroy_process(t_cwar *cwar, t_proc *proc);
@@ -102,6 +101,7 @@ int					cw_solo_updatepc(int pc, int cbyte);
 /*
 **		ncurses display :
 */
+
 void				print_hex(char hex[10], int x, int y);
 void				print_number(int i, int j, int nb);
 void				ft_init_color(void);
@@ -141,12 +141,12 @@ void				cw_aff(t_cwar *cwar, t_proc *proc);
 */
 
 int					is_ins(unsigned char ins);
-void				get_instruction(unsigned char ins, t_cwar *cwar, t_proc *proc);
+void				get_instruction(t_u8 ins, t_cwar *cwar, t_proc *proc);
 int					get_wait_time(unsigned char ins);
 void				find_instruction(t_cwar *cwar, t_proc *proc);
-char				cw_fillreg(t_cwar *cwar, t_proc *proc, unsigned char regnum, int index);
-void				cw_regcpy(t_proc *proc, unsigned char regn1, unsigned char regn2);
-void				cw_regongrid(t_cwar *cwar, unsigned char *reg, int index, t_proc *proc);
+char				cw_fillreg(t_cwar *cwar, t_proc *proc, t_u8 regnum, int i);
+void				cw_regcpy(t_proc *proc, t_u8 regn1, t_u8 regn2);
+void				cw_regongrid(t_cwar *cwar, t_u8 *reg, int i, t_proc *proc);
 int					get_dir(t_cwar *cwar, int cur);
 int					get_sdir(t_cwar *cwar, int cur);
 int					get_ind(t_cwar *cwar, t_proc *proc, int cur);

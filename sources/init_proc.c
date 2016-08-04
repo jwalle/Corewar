@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/18 16:30:01 by jwalle            #+#    #+#             */
-/*   Updated: 2016/07/27 15:40:38 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/08/05 00:56:33 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	cw_first_proc(t_cwar *cwar, int program_counter, int id)
 	return (1);
 }
 
-char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old)
+char	cw_fork_proc(t_cwar *cwar, int pc, t_proc *old)
 {
 	t_proc	*new;
 	int		i;
@@ -89,7 +89,7 @@ char	cw_fork_proc(t_cwar *cwar, int program_counter, t_proc *old)
 		ft_memcpy(new->reg[i], old->reg[i], sizeof(old->reg[i]));
 		i++;
 	}
-	new->pc = program_counter;
+	new->pc = pc;
 	new->carry = 0;
 	new->wait = 0;
 	new->alive = 0;

@@ -6,13 +6,13 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:18:39 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/07/28 20:09:24 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/08/05 00:46:01 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_cwar	*cw_init(void)
+t_cwar			*cw_init(void)
 {
 	t_cwar	*cwar;
 
@@ -32,7 +32,7 @@ t_cwar	*cw_init(void)
 	return (cwar);
 }
 
-t_opt	*cw_opt_init(t_cwar *cwar)
+t_opt			*cw_opt_init(t_cwar *cwar)
 {
 	t_opt	*opt;
 
@@ -44,7 +44,7 @@ t_opt	*cw_opt_init(t_cwar *cwar)
 	return (opt);
 }
 
-void	cw_usage(t_cwar *cwar)
+void			cw_usage(t_cwar *cwar)
 {
 	t_player *tmp;
 
@@ -69,14 +69,14 @@ void	cw_usage(t_cwar *cwar)
 		free(cwar);
 	}
 	ft_printf("Corewar usage\n");
-	exit (1);
+	exit(1);
 }
 
 unsigned int	cw_betole(unsigned int a)
 {
 	unsigned int	b;
 	unsigned char	*src;
-	unsigned char	*dst; 
+	unsigned char	*dst;
 
 	src = (unsigned char *)&a;
 	dst = (unsigned char *)&b;
@@ -87,7 +87,7 @@ unsigned int	cw_betole(unsigned int a)
 	return (b);
 }
 
-void	cw_add_player(t_player *new, t_cwar *cwar)
+void			cw_add_player(t_player *new, t_cwar *cwar)
 {
 	t_player *tmp;
 
@@ -108,7 +108,7 @@ void	cw_add_player(t_player *new, t_cwar *cwar)
 	cwar->players_nbr++;
 }
 
-int	check_if_id_available(t_cwar *cwar, int n)
+int				check_if_id_available(t_cwar *cwar, int n)
 {
 	t_player	*cur;
 
@@ -116,13 +116,13 @@ int	check_if_id_available(t_cwar *cwar, int n)
 	while (cur)
 	{
 		if (cur->id == n)
-			return(check_if_id_available(cwar, ++n));
+			return (check_if_id_available(cwar, ++n));
 		cur = cur->next;
 	}
 	return (n);
 }
 
-char	cw_new_player(header_t header, int fd, t_cwar *cwar, int numb)
+char			cw_new_player(t_header header, int fd, t_cwar *cwar, int numb)
 {
 	int			ret;
 	t_player	*new;
@@ -143,41 +143,44 @@ char	cw_new_player(header_t header, int fd, t_cwar *cwar, int numb)
 	if (cwar->players_nbr < MAX_PLAYERS)
 		cw_add_player(new, cwar);
 	else
-		cw_error("Too much players (This error should be checked)", cwar);
+	{
+		ft_printf("Too much players, %d is the max allowed\n", MAX_PLAYERS);
+		cw_error(NULL, cwar);
+	}
 	return (1);
 }
 
-void	cw_check_arg(char *arg, t_cwar *cwar, int numb)
+void			cw_check_arg(char *arg, t_cwar *cwar, int numb)
 {
 	int				fd;
 	int				ret;
-	header_t		header;
+	t_header		header;
 
 	if ((fd = open(arg, O_RDONLY)) < 0)
 		cw_perror(arg, cwar);
-	if ((ret = read(fd, &header, sizeof(header_t))) < 0)
+	if ((ret = read(fd, &header, sizeof(t_header))) < 0)
 		cw_perror(arg, cwar);
-	if (ret != sizeof(header_t))
-		cw_error("File (insert filename) is too small to be a champion", cwar);	
+	if (ret != sizeof(t_header))
+		cw_error(ft_strjoin(arg, " is too small to be a champion\n"), cwar);
 	header.magic = cw_betole(header.magic);
 	header.prog_size = cw_betole(header.prog_size);
 	if (header.prog_size > CHAMP_MAX_SIZE)
-		cw_error("(insert filename) is too big (this error msg has to be checked !!)", cwar);
+		cw_error(ft_strjoin(arg, " is too big\n"), cwar);
 	if (header.magic != COREWAR_EXEC_MAGIC)
-		cw_error("(insert filename) has wrong header (this error msg has to be checked !!)", cwar);
+		cw_error(ft_strjoin(arg, " has wrong header\n"), cwar);
 	if (!cw_new_player(header, fd, cwar, numb))
-		cw_error("(insert filename) is too small", cwar);
+		cw_error(ft_strjoin(arg, " is too small\n"), cwar);
 	close(fd);
 }
 
-int		is_number(char *str)
+int				is_number(char *str)
 {
 	int	i;
 
 	i = 0;
 	if (!str)
 		return (0);
-	while(str[i])
+	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
 			return (0);
@@ -186,7 +189,7 @@ int		is_number(char *str)
 	return (1);
 }
 
-void	cw_process_args(int argc, char **argv, t_cwar *cwar)
+void			cw_process_args(int argc, char **argv, t_cwar *cwar)
 {
 	int i;
 
@@ -196,7 +199,7 @@ void	cw_process_args(int argc, char **argv, t_cwar *cwar)
 	{
 		if (!ft_strcmp(argv[i], "-n"))
 			cwar->opt->ncurses = 1;
-			else if (!ft_strcmp(argv[i], "-v"))
+		else if (!ft_strcmp(argv[i], "-v"))
 			cwar->opt->verbose = 1;
 		else if (!ft_strcmp(argv[i], "-dump"))
 		{
@@ -219,7 +222,7 @@ void	cw_process_args(int argc, char **argv, t_cwar *cwar)
 	}
 }
 
-int		circ( int index, int add)
+int				circ(int index, int add)
 {
 	int		i;
 
@@ -227,7 +230,7 @@ int		circ( int index, int add)
 	return (i >= 0 ? i : i + MEM_SIZE);
 }
 
-void	cw_setup_arena(t_cwar *cwar)
+void			cw_setup_arena(t_cwar *cwar)
 {
 	t_player		*tmp;
 	int				i;
@@ -255,7 +258,7 @@ void	cw_setup_arena(t_cwar *cwar)
 			begin = (MEM_SIZE * i) / cwar->players_nbr;
 			if (!tmp->id)
 				tmp->id = check_if_id_available(cwar, i + 1);
-			cw_first_proc(cwar, begin , tmp->id); // i = player id ?
+			cw_first_proc(cwar, begin, tmp->id); // i = player id ?
 			j = 0;
 			while (j < tmp->header.prog_size)
 			{
@@ -269,7 +272,7 @@ void	cw_setup_arena(t_cwar *cwar)
 	}
 }
 
-void	cw_introduce(t_cwar *cwar)
+void			cw_introduce(t_cwar *cwar)
 {
 	t_player	*tmp;
 	int			i;
@@ -281,14 +284,15 @@ void	cw_introduce(t_cwar *cwar)
 		tmp = cwar->players;
 		while (tmp)
 		{
-			ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n", tmp->id, tmp->header.prog_size, tmp->header.prog_name, tmp->header.comment);
+			ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
+				tmp->id, tmp->header.prog_size, tmp->header.prog_name, tmp->header.comment);
 			++i;
 			tmp = tmp->next;
 		}
 	}
 }
 
-void	cw_dump_mem(t_cwar *cwar)
+void			cw_dump_mem(t_cwar *cwar)
 {
 	int	i;
 	int	j;
@@ -307,27 +311,25 @@ void	cw_dump_mem(t_cwar *cwar)
 			if (i && ((i) % 64) == 0)
 				ft_printf("%#.4x : ", j++ * 64);
 			ft_printf("%.2x ", cwar->arena[i]);
-			if (((i + 1) % 64) == 0) 
+			if (((i + 1) % 64) == 0)
 			// if (!i)
 			//else
 				ft_putchar('\n');
 			++i;
 		}
 	}
-	exit (1);
+	exit(1);
 }
 
-int		main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	t_cwar	*cwar;
 
 	cwar = cw_init();
 	if (argc == 1)
 		cw_usage(cwar);
-
-	cw_process_args(argc, argv, cwar);	
+	cw_process_args(argc, argv, cwar);
 	cw_setup_arena(cwar);
-
 	if (!cwar->opt->ncurses)
 	{
 		cw_introduce(cwar);
