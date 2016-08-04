@@ -6,7 +6,7 @@
 #    By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/05 11:15:04 by rmicolon          #+#    #+#              #
-#    Updated: 2016/07/25 14:44:53 by jwalle           ###   ########.fr        #
+#    Updated: 2016/08/04 23:37:39 by rmicolon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,13 +30,15 @@ SRCS = $(SDIR)/corewar.c \
 		$(SDIR)/fork.c \
 		$(SDIR)/game_handling.c \
 		$(SDIR)/destroy_process.c \
-		$(SDIR)/instructions.c \
+		$(SDIR)/livenstore.c \
+		$(SDIR)/loads.c \
 		$(SDIR)/find_instructions.c \
 		$(SDIR)/display_mem.c \
 		$(SDIR)/display_misc.c \
 		$(SDIR)/or_and_xor.c \
 		$(SDIR)/display_info_tab.c \
 		$(SDIR)/ins_tools_one.c \
+		$(SDIR)/ins_tools_two.c \
 		$(SDIR)/ins_update_pc.c \
 		$(SDIR)/add_sub_aff.c \
 

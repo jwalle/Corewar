@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:27:20 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/08/03 03:34:21 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/08/04 23:33:59 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,9 @@ int					is_ins(unsigned char ins);
 void				get_instruction(unsigned char ins, t_cwar *cwar, t_proc *proc);
 int					get_wait_time(unsigned char ins);
 void				find_instruction(t_cwar *cwar, t_proc *proc);
+char				cw_fillreg(t_cwar *cwar, t_proc *proc, unsigned char regnum, int index);
+void				cw_regcpy(t_proc *proc, unsigned char regn1, unsigned char regn2);
+void				cw_regongrid(t_cwar *cwar, unsigned char *reg, int index, t_proc *proc);
 int					get_dir(t_cwar *cwar, int cur);
 int					get_sdir(t_cwar *cwar, int cur);
 int					get_ind(t_cwar *cwar, t_proc *proc, int cur);
