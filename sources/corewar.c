@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:18:39 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/08/05 00:46:01 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/08/05 01:21:15 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ t_opt			*cw_opt_init(t_cwar *cwar)
 	return (opt);
 }
 
+void			cw_print_usage(void)
+{
+	ft_printf("Usage: ./corewar [-v -n -dump N] [-number N] <champion1.cor> <...>\n");
+	ft_printf("\t-v\t\t: verbose (prints various informations about the game walkthrough.)\n");
+	ft_printf("\t-n\t\t: provide Ncurses visualisation of the game.\n");
+	ft_printf("\t-dump N\t\t: Dumps the memory after N cycles, the exit the game.\n");
+	ft_printf("\t-number N\t: give the next specified player the number N.\n");
+}
+
 void			cw_usage(t_cwar *cwar)
 {
 	t_player *tmp;
@@ -68,7 +77,7 @@ void			cw_usage(t_cwar *cwar)
 		}
 		free(cwar);
 	}
-	ft_printf("Corewar usage\n");
+	cw_print_usage();
 	exit(1);
 }
 
