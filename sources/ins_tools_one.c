@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 19:03:16 by jwalle            #+#    #+#             */
-/*   Updated: 2016/08/03 19:03:27 by jwalle           ###   ########.fr       */
+/*   Updated: 2016/08/04 23:31:39 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,23 @@ int		get_dir(t_cwar *cwar, int cur)
 		index += cwar->arena[circ(cur, i)];
 		++i;
 	}
+	return (index);
+}
+
+int		get_sdir(t_cwar *cwar, int cur)
+{
+	int	i;
+	int	index;
+
+	i = 1;
+	index = 0;
+	while (i <= 2)
+	{
+		index <<= 8;
+		index += cwar->arena[circ(cur, i)];
+		++i;
+	}
+	index = (short)index;
 	return (index);
 }
 
