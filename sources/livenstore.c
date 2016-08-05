@@ -27,7 +27,7 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 			{
 				tmp->last_alive = cwar->cycle;
 				tmp->alive++;
-				if (!cwar->opt->ncurses)
+				if (cwar->opt->verbose)
 					ft_printf("A process said the player %i (%s) is alive !\n",
 						player, tmp->header.prog_name);
 			}

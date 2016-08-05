@@ -41,6 +41,7 @@ static int	print_programs(t_cwar *cwar)
 		mvprintw(13 + j, 205, "Last lives : ");
 		print_number(13 + j, 240, cur->last_alive);
 		mvprintw(14 + j, 205, "Lives in current period : ");
+		mvprintw(14 + j, 240, "      ");
 		print_number(14 + j, 240, cur->alive);
 		cur = cur->next;
 		j += 3;

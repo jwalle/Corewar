@@ -55,19 +55,19 @@ void	check_live(t_cwar *cwar)
 
 	lives = check_process(cwar);
 	cwar->check++;
-	// printf("lives = %d\n", lives);
+//	printf("lives = %d\n", lives);
 	if (lives >= NBR_LIVE || cwar->check >= MAX_CHECKS)
 	{
 		cwar->check = 0;
 		cwar->to_die -= CYCLE_DELTA;
 		if (cwar->to_die <= 0)
 			game_over(cwar);
-		player = cwar->players;
-		while (player)
-		{
-			player->alive = 0;
-			player = player->next;
-		}
+	}
+	player = cwar->players;
+	while (player)
+	{
+		player->alive = 0;
+		player = player->next;
 	}
 }
 
@@ -88,8 +88,8 @@ void	cw_game(t_cwar *cwar)
 				ft_draw(cwar);
 			if ((++cwar->cycle % cwar->to_die) == 0)
 			{
-				// ft_printf("This is cycle nb %i\n", cwar->cycle);
-				// ft_printf("CYCLE_TO_DIE =  %i\n", cwar->to_die);
+				 //ft_printf("This is cycle nb %i\n", cwar->cycle);
+				 //ft_printf("CYCLE_TO_DIE =  %i\n", cwar->to_die);
 				check_live(cwar);
 				// ft_printf("CYCLE_TO_DIE =  %i\n", cwar->to_die);
 			}
