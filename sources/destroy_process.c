@@ -49,6 +49,5 @@ t_proc	*destroy_process(t_cwar *cwar, t_proc *proc, t_proc *prev)
 	cwar->proc_number--;
 	if (!cwar->proc_number)
 		game_over(cwar);
-
 	return (cwar->proc);
 }

@@ -35,6 +35,7 @@ void	cw_live(t_cwar *cwar, t_proc *proc)
 		}
 	}
 	proc->alive += 1;
+	cwar->lives++;
 	proc->pc = circ(proc->pc, 5);
 }
 

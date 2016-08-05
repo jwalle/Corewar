@@ -38,8 +38,9 @@ char	cw_zjmp(t_cwar *cwar, t_proc *proc)
 	if (proc->carry)
 	{
 		if (cwar->opt->verbose)
-			ft_printf("the process ID (%d) made a zjmp at ((pc - (%d %% IDX_MOD))\n",
-				proc->proc_id, new_pc);
+			ft_printf(
+		"the process ID (%d) made a zjmp at ((pc - (%d %% IDX_MOD))\n",
+		proc->proc_id, new_pc);
 		proc->pc = circ(proc->pc, new_pc % IDX_MOD);
 	}
 	else
@@ -53,7 +54,7 @@ char	cw_lfork(t_cwar *cwar, t_proc *proc)
 
 	new_pc = get_new_fork_pc(cwar, proc);
 	if (cwar->opt->verbose)
-	ft_printf("the process ID (%d) made a lfork at (pc - %d)\n",
+		ft_printf("the process ID (%d) made a lfork at (pc - %d)\n",
 				proc->proc_id, new_pc);
 	cw_fork_proc(cwar, circ(proc->pc, new_pc), proc);
 	proc->pc = circ(proc->pc, 3);

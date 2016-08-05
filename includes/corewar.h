@@ -75,6 +75,8 @@ typedef struct		s_cwar
 	int				proc_number;
 	int				to_die;
 	int				check;
+	int				next_check;
+	int				lives;
 	t_opt			*opt;
 	t_player		*players;
 	t_proc			*proc;
@@ -97,6 +99,16 @@ int					get_reg(t_cwar *cwar, t_proc *proc, int cur);
 int					cw_updatepc(int pc, int cbyte);
 int					cw_updatestipc(int pc, int cbyte);
 int					cw_solo_updatepc(int pc, int cbyte);
+unsigned int		cw_betole(unsigned int a);
+int					is_number(char *str);
+int					check_if_id_available(t_cwar *cwar, int n);
+t_cwar				*cw_init(void);
+void				cw_usage(t_cwar *cwar);
+t_opt				*cw_opt_init(t_cwar *cwar);
+char				cw_new_player(t_header header, int fd, t_cwar *cwar,
+					int numb);
+void				cw_add_player(t_player *new, t_cwar *cwar);
+void				cw_process_args(int argc, char **argv, t_cwar *cwar);
 
 /*
 **		ncurses display :

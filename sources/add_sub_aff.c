@@ -66,7 +66,6 @@ void	cw_aff(t_cwar *cwar, t_proc *proc)
 	int	temp;
 	int	cbyte;
 
-	printf("pc = %d, cycle = %d\n", proc->pc ,cwar->cycle);
 	cur = circ(proc->pc, 1);
 	cbyte = cwar->arena[cur];
 	if (cwar->arena[circ(cur, 1)] && cwar->arena[circ(cur, 1)] <= REG_NUMBER)

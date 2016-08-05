@@ -56,7 +56,6 @@ void		print_right_tab(t_cwar *cwar)
 
 	current = time(NULL);
 	mvprintw(2, 220, "RUNNING...");
-	mvprintw(4, 200, "Cycles/second limit : 50");
 	mvprintw(6, 200, "Cycle : ");
 	print_number(6, 210, cwar->cycle);
 	mvprintw(8, 200, "Seconds : ");

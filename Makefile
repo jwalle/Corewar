@@ -41,6 +41,9 @@ SRCS = $(SDIR)/corewar.c \
 		$(SDIR)/ins_tools_two.c \
 		$(SDIR)/ins_update_pc.c \
 		$(SDIR)/add_sub_aff.c \
+		$(SDIR)/cw_misc.c \
+		$(SDIR)/cw_init.c \
+		$(SDIR)/cw_add_player.c \
 
 OBJ = $(SRCS:$(SDIR)/%.c=$(ODIR)/%.o)
 

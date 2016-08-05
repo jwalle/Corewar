@@ -33,9 +33,9 @@ int				get_wait_time(unsigned char ins)
 	if (ins == 0x10)
 		return (2);
 	if (ins == 0x0c)
-		return (800); // 800
+		return (800);
 	if (ins == 0x0f)
-		return (1000); // 1000
+		return (1000);
 	return (0);
 }
 
@@ -63,7 +63,7 @@ void			get_instruction(unsigned char ins, t_cwar *cwar, t_proc *proc)
 		cw_live(cwar, proc);
 	else if (ins == 0x02)
 		cw_load(cwar, proc);
-	else if (ins ==	 0x03)
+	else if (ins == 0x03)
 		cw_store(cwar, proc);
 	else if (ins == 0x04)
 		cw_add(cwar, proc);
@@ -106,8 +106,6 @@ void			find_instruction(t_cwar *cwar, t_proc *proc)
 		else if (proc->wait == 0 && is_ins(ins))
 			proc->wait = get_wait_time(ins) - 1;
 		else
-		{
 			proc->pc = circ(proc->pc, 1);
-		}
 	}
 }

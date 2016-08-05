@@ -46,12 +46,13 @@ void			game_over(t_cwar *cwar)
 			i = cur->id;
 			ft_bzero(player, PROG_NAME_LENGTH + 1);
 			ft_strcpy(player, cur->header.prog_name);
-		}	
+		}
 		cur = cur->next;
 	}
 	if (cwar->opt->ncurses)
 		cw_ncurses_win(i, player);
-	ft_printf("And the winner is player %d : %s !!\n", i, player);
+	ft_printf("cycle : %d | ", cwar->cycle);
+	ft_printf("And The winner is player %d : %s !!\n", i, player);
 	exit(1);
 }
 
@@ -64,9 +65,6 @@ void			cycle_procs(t_cwar *cwar)
 		game_over(cwar);
 	while (current)
 	{
-//		printf("ID  : %i\n", current->proc_id);
-//		printf("pc  : %i\n", current->pc);
-//		printf("cycle  : %i\n", cwar->cycle);
 		find_instruction(cwar, current);
 		current = current->next;
 	}

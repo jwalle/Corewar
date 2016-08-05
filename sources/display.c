@@ -26,43 +26,46 @@ void	ft_draw(t_cwar *cwar)
 	refresh();
 }
 
-int		check_process(t_cwar *cwar)
+void	check_process(t_cwar *cwar)
 {
-	t_proc		*current;
-	int			lives;
+	t_proc *current;
 
-	if ((current = cwar->proc) == NULL)
-		game_over(cwar);
-	while(!current->alive)
-		current = destroy_process(cwar, current, NULL);
-	lives = current->alive;
+	current = cwar->proc;
+	while (current)
+	{
+		if (current->alive == 0)
+			current = destroy_process(cwar, current, NULL);
+		else
+		{
+			current->alive = 0;
+			break ;
+		}
+	}
 	while (current && current->next)
 	{
-		lives += current->alive;
 		if (current->next->alive == 0)
 			destroy_process(cwar, current->next, current);
 		else
 			current->next->alive = 0;
 		current = current->next;
 	}
-	return (lives);
 }
 
 void	check_live(t_cwar *cwar)
 {
 	t_player	*player;
-	int			lives;
 
-	lives = check_process(cwar);
+	check_process(cwar);
 	cwar->check++;
-//	printf("lives = %d\n", lives);
-	if (lives >= NBR_LIVE || cwar->check >= MAX_CHECKS)
+	if (cwar->lives >= NBR_LIVE || cwar->check >= MAX_CHECKS)
 	{
 		cwar->check = 0;
 		cwar->to_die -= CYCLE_DELTA;
 		if (cwar->to_die <= 0)
 			game_over(cwar);
 	}
+	cwar->next_check = cwar->cycle + cwar->to_die;
+	cwar->lives = 0;
 	player = cwar->players;
 	while (player)
 	{
@@ -86,15 +89,9 @@ void	cw_game(t_cwar *cwar)
 			cycle_procs(cwar);
 			if (cwar->opt->ncurses)
 				ft_draw(cwar);
-			if ((++cwar->cycle % cwar->to_die) == 0)
-			{
-				 //ft_printf("This is cycle nb %i\n", cwar->cycle);
-				 //ft_printf("CYCLE_TO_DIE =  %i\n", cwar->to_die);
+			cwar->cycle++;
+			if (cwar->cycle >= cwar->next_check)
 				check_live(cwar);
-				// ft_printf("CYCLE_TO_DIE =  %i\n", cwar->to_die);
-			}
-				//if (cwar->opt->verbose)
-			// printf("dump = %d\n", cwar->opt->dump);
 			if (cwar->opt->dump && cwar->opt->dump == cwar->cycle)
 				cw_dump_mem(cwar);
 		}
