@@ -6,7 +6,7 @@
 /*   By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/04 23:35:41 by rmicolon          #+#    #+#             */
-/*   Updated: 2016/08/04 23:36:41 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/08/06 00:22:35 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	cw_load(t_cwar *cwar, t_proc *proc)
 			index += cwar->arena[circ(cur, i)];
 			i = circ(i, 1);
 		}
+		index = (short)index;
 		proc->carry = cw_fillreg(cwar, proc, cwar->arena[circ(cur,
 				IND_SIZE + 1)], circ(proc->pc, (index % IDX_MOD)));
 	}
@@ -107,6 +108,7 @@ void	cw_longload(t_cwar *cwar, t_proc *proc)
 			index += cwar->arena[circ(cur, i)];
 			i = circ(i, 1);
 		}
+		index = (short)index;
 		proc->carry = cw_fillreg(cwar, proc, cwar->arena[
 			circ(cur, IND_SIZE + 1)], circ(proc->pc, index));
 	}

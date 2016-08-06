@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/18 16:30:01 by jwalle            #+#    #+#             */
-/*   Updated: 2016/08/05 00:56:33 by rmicolon         ###   ########.fr       */
+/*   Updated: 2016/08/06 02:46:52 by rmicolon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ char	cw_fork_proc(t_cwar *cwar, int pc, t_proc *old)
 		i++;
 	}
 	new->pc = pc;
-	new->carry = 0;
+	new->carry = old->carry;
 	new->wait = 0;
-	new->alive = 0;
+	new->alive = old->alive;
 	new->next = NULL;
 	new->player_id = old->player_id;
 	new->proc_id = cwar->proc_number + 1;
