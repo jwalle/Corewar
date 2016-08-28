@@ -14,4 +14,4 @@ Usage:      ./corewar [-v -n -dump N] [-number N] <champion1.cor> <...>
 	        -number N	: give the next specified player the number N.
 ```
 
-![plop](http://i.imgur.com/QRda96t.png)
+![plop](http://i.imgur.com/Muq7n34.png)
